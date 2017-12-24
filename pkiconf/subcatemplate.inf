@@ -1,0 +1,25 @@
+# Config/param file for MULTILEVEL PKI TOOL
+# (C) Klaus Dieter Wolfinger
+# www.itconsulting-wolfinger.de
+# 
+# Tool is not released, no warranty
+# use only for training
+#
+
+SUBCABASEDN="C=DE/L=Germany/O=SUBCA Authority/OU=PKI Management"
+SUBCADN="C=DE/L=Germany/O=Production/OU=Server Management"
+SUBBITS=2048
+SUBSHA="sha256"
+SUBDAYS=356
+SUBCN="PKITOOL SUB CA"
+SUBCERTBITS=2048
+SUBCERTDAYS=1500
+ca_extension=""
+SUBSHA="sha1"
+# for sha2
+#SHA="sha256"
+
+#SUBCACERTURI="http://ca.mycompany.de/rootca.crt"
+#SUBCACRLURI="http://ca.mycompany.de/rootca.crl"
+#SUBCAOCSPURI="http://ca.mycompany.de/rootca.ocsp"
+

@@ -1,0 +1,16 @@
+# Default file for TLS endpoints
+# ! or # are comments
+# Columns:
+# System:alias,DNS:fqdn,IP:firstIP,IP:secondIP
+# Systems are:
+# hg35|xpr|osb|ossbc|ucbackend|ucfrontend|ucfacade|openfire|mediatrix
+# osvserver|osms|dls
+# osvclient
+# ASCEvoIPactive|MediatrixWEB|MediatrixSIP
+# osbgui|sbcui
+# cmp
+# apache
+# tomcat
+# ciscorouter
+# IMPORTANT! :: alias have to be unique within this pki project ::
+apache:apache,IP:2.3.4.5
