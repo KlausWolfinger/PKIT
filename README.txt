@@ -1,6 +1,6 @@
 PKI-TOOL README
 (c) Klaus Dieter Wolfinger
-Classroom Training 
+Only for Classroom Training 
 README
 ======
 HowTo: Installation
