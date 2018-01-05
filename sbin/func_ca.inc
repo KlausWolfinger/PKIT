@@ -112,6 +112,17 @@ function create_rootca(){
 
 }
 
+function create_root_p12() {
+# openssl pkcs12 -export -out rootCA.p12 -inkey root.key -in rootCA.pem
+	if [ -e $ROOTCADIR/root.crt ]; then
+
+	openssl pkcs12 -export -out $ROOTCADIR/rootCA.p12 -inkey $ROOTCADIR/root.key -in 	$ROOTCADIR/rootCA.pem
+	echo "###### RootCA is now exported to file $ROOTCADIR/rootCA.p12"
+	else
+	echo "!!!!! There is no Root CA found. Create first, please !!!"
+	fi
+}
+
 function ca() { 
 	base
 	cat <<-EOF

@@ -27,8 +27,7 @@ tool is not supported or released by Unify !!! \n"
 	\tC - compile srx command file 
 	\tD - restore to defaults 
 	\tM - Merge OpenScape rootca with other ca pem files 
-	\tI - Install certificates to OSV and modify SRX Parameters
-	\t    --> deprecated, use new method from UIG	 
+	\tI - Install certificates to OSV and modify SRX Parameters 
 	\tR - Replicate pemfiles to second node 
 	
 	\t99 - Return\n\n"

@@ -33,6 +33,7 @@
 # 1.96e SHA1 , sha256 and sha512 support 
 # different sha for root and sublevels
 # different RSA keylengths for root and sublevels PLUGINV='1.98'
+# 2.05, can create root p12, new menu structure
 
 function changePKILevel() { 
 	# change PKIHOME clear 
@@ -104,6 +105,7 @@ function reInitVars() {
 	PKIconfig=$CONFIGDIR/pkitool.conf
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt 
+	. $CONFIGDIR/version.inf
 } 
 function readIP () { 
 	#sudo -u root /sbin/ifconfig 

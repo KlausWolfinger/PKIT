@@ -293,8 +293,9 @@ function menu6 () {
 	menu_header 
 	echo -en "\n#\tCA Management --->" 
 	echo -en "\n--> \tSelect action:\n 
-	\t1 - Edit X509 ROOT-CA 
+	\t1 - Edit X509 ROOT-CA
 	\t2 - Create Root-CA 
+	\tA - Create p12 root-Certificate with key (passphrase)
 	\t3 - Show X509 ROOT-CA Params 
 	\t4 - Create SUB-CA 
 	\t5 - Update CRL 
@@ -307,6 +308,9 @@ function menu6 () {
 		[1] ) # Edit Root CA X509
 			editx509
 			read_x509config;
+			;;
+		[A] ) # Create a p12 keybag with passphrase
+			create_root_p12;
 			;; 
 		[2] ) # Create CA 
 			read_x509config;

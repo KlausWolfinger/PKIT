@@ -11,12 +11,12 @@ case "$Param1" in
 	case "$Param2" in
 		# ================
 		-request)
-		echo "Requesting not implemented..."
+		echo "Requesting ..."
 		#
 		;;
 		# ================
 		-read)
-		echo "Reading not implemented ..."
+		echo "Reading ..."
 		#
 		;;
 		# ================
@@ -96,6 +96,8 @@ case "$Param1" in
 	
 	ACTIONS
 	=======
+	-request		- create certificate request
+					Parameter: CN=\"OUI=mycompany, C=DE\"
 	-clean 			- clean project
 					Parameter: projectname [root|...]
 	-addcand		- add a candidate to database
