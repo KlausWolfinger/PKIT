@@ -104,7 +104,8 @@ function reInitVars() {
 	X509file=$CONFIGDIR/x509.inf 
 	PKIconfig=$CONFIGDIR/pkitool.conf
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
-	DATABASE=$ROOTCADIR/root-index.txt 
+	DATABASE=$ROOTCADIR/root-index.txt
+	touch . $CONFIGDIR/version.inf
 	. $CONFIGDIR/version.inf
 } 
 function readIP () { 
