@@ -70,7 +70,7 @@ function changePKILevel() {
 	read 
 }
 function reInitVars() { 
-    PKIUSERHOME=$(basename $(pwd))
+    PKIUSERHOME=$(basename$(pwd))
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
 	PKINAME="RootCA Level 0" 
