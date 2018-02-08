@@ -6,7 +6,7 @@
 # (c) 2015 K.D. Wolfinger
 # www.itconsulting-wolfinger.de
 #
-Version='2.05'
+#
 #-------------------NO WARRANTY ----------
 #BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 #FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
@@ -147,8 +147,6 @@ source $PKIHOME/sbin/func_reissuesigned.inc
 # read
 fi
 
-#echo "functions loaded...."
-#read
 }
 libloader;
 # init parameters
@@ -176,7 +174,7 @@ if [ $# -eq 0 ];then
 	echo -en "Enter your PIN: "
 	read -s PIN
 	if [ $PIN -ne "0815" ]; then
-		echo "Wrong PIN !!"
+		echo "Wrong PIN, sorry !!"
 		exit 1
 	fi
 fi
