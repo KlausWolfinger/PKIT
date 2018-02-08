@@ -70,6 +70,7 @@ function changePKILevel() {
 	read 
 }
 function reInitVars() { 
+    PKIUSERHOME=$(basename $(pwd))
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
 	PKINAME="RootCA Level 0" 
@@ -96,7 +97,7 @@ function reInitVars() {
 	WWWCERTSDIR=$PKIHOME/www-public/roots 
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
-    pkiAccount=$pkiUser@$ToolIP
+    pkiAccount=$pkiUser@$ToolIP:$PKIUSERHOME
     OSVCertsDir=$OSVSSLDIR/certs
     OSVPrivateDir=$OSVSSLDIR/private
     OSVdhDir=$OSVSSLDIR/dh_keys
