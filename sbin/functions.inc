@@ -97,7 +97,7 @@ function reInitVars() {
 	WWWCERTSDIR=$PKIHOME/www-public/roots 
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
-    pkiAccount=$pkiUser@$ToolIP:$PKIUSERHOME
+    pkiAccount="$pkiUser@$ToolIP:$PKIUSERHOME"
     OSVCertsDir=$OSVSSLDIR/certs
     OSVPrivateDir=$OSVSSLDIR/private
     OSVdhDir=$OSVSSLDIR/dh_keys
