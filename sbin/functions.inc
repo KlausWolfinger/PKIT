@@ -95,6 +95,12 @@ function reInitVars() {
 	WWWCADIR=$PKIHOME/www-public/roots
 	WWWCERTSDIR=$PKIHOME/www-public/roots 
 	OSVSSLDIR="/usr/local/ssl"
+	pkiUser=$(whoami)
+    pkiAccount=$pkiUser@$ToolIP
+    OSVCertsDir=$OSVSSLDIR/certs
+    OSVPrivateDir=$OSVSSLDIR/private
+    OSVdhDir=$OSVSSLDIR/dh_keys
+	
 	CRLWEBDIR="/tmp" 
 	# FILES --- LOGFILE=$TMPDIR/pkitool.log
 	SoapLogFile=$LOGDIR/Soaplog.log 
