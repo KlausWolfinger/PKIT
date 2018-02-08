@@ -107,7 +107,7 @@ function readConfig() {
 			else 
 			. $PKIconfig 
 			BANNER="--- Project: $PKINAME $Version --- \n \ --- $custbanner ---" 
-			ToolIP=$(hostname -I)
+			ToolIP=$($(hostname -I) | sed 's/[ \t]*$//')
 		fi
 		return 
 } 
@@ -474,7 +474,7 @@ function backup_srxtlsconf(){
 function osvscripter () {
 echo "#!/bin/bash" >$SBINdir/osvpkiactivater.sh
 echo "# su -srx" >>$SBINdir/osvpkiactivater.sh
-echo "scp $pkiAccount"$(basename $($ROOTCADIR))"/rootCA.pem /tmp/rootCA.pem &&" >>$SBINdir/osvpkiactivater.sh
+echo "scp $pkiAccount"$ROOTCADIR"/rootCA.pem /tmp/rootCA.pem &&" >>$SBINdir/osvpkiactivater.sh
 echo "scp $pkiAccount"$CERTSDIR"/osvserver/osv_cluster_s.pem /tmp/server.pem &&" >>$SBINdir/osvpkiactivater.sh
 echo "scp $pkiAccount"$CERTSDIR"/osvclient/osv_cluster_c.pem /tmp/client.pem &&" >>$SBINdir/osvpkiactivater.sh
 echo "scp $pkiAccount"$DHDIR"/dh2048.pem /tmp/dh2048.pem;" >>$SBINdir/osvpkiactivater.sh
