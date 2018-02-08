@@ -474,20 +474,20 @@ function backup_srxtlsconf(){
 function osvscripter () {
 echo "#!/bin/bash" >$CERTSDIR/$extension/osvpkiactivater.sh
 echo "# su -srx" >>$CERTSDIR/$extension/osvpkiactivater.sh
-echo "scp $pkiAccount"$ROOTCADIR"/rootCA.pem /tmp/rootCA.pem &&" >>$SBINdir/osvpkiactivater.sh
-echo "scp $pkiAccount"$CERTSDIR"/osvserver/osv_cluster_s.pem /tmp/server.pem &&" >>$SBINdir/osvpkiactivater.sh
-echo "scp $pkiAccount"$CERTSDIR"/osvclient/osv_cluster_c.pem /tmp/client.pem &&" >>$SBINdir/osvpkiactivater.sh
-echo "scp $pkiAccount"$DHDIR"/dh2048.pem /tmp/dh2048.pem;" >>$SBINdir/osvpkiactivater.sh
+echo "scp $pkiAccount"$ROOTCADIR"/rootCA.pem /tmp/rootCA.pem &&" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "scp $pkiAccount"$CERTSDIR"/osvserver/osv_cluster_s.pem /tmp/server.pem &&" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "scp $pkiAccount"$CERTSDIR"/osvclient/osv_cluster_c.pem /tmp/client.pem &&" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "scp $pkiAccount"$DHDIR"/dh2048.pem /tmp/dh2048.pem;" >>$CERTSDIR/$extension/osvpkiactivater.sh
 echo "read "ENTER"" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p "$OSVCertsDir"/root.pem "$OSVCertsDir"/root.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/rootCA.pem >"$OSVCertsDir"/root.pem" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p "$OSVPrivateDir"/server.pem "$OSVPrivateDir"/server.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/server.pem >"$OSVPrivateDir"/server.pem" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p "$OSVPrivateDir"/client.pem "$OSVPrivateDir"/client.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/client.pem >"$OSVPrivateDir"/client.pem" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p "$OSVdhDir"/dh1024.pem "$OSBdhDir"/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/dh2048.pem >"$OSVdhDir"/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
-echo "echo repeat this on node 2" >>$SBINdir/osvpkiactivater.sh
-echo "echo change srx params for dh key file" >>$SBINdir/osvpkiactivater.sh
+echo "cp -p "$OSVCertsDir"/root.pem "$OSVCertsDir"/root.pem.save" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cat /tmp/rootCA.pem >"$OSVCertsDir"/root.pem" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cp -p "$OSVPrivateDir"/server.pem "$OSVPrivateDir"/server.pem.save" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cat /tmp/server.pem >"$OSVPrivateDir"/server.pem" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cp -p "$OSVPrivateDir"/client.pem "$OSVPrivateDir"/client.pem.save" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cat /tmp/client.pem >"$OSVPrivateDir"/client.pem" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cp -p "$OSVdhDir"/dh1024.pem "$OSBdhDir"/dh2048.pem" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "cat /tmp/dh2048.pem >"$OSVdhDir"/dh2048.pem" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "echo repeat this on node 2" >>$CERTSDIR/$extension/osvpkiactivater.sh
+echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/osvpkiactivater.sh
 }
 			
