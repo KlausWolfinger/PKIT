@@ -280,6 +280,11 @@ function create_keys_certs() {
 			fi
 			# --------- special cases ------------------ 
 			#------------------------------------------ 
+			# ----------- if osvserver ----------------
+			if [ $extension = 'osvserver' ]; then
+			echo "creating OSV script ...."
+			osvscripter
+			fi
 			# ----------- if OSMO---------------------- 
 			if [ $extension = 'osmo' ]; then
 				echo "OSMO special ...." 
