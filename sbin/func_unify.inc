@@ -102,10 +102,12 @@ function readConfig() {
 			FTPPASS=1clENtk= 
 			FTPDIR="" 
 			FTPIP="192.168.111.1" 
+			ToolNIC="eth0"
 			# todo: fqdn support 
 			else 
 			. $PKIconfig 
 			BANNER="--- Project: $PKINAME $Version --- \n \ --- $custbanner ---" 
+			ToolIP=$(hostname -I)
 		fi
 		return 
 } 

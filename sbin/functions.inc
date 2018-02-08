@@ -107,10 +107,15 @@ function reInitVars() {
 	DATABASE=$ROOTCADIR/root-index.txt
 	touch . $CONFIGDIR/version.inf
 	. $CONFIGDIR/version.inf
+	# IP
+	# ToolIP
+	
+	
 } 
 function readIP () { 
 	#sudo -u root /sbin/ifconfig 
-	/sbin/ifconfig | grep "inet" | head -n2
+	# /sbin/ifconfig | grep "inet" | head -n2
+	echo $ToolIP
 	echo -en " ENTER to cont ...";read
 }	
 function read_fcts () { 
