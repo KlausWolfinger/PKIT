@@ -398,6 +398,27 @@ function create_keys_certs() {
 		6) apply the new configuration 
 		EOL
 		fi 
+		
+		# ----------- if OS SBCGUI------------------ 
+		if [ $extension = 'sbcgui' ]; then 
+		#
+		echo "SBC WEB Server special ...." 
+		if [ -e $KEYSDIR/$extension/"$CN".key -a ! -e $KEYSDIR/$extension/"$CN"_privatekey.pem ]; then
+		cp $KEYSDIR/$extension/"$CN".key $KEYSDIR/$extension/"$CN"_privatekey.pem 
+		# For Installation in SBC 
+		else 
+		echo -en "\t---> $CN SBC Private Keyfile exists, nothing todo\n" 
+		fi 
+		cat >$KEYSDIR/$extension/README.txt <<-EOL
+		Final steps to do on OpenScape SBC GUI: 
+		1) Upload the privat key 
+		2) Upload the rootCA.pem 
+		3) Upload the SBC certificate 
+		4) Create a new certificate profile 
+		5) activate the profile 
+		6) apply the new configuration 
+		EOL
+		fi
 		done 
 		echo -en "\n\t--> Requested an signed all candidates" 
 		
