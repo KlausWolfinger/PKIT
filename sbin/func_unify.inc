@@ -483,20 +483,20 @@ echo "scp $pkiAccount:$DHDIR/dh2048.pem /tmp/dh2048.pem;" >>$SBINdir/osvpkiactiv
 echo "read "ENTER"" >>$SBINdir/osvpkiactivater.sh
 
 echo "OSVCertsDir='/usr/local/ssl/certs'" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p $OSVCertsDir/root.pem $OSVCertsDir/root.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/rootCA.pem >$OSVCertsDir/root.pem" >>$SBINdir/osvpkiactivater.sh
+echo "cp -p "$OSVCertsDir"/root.pem "$OSVCertsDir"/root.pem.save" >>$SBINdir/osvpkiactivater.sh
+echo "cat /tmp/rootCA.pem >"$OSVCertsDir"/root.pem" >>$SBINdir/osvpkiactivater.sh
 echo "OSVPrivateDir='/usr/local/ssl/private'" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p $OSVPrivateDir/server.pem $OSVPrivateDir/server.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/server.pem >$OSVPrivateDir/server.pem" >>$SBINdir/osvpkiactivater.sh
+echo "cp -p "$OSVPrivateDir"/server.pem "$OSVPrivateDir"/server.pem.save" >>$SBINdir/osvpkiactivater.sh
+echo "cat /tmp/server.pem >"$OSVPrivateDir"/server.pem" >>$SBINdir/osvpkiactivater.sh
 
-echo "cp -p $OSVPrivateDir/client.pem $OSVPrivateDir/client.pem.save" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/client.pem >$OSVPrivateDir/client.pem" >>$SBINdir/osvpkiactivater.sh
+echo "cp -p "$OSVPrivateDir"/client.pem "$OSVPrivateDir"/client.pem.save" >>$SBINdir/osvpkiactivater.sh
+echo "cat /tmp/client.pem >"$OSVPrivateDir"/client.pem" >>$SBINdir/osvpkiactivater.sh
 
 echo "OSVdhDir='/usr/local/ssl/dh_keys'" >>$SBINdir/osvpkiactivater.sh
-echo "cp -p $OSVdhDir/dh1024.pem $OSBdhDir/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
-echo "cat /tmp/dh2048.pem >$OSVdhDir/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
+echo "cp -p "$OSVdhDir"/dh1024.pem "$OSBdhDir"/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
+echo "cat /tmp/dh2048.pem >"$OSVdhDir"/dh2048.pem" >>$SBINdir/osvpkiactivater.sh
 
-echo "# repeat this on node 2" >>$SBINdir/osvpkiactivater.sh
-echo "# change srx params for dh key file" >>$SBINdir/osvpkiactivater.sh
+echo "echo repeat this on node 2" >>$SBINdir/osvpkiactivater.sh
+echo "echo change srx params for dh key file" >>$SBINdir/osvpkiactivater.sh
 }
 			
