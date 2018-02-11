@@ -493,7 +493,18 @@ echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/osvpkiactiv
 
 # keystore changer for CMP Server
 function keystorechanger () {
-# create script
+#  ------- create this script
+#File=/opt/siemens/share/tomcat/conf/server.xml
+#Line=$(egrep -n "tomcat-keystore.p12" $File | cut -d":" -f1)
+#LineNr=$(( $Line + 1 ))
+#PassHash=$(/opt/siemens/servicetools/cmp/encodePassphrase.sh 12345678)
+#NewLine='keystorePass="'$PassHash'"'
+#sed -i -e $(echo $LineNr)c"$NewLine" $File
+#File=/opt/siemens/common/conf/application-external/trust-store.properties
+#LineNr=$(egrep -n "keystorePass" $File | cut -d":" -f1)
+#sed -i -e $(echo $LineNr)c"$NewLine" $File
+# -------------
+
 echo "#!/bin/bash" >$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "P12PassPhrase="$PassPhrase >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
@@ -502,8 +513,8 @@ echo "CMPtrustStorePropertiersFile=/opt/siemens/common/conf/application-external
 echo "Line=\$(egrep -n tomcat-keystore.p12" "$CMPserverXMLFile | cut -d\":\" -f1)" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "LineNr=\$(( $Line + 1 )) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh $P12PassPhrase) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "NewLine='keystorePass="'$PassHash'"' " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "sed -i -e \$(echo $LineNr)c"$NewLine " $CMPserverXMLFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "NewLine=\"keystorePass=$PassHash\"" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "sed -i -e \$(echo \$LineNr)c \$NewLine " \$CMPserverXMLFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 	# --- second ---
 echo "LineNr=\$(egrep -n \"keystorePass\" $CMPtrustStorePropertiersFile | cut -d\":\" -f1) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "sed -i -e \$(echo $LineNr)c"$NewLine" $CMPtrustStorePropertiersFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
