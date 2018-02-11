@@ -511,6 +511,7 @@ echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$CERTSDIR/$
 echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
     # backups
 echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 	# --- first ----
 echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "LineNr=\$(( \$Line + 1 )) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
@@ -520,8 +521,8 @@ echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$CERTSDIR
 	# --- second ---
 echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "echo \n--- well done ---\n ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "echo \n--- restart symphonia ---\n ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "echo \"--- well done ---\" ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "echo \"--- restart symphonia ---\" ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 
 
 
