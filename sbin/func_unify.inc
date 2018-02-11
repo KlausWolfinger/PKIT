@@ -490,4 +490,23 @@ echo "cat /tmp/dh2048.pem >"$OSVdhDir"/dh2048.pem" >>$CERTSDIR/$extension/osvpki
 echo "echo repeat this on node 2" >>$CERTSDIR/$extension/osvpkiactivater.sh
 echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/osvpkiactivater.sh
 }
+
+# keystore changer for CMP Server
+function keystorechanger () {
+# create script
+echo "#!/bin/bash" >$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "CMPtrustStorePropertiersFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+	# --- first ----
+echo "Line=$(egrep -n tomcat-keystore.p12" "$CMPserverXMLFile | cut -d\":\" -f1)" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "LineNr=$(( $Line + 1 )) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "PassHash=$(/opt/siemens/servicetools/cmp/encodePassphrase.sh 12345678) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "NewLine='keystorePass="'$PassHash'"' " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "sed -i -e $(echo $LineNr)c"$NewLine " $CMPserverXMLFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+	# --- second ---
+echo "LineNr=$(egrep -n \"keystorePass\" $CMPtrustStorePropertiersFile | cut -d\":\" -f1) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "sed -i -e $(echo $LineNr)c"$NewLine" $CMPtrustStorePropertiersFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+
+
+}
 			
