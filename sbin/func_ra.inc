@@ -314,6 +314,10 @@ function create_keys_certs() {
 				echo -en "\t---> $CN UC.pem exists, nothing todo\n" 
 			fi 
 		fi 
+	# -------- CMP -------
+		if [ $extension = 'cmp' ]; then
+				keystorechanger
+		fi
 	# -------- Assistant 
 		if [ $extension = 'assistant' ]; then 
 			echo "writing README an temp certfile ..." 
