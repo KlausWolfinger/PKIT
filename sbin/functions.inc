@@ -98,7 +98,7 @@ function reInitVars() {
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
 	
-	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,2)}') 
+	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	
     pkiAccount="$pkiUser@$ToolIP:$PKIFOLDER"
