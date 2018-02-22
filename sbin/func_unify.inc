@@ -477,9 +477,9 @@ THISSCRIPT=osvpkiactivator.sh
 echo "#!/bin/bash" >$CERTSDIR/$extension/$THISSCRIPT
 echo "# su -srx" >>$CERTSDIR/$extension/$THISSCRIPT
 
-ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,1)}')
-CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,1)}')
-DHDIR1=$(echo $DHDIR | awk '{print substr($0,1)}')
+ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
+CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
+DHDIR1=$(echo $DHDIR | awk '{print substr($0,2)}')
 
 echo "scp $pkiAccount"$ROOTCADIR1"/rootCA.pem /tmp/rootCA.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "scp $pkiAccount"$CERTSDIR1"/osvserver/osv_cluster_s.pem /tmp/server.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
