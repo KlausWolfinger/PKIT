@@ -697,6 +697,16 @@ function edithosts() {
 	# cat $HOSTfile read_x509config; 
 	# echo -en "\n\t ENTER to continue \n" 
 	# read 
+	# check for alias duplicates
+	# -----
+	hostArray=($(cat $HOSTDIR/hosts \
+		| grep -v "^[ ]*#" \
+		| grep -v "^[ ]*$" \
+		| grep -v "^[ ]*!" \
+		)) 
+	tLen=${#hostArray[@]}
+	echo -e "found $tLen candidates in file\n"
+	
 } 
 function addcand(){
 # add line to candidates
