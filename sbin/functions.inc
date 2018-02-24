@@ -714,7 +714,8 @@ hostArray=($(cat $HOSTDIR/hosts \
 	for (( i=0;i<${tLen}; i++ )); do
 		#echo -en "$i \t${hostArray[$i]}\n"
 		hostalias=$(echo "${hostArray[$i]}" | cut -f2- -d: | cut -f1 -d,)
-		echo -en "$i \t$hostalias\n" >$HOSTDIR/hosts_alias.log
+		echo -en "# alias log, check for duplicates" >$HOSTDIR/hosts_alias.log
+		echo -en "$i \t$hostalias\n" >>$HOSTDIR/hosts_alias.log
 	done
 	echo -e "\nfound $tLen candidates in file\n"
 	sort $HOSTDIR/hosts_alias.log | uniq -cd
