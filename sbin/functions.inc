@@ -712,7 +712,10 @@ hostArray=($(cat $HOSTDIR/hosts \
 	tLen=${#hostArray[@]}
 	echo -e "found $tLen candidates in file\n"
 	echo $hostArray[@]
-
+	for (( i=0;i<${tLen}; i++ )); do
+		#echo -en "$i --> \t${hostArray[$i]}\n"
+	done
+	
 }
 function addcand(){
 # add line to candidates
