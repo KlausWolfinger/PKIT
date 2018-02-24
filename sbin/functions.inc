@@ -711,7 +711,7 @@ hostArray=($(cat $HOSTDIR/hosts \
 		)) 
 	tLen=${#hostArray[@]}
 	echo -e "found $tLen candidates in file\n"
-	echo $hostArray
+	echo $hostArray[@]
 
 }
 function addcand(){
