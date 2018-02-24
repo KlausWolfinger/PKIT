@@ -721,7 +721,7 @@ hostArray=($(cat $HOSTDIR/hosts \
 	duplicatesExist=$(sort $HOSTDIR/hosts_alias.log | uniq -cd)
 	if test -n "$duplicatesExist";  then 
 	echo "------- ALERT -----"
-	echo "   found duplicates in alias : $sort"
+	echo "   found duplicates in alias : $duplicatesExist"
 	echo "! CORRECT THIS FIRST, PLEASE !"
 	read;
 	else
