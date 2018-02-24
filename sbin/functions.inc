@@ -710,11 +710,14 @@ hostArray=($(cat $HOSTDIR/hosts \
 		| grep -v "^[ ]*!" \
 		)) 
 	tLen=${#hostArray[@]}
-	echo -e "found $tLen candidates in file\n"
+	
 	echo $hostArray[@]
 	for (( i=0;i<${tLen}; i++ )); do
-		echo -en "$i --> \t${hostArray[$i]}\n"
+		#echo -en "$i \t${hostArray[$i]}\n"
+		ALIAS=$(echo "${hostArray[$i]" | cut -f2- -d: | cut -f1 -d,)
+		echo -en "$i \t$ALIAS\n"
 	done
+	echo -e "\nfound $tLen candidates in file\n"
 	
 }
 function addcand(){
