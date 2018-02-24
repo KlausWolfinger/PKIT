@@ -727,9 +727,8 @@ hostArray=($(cat $HOSTDIR/hosts \
 	else
 	duplicatesExist=""
 	fi
-	}
-	
 }
+
 function addcand(){
 # add line to candidates
 echo "$newcand" >> $HOSTfile
