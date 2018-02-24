@@ -715,7 +715,7 @@ hostArray=($(cat $HOSTDIR/hosts \
 		#echo -en "$i \t${hostArray[$i]}\n"
 		hostalias=$(echo "${hostArray[$i]}" | cut -f2- -d: | cut -f1 -d,)
 		
-		echo "$i \t$hostalias" >>$HOSTDIR/hosts_alias.log
+		echo -e "$hostalias" >>$HOSTDIR/hosts_alias.log
 	done
 	echo -e "\nfound $tLen candidates in file\n"
 	sort $HOSTDIR/hosts_alias.log | uniq -cd
