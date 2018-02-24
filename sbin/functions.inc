@@ -718,13 +718,14 @@ hostArray=($(cat $HOSTDIR/hosts \
 		echo -e "$hostalias" >>$HOSTDIR/hosts_alias.log
 	done
 	echo -e "\nfound $tLen candidates in file\n"
-	sort $HOSTDIR/hosts_alias.log | uniq -cd
-	if ($sort) {
+	duplicatesExist=$(sort $HOSTDIR/hosts_alias.log | uniq -cd)
+	if test -n $duplicatesExist  then {
 	echo "------- ALERT -----"
 	echo "   found duplicates in alias : $sort"
 	echo "! CORRECT THIS FIRST, PLEASE !"
 	read;
-	
+	else
+	duplicatesExist=""
 	fi
 	}
 	
