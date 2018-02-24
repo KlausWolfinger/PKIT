@@ -713,7 +713,7 @@ hostArray=($(cat $HOSTDIR/hosts \
 	echo -e "found $tLen candidates in file\n"
 	echo $hostArray[@]
 	for (( i=0;i<${tLen}; i++ )); do
-		#echo -en "$i --> \t${hostArray[$i]}\n"
+		echo -en "$i --> \t${hostArray[$i]}\n"
 	done
 	
 }
