@@ -169,7 +169,7 @@ Param2=$2
 Param3=$3
 Param4=$4
 Param5=$5
-
+disclaimer;
 if [ $# -eq 0 ];then
 	echo -en "Enter your PIN: "
 	read -s PIN
