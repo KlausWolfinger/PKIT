@@ -719,6 +719,14 @@ hostArray=($(cat $HOSTDIR/hosts \
 	done
 	echo -e "\nfound $tLen candidates in file\n"
 	sort $HOSTDIR/hosts_alias.log | uniq -cd
+	if ($sort) {
+	echo "------- ALERT -----"
+	echo "   found duplicates in alias : $sort"
+	echo "! CORRECT THIS FIRST, PLEASE !"
+	read;
+	
+	fi
+	}
 	
 }
 function addcand(){
