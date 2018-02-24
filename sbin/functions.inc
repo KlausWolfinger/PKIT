@@ -722,7 +722,7 @@ hostArray=($(cat $HOSTDIR/hosts \
 	if test -n "$duplicatesExist";  then 
 	echo "------- ALERT -----"
 	echo "   found duplicates in alias : $duplicatesExist"
-	grep $duplicatesExist $HOSTDIR/hosts
+	cat $HOSTDIR/hosts | grep $duplicatesExist
 	echo "! CORRECT THIS FIRST, PLEASE !"
 	read;
 	else
