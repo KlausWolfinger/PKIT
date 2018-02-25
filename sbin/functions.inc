@@ -828,7 +828,7 @@ function CandAddReq() {
 function ListCertIndex() { 
 	clear 
 	echo "# --- Signed Certificates from local PKI Database:" 
-	cat $ROOTCADIR/root-index.txt 
+	less $ROOTCADIR/root-index.txt 
 	echo
 	
 }

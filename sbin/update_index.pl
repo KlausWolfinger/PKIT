@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 # written for multilevel pki tool
+# 2018
 # Klaus Dieter Wolfinger
-# Unify Training
+# www.itconsulting-wolfinger.de
+# (C) 
 
 $openssl = '/usr/bin/openssl';
 $crt_filename = $ARGV[0];
