@@ -175,7 +175,11 @@ if [ $# -eq 0 ];then
 	echo -en "# Enter your PIN: "
 	read -s PIN
 	if [ $PIN -ne "0815" ]; then
+<<<<<<< HEAD
 	    echo -en "\n!!!!!!!!!!!!!!!!!!!!!"
+=======
+	    echo -e"\n!!!!!!!!!!!!!!!!!!!!!"
+>>>>>>> master
 		echo "! Wrong PIN, sorry !!"
 		exit 1
 	fi
