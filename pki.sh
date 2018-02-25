@@ -171,10 +171,12 @@ Param4=$4
 Param5=$5
 disclaimer;
 if [ $# -eq 0 ];then
-	echo -en "Enter your PIN: "
+	echo     "######################"
+	echo -en "# Enter your PIN: "
 	read -s PIN
 	if [ $PIN -ne "0815" ]; then
-		echo "Wrong PIN, sorry !!"
+	    echo "!!!!!!!!!!!!!!!!!!!!!"
+		echo "! Wrong PIN, sorry !!"
 		exit 1
 	fi
 fi

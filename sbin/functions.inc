@@ -16,24 +16,7 @@
 # TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE 
 # PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, 
 # REPAIR OR CORRECTION. 
-# 
-# changlog 
-# 1.95b key usage for CMP serverAuth, keyEncipherment 
-# 1.95c output gen root ca to /dev/null 2>&1 
-# 1.95d 
-# ftpput dest file is same as source $pki_archive 
-# file not exist error: function backup_srxtlsconf overwrite log instead of merge 
-# crl file after update in /tmp/rootca.crl for download 
-# version change: 1.96a 
-# privatekey filename for sbc 
-# version change: 1.96b 
-# parameter for webserver dir 
-# new keywork for osvgui and sbcgui 
-# 1.96c SSL/CSTAMutualAuth 
-# 1.96e SHA1 , sha256 and sha512 support 
-# different sha for root and sublevels
-# different RSA keylengths for root and sublevels PLUGINV='1.98'
-# 2.05, can create root p12, new menu structure
+
 
 function disclaimer() {
 
@@ -48,7 +31,7 @@ PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF
 THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
 THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 ------- www.itconsulting-wolfinger.de -------
-!!!   DO NOT RUN THE MULTILEVELPKI SOFTWARE AS ROOT USER   !!! \n" 
+!!!   DO NOT RUN THE MULTILEVELPKI SOFTWARE AS ROOT USER   !!! \n\n" 
 
 }
 
@@ -784,7 +767,7 @@ function LessHelp() {
 } 
 function ziptool() { 
 	now=$(date +"%Y-%m-%d-%S")
-	echo -en "\nTool will archive the current project level only!" 
+	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkitool_$ArchiveName$now.zip";read
 	zip -r $ARCHIVEDIR/pkitool_$ArchiveName$now.zip $PKIHOME \
