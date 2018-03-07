@@ -161,12 +161,13 @@ function create_requests() {
 function create_keys_certs() { 
 	create_requests
 	#check_rootCA
+		if [ "$rootCACheck" -eq "1" ]; then
 		#if [[ $rootCACheck=1 ]]; then 
-		#echo "There are rootCA Errors ... Inititialise RootCA first ...[ENTER]"
-		#read
-		#return;
-		#fi
-		#export CN 
+		echo "There are rootCA Errors ... Inititialise RootCA first ...[ENTER]"
+		read
+		return;
+		fi
+		export CN 
 	CN_count=0;
 	#echo -en "--- creating keys and certs from hosts file (func_createtls.inc)...\n"
 	#mkdir -m 700 -p $CandKEYSDIR 
