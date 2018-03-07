@@ -100,8 +100,8 @@ function create_rootca(){
 	fi
 	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer 
-		cp -p $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem 
-		cp -p $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der 
+		mv  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem 
+		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der 
 	fi
 	cat > $ROOTCADIR/WebBrowserREADME.txt <<-EOL
 	If you want to avoid certificate warnings in your webbrowser, import the root.crt file in your browser's certificate store. 

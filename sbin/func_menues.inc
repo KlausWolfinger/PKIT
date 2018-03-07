@@ -297,7 +297,7 @@ function menu6 () {
 	\t2 - Create Root-CA 
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\t3 - Show X509 ROOT-CA Params 
-	\t4 - Create SUB-CA 
+	\t4 - Change this Level to SUB-CA 
 	\t5 - Update CRL 
 	\t---------------------------------------- 
 	\t99 - Return\n\n" 
@@ -323,7 +323,7 @@ function menu6 () {
 			;; 
 		[4] ) # create SUB CA
 			ask_subCAName;
-			create_subca;			
+			changeto_subca;			
 			;; 
 		[5] ) # update CRL 
 			UpdateCRL; 

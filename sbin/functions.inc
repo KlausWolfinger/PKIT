@@ -449,8 +449,23 @@ function editConfig() {
 	fi
 } 
 
-function create_subca() {
-echo -en "to be implemented, sorry ...\n";read
+function changeto_subca() {
+echo -en "!!!! This will destroy this CA level !!!!"
+echo -en "!!!! Database MUST BE initially empty "
+echo -en ".. remove all rootca certificates in rootca folder manually\n"
+if [[ -s $ROOTCADIR/root-index.txt ]]; then 
+	echo "Database is not empty !"; 
+	else 
+	echo "OK, Database is empty, we can continue ...(sure ?)"; 
+	yes_no;
+	rm -f $ROOTCADIR/rootCA*.*
+	fi
+
+echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
+echo -en ".. perform this manually now !\n"
+echo -en ".. ready ?...\n";
+read
+
 }
   
 function UpdateCRL() { 
