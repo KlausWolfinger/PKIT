@@ -100,7 +100,7 @@ function create_rootca(){
 	fi
 	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
-		mv  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem		
+		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem		
 		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der 
 	fi
 	
