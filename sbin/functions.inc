@@ -467,6 +467,7 @@ if [[ -s $ROOTCADIR/root-index.txt ]]; then
 	fi
 
 echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
+echo -en ".. copy the new rootCA.pem to root.crt  ...\n"
 echo -en ".. perform this manually now !\n"
 echo -en ".. ready ?...\n";
 read

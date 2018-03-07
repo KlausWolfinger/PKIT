@@ -124,6 +124,31 @@ function create_root_p12() {
 	fi
 }
 
+function check_rootCA() {
+#
+echo -en ".. This will perform a rootCA check ...\n"
+if [ -e $ROOTCADIR/root.key ]; then
+echo -en ".. $ROOTCADIR/root.key check OK...\n"; else 
+echo -en ".. $ROOTCADIR/root.key check NOK...\n";
+fi
+if [ -e $ROOTCADIR/root.crt ]; then
+echo -en ".. $ROOTCADIR/root.crt check OK...\n"; else 
+echo -en ".. $ROOTCADIR/root.crt check NOK...\n";
+fi
+if [ -e $ROOTCADIR/rootCA.pem ]; then
+echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n"; else 
+echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n";
+fi
+if [ -e $ROOTCADIR/rootCA.der ]; then
+echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; else 
+echo -en ".. $ROOTCADIR/rootCA.dercheck NOK...\n";
+fi
+echo "Enter to continue ..."
+read
+
+
+}
+
 function ca() { 
 	base
 	cat <<-EOF

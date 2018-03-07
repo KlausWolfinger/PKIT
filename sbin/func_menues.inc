@@ -296,6 +296,7 @@ function menu6 () {
 	\t1 - Edit X509 ROOT-CA
 	\t2 - Create Root-CA 
 	\tA - Create p12 root-Certificate with key (passphrase)
+	\tC - Perform a ROOTCA CHECK
 	\t3 - Show X509 ROOT-CA Params 
 	\t4 - Change this Level to SUB-CA 
 	\t5 - Update CRL 
@@ -312,6 +313,9 @@ function menu6 () {
 		[A] ) # Create a p12 keybag with passphrase
 			create_root_p12;
 			;; 
+		[C] ) # check rootCA
+			check_rootCA;
+			;;
 		[2] ) # Create CA 
 			read_x509config;
 			create_dh; 
@@ -322,7 +326,6 @@ function menu6 () {
 			print_x509config 
 			;; 
 		[4] ) # create SUB CA
-			ask_subCAName;
 			changeto_subca;			
 			;; 
 		[5] ) # update CRL 
