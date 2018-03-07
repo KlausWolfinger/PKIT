@@ -450,8 +450,8 @@ function editConfig() {
 } 
 
 function changeto_subca() {
-echo -en "!!!! This will destroy this CA level !!!!"
-echo -en "!!!! Database MUST BE initially empty "
+echo -en "!!!! This will destroy this CA level !!!!\n"
+echo -en "!!!! Database MUST BE initially empty \n"
 echo -en ".. remove all rootca certificates in rootca folder manually\n"
 if [[ -s $ROOTCADIR/root-index.txt ]]; then 
 	echo "Database is not empty !"; 
@@ -459,6 +459,10 @@ if [[ -s $ROOTCADIR/root-index.txt ]]; then
 	echo "OK, Database is empty, we can continue ...(sure ?)"; 
 	yes_no;
 	rm -f $ROOTCADIR/rootCA*.*
+	# this is obsolete maybe 
+	rm -f $ROOTCADIR/root.crt
+	rm -f $ROOTCADIR/root.cer
+	####
 	fi
 
 echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
