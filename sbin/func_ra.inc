@@ -435,6 +435,8 @@ function create_keys_certs() {
 		EOL
 		fi
 		done 
-		echo -en "\n\t--> Requested an signed all candidates" 
+		echo -en "\n\t--> Requested and signed all candidates" 
+		# last step
+		UpdateCRL;
 		
 		}
