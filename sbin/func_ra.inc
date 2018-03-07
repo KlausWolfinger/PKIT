@@ -165,7 +165,7 @@ function create_keys_certs() {
 		#if [[ $rootCACheck=1 ]]; then 
 		echo "There are rootCA Errors ... Inititialise RootCA first ...[ENTER]"
 		read
-		return;
+		exit;
 		fi
 		export CN 
 	CN_count=0;
