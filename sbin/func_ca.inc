@@ -58,8 +58,8 @@ function create_rootca(){
 	mkdir -m 700 -p $ROOTCADIR 
 	export CN 
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
-		rm -f $ROOTCADIR/* 
-		rm -f $CERTSDIR/* 
+		rm -f $ROOTCADIR/*.* 
+		rm -f $CERTSDIR/*.*
 		echo "01" >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
 	fi
@@ -141,7 +141,7 @@ echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; rootCACheck=1;
 fi
 if [ -e $ROOTCADIR/rootCA.der ]; then
 echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; else 
-echo -en ".. $ROOTCADIR/rootCA.dercheck NOK...\n"; rootCACheck=1;
+echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; rootCACheck=1;
 fi
 echo "Enter to continue ..."
 read
