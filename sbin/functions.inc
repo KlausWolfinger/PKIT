@@ -459,18 +459,17 @@ if [[ -s $ROOTCADIR/root-index.txt ]]; then
 	else 
 	echo "OK, Database is empty, we can continue ...(sure ?)"; 
 	yes_no;
+	echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
+	echo -en ".. copy the new rootCA.pem to root.crt  ...\n"
+	echo -en ".. perform this manually now !\n"
+	echo -en ".. ready ?...\n";
+	read
 	rm -f $ROOTCADIR/rootCA*.*
 	# this is obsolete maybe 
 	rm -f $ROOTCADIR/root.crt
 	rm -f $ROOTCADIR/root.cer
 	####
 	fi
-
-echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
-echo -en ".. copy the new rootCA.pem to root.crt  ...\n"
-echo -en ".. perform this manually now !\n"
-echo -en ".. ready ?...\n";
-read
 
 }
   
