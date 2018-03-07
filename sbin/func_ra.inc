@@ -161,9 +161,10 @@ function create_requests() {
 function create_keys_certs() { 
 	create_requests
 	check_rootCA
-	if [[ rootCACheck=0 ]]; then 
+	if [[ $rootCACheck=1 ]]; then 
 	echo "There are rootCA Errors ... Inititialise RootCA first ...[ENTER]"
 	read
+	return
 	fi
 	#export CN 
 	CN_count=0;
