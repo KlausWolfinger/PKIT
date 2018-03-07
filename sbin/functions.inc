@@ -453,6 +453,7 @@ function changeto_subca() {
 echo -en "!!!! This will destroy this CA level !!!!\n"
 echo -en "!!!! Database MUST BE initially empty \n"
 echo -en ".. remove all rootca certificates in rootca folder manually\n"
+# ask_subCAName;
 if [[ -s $ROOTCADIR/root-index.txt ]]; then 
 	echo "Database is not empty !"; 
 	else 
