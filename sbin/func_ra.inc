@@ -160,7 +160,7 @@ function create_requests() {
 
 function create_keys_certs() { 
 	create_requests
-	#check_rootCA
+	check_rootCA
 		if [ "$rootCACheck" -eq "1" ]; then
 		#if [[ $rootCACheck=1 ]]; then 
 		echo "There are rootCA Errors ... Inititialise RootCA first ...[ENTER]"
