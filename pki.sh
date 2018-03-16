@@ -30,6 +30,7 @@ BANNER="--- Project: $PKINAME V$Version --- \n \
 DEBUGMODE=0
 
 THISHOST=$HOSTNAME
+ToolIP=$(hostname -i | sed 's/[ \t]*$//')
 LOGDIR=$PKIHOME/log
 TMPDIR=$PKIHOME/tmp
 CONFIGDIR=$PKIHOME/pkiconf
