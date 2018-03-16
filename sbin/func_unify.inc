@@ -498,13 +498,13 @@ echo "echo repeat this on node 2" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/$THISSCRIPT
 
 dhfile=dh$DH_LENGTH.pem
-echo "---- copy this block into Soap interface with StartCli -x "
-echo "#-----------"
-echo "confModifyParameter \"SSL/CSTAMutualAuth/Server/SupportedDH\" \"$SSLCSTAMutualAuthServerSupportedDH\"" 
-echo "confModifyParameter \"SSL/EndPoint/Server/SupportedDH\" \"$SSLEndPointServerSupportedDH\"" 
-echo "confModifyParameter \"SSL/MutualAuth/Client/SupportedDH\" \"$SSLMutualAuthClientSupportedDH\""
-echo "confModifyParameter \"SSL/MutualAuth/Server/SupportedDH\" \"$SSLMutualAuthServerSupportedDH\"" 
-echo "#-----------"
+echo "---- copy this block into Soap interface with StartCli -x " >>$CERTSDIR/$extension/$THISSCRIPT
+echo "#-----------" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "confModifyParameter \"SSL/CSTAMutualAuth/Server/SupportedDH\" \"$SSLCSTAMutualAuthServerSupportedDH\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "confModifyParameter \"SSL/EndPoint/Server/SupportedDH\" \"$SSLEndPointServerSupportedDH\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "confModifyParameter \"SSL/MutualAuth/Client/SupportedDH\" \"$SSLMutualAuthClientSupportedDH\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "confModifyParameter \"SSL/MutualAuth/Server/SupportedDH\" \"$SSLMutualAuthServerSupportedDH\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "#-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 }
 
