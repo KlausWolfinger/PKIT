@@ -110,7 +110,7 @@ function reInitVars() {
 	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
-	ToolIP=getMyIP
+	ToolIP=$(getMyIP)
     pkiAccount="$pkiUser@$ToolIP:$PKIFOLDER"
     OSVCertsDir=$OSVSSLDIR/certs
     OSVPrivateDir=$OSVSSLDIR/private
