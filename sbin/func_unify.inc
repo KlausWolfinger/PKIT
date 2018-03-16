@@ -496,6 +496,16 @@ echo "cp -p "$OSVdhDir"/dh1024.pem "$OSVdhDir"/dh2048.pem" >>$CERTSDIR/$extensio
 echo "cat /tmp/dh2048.pem >"$OSVdhDir"/dh2048.pem" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo repeat this on node 2" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/$THISSCRIPT
+
+dhfile=dh$DH_LENGTH.pem
+echo "---- copy this block into Soap interface with StartCli -x "
+echo "#-----------"
+echo "confModifyParameter \"SSL/CSTAMutualAuth/Server/SupportedDH\" \"$SSLCSTAMutualAuthServerSupportedDH\"" 
+echo "confModifyParameter \"SSL/EndPoint/Server/SupportedDH\" \"$SSLEndPointServerSupportedDH\"" 
+echo "confModifyParameter \"SSL/MutualAuth/Client/SupportedDH\" \"$SSLMutualAuthClientSupportedDH\""
+echo "confModifyParameter \"SSL/MutualAuth/Server/SupportedDH\" \"$SSLMutualAuthServerSupportedDH\"" 
+echo "#-----------"
+
 }
 
 # keystore changer for CMP Server
