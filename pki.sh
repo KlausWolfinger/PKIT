@@ -30,7 +30,6 @@ BANNER="--- Project: $PKINAME V$Version --- \n \
 DEBUGMODE=0
 
 THISHOST=$HOSTNAME
-ToolIP=$(hostname -i | sed 's/[ \t]*$//')
 LOGDIR=$PKIHOME/log
 TMPDIR=$PKIHOME/tmp
 CONFIGDIR=$PKIHOME/pkiconf
@@ -72,6 +71,7 @@ dos2unix $PKIHOME/sbin/*.inc > /dev/null 2>&1
 dos2unix $PKIHOME/pkiconf/*.* > /dev/null 2>&1
 }
 init;
+
 function libloader(){
 
 if [ ! -e $PKIHOME/sbin/func_batcher.inc ]; then
