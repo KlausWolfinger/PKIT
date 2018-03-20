@@ -113,7 +113,7 @@ function signsubca(){
 	 
 	if [ -e $SUBCADIRNAME/subca.crt -a ! -e $SUBCADIRNAME/subca.cer ]; then 
 		openssl x509 -in $SUBCADIRNAME/subca.crt -outform DER -out $SUBCADIRNAME/subca.cer 
-		#cp -p $SUBCADIRNAME/subca.crt $SUBCADIRNAME/subCA.pem 
+		cp -p $SUBCADIRNAME/subca.crt $SUBCADIRNAME/subCA.pem 
 		# cp -p $SUBCADIRNAME/subca_$SUBCANAME.cer $SUBCADIRNAME/subCA_$SUBCANAME.der 
 	fi
 

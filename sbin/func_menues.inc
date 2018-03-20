@@ -303,6 +303,7 @@ function menu6 () {
 	\tC - Perform a ROOTCA CHECK
 	\tR - Create SUBCA Request
 	\tS - Sign and create SUBCA
+	\tD - Delete SUBCA
 	\t3 - Show X509 ROOT-CA Params 
 	\t4 - Change this Level to SUB-CA 
 	\t5 - Update CRL 
