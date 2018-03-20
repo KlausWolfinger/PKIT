@@ -158,7 +158,13 @@ function create_requests() {
 }
 
 
-function create_keys_certs() { 
+function create_keys_certs() {
+	$PKIHOME/pkiconf/pkitool.conf # load current passphrase
+	if [ "$HidePassPhrase" -eq "1" ]; then
+	P12FileNamePass="_x_x"
+	else
+	P12FileNamePass=$PassPhrase
+	fi
 	create_requests
 	check_rootCA
 		if [ "$rootCACheck" -eq "1" ]; then
@@ -261,24 +267,24 @@ function create_keys_certs() {
 			echo -en "\t---> $CN p12.chain exists, nothing todo\n" 
 			fi 
 			#--------------------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$PassPhrase".p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
-				-name "$CN" -out $CERTSDIR/$extension/"$CN"."$PassPhrase".p12 \
+				-name "$CN" -out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
 				-nodes -passout pass:"$PassPhrase"
 			else
 			echo -en "\t---> $CN XXX.p12 with passphrase XXX exists, nothing todo\n" 
 			fi 
 			# --------------------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$PassPhrase".p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "$CN" \
-				-out $CERTSDIR/$extension/"$CN"."$PassPhrase".p12 \
+				-out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 

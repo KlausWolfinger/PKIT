@@ -294,7 +294,8 @@ function ftpget_pki(){
 	fi
 } 
 
-function ftpput_pki(){ clear .
+function ftpput_pki(){ 
+	clear 
 	$PKIHOME/pkiconf/pkitool.conf 
 	echo -en "*** Zip PKI-Folder to FTP Server ***\n" 
 	#echo -en " This Feature is not implemented , ENTER to cont..";
