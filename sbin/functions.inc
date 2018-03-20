@@ -653,10 +653,11 @@ function remove_archives() {
 	\tAre you sure ? [Yy|Nn]\n
 	\t--> Press Y for Yes or N for No\n" 
 	if (yes_no); then 
-		echo -en "\t !!! All backups removed !!!\n" 
-		echo -en "\t ENTER to continue\n"; read 
+		echo -en "\t !!! All archives, exports and backups will be removed !!!\n" 
+		echo -en "\t If you are sure, ENTER to continue\n"; read 
 		rm -f $PKIHOME/*.zip 
 		rm -f $ARCHIVEDIR/*.zip
+		rm -f $EXPORTDIR/*.zip
 		rm -f $PKIHOME/sslbackups/*.* 
 			else echo -en "\t +++ nothing deleted or changed +++\n" 
 			echo -en "\t ENTER to continue \n"; read 
@@ -804,8 +805,9 @@ function ziptool() {
 	now=$(date +"%Y-%m-%d-%S")
 	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
-	echo "$ARCHIVEDIR/pkitool_$ArchiveName$now.zip";read
-	zip -r $ARCHIVEDIR/pkitool_$ArchiveName$now.zip $PKIHOME \
+	echo "$ARCHIVEDIR/pkitool_$ArchiveName_$now.zip";
+	echo ".. [ENTER] to cont ..";readE
+	zip -r $ARCHIVEDIR/pkitool_$ArchiveName_$now.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
@@ -818,9 +820,9 @@ function exportCAND() {
 now=$(date +"%Y-%m-%d-%S")
 echo -en "\nTool will export keys and certs from this project" 
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
-	echo "Will write $EXPORTDIR/pkitool_$ExportName$now.zip"
+	echo "Will write $EXPORTDIR/pkitool_$ExportName_$now.zip"
 	echo ".. [ENTER] to cont ..";read
-	zip -r $EXPORTDIR/pkitool_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
+	zip -r $EXPORTDIR/pkitool_$ExportName_$now.zip $PKIHOME/certs $PKIHOME/keys 
 	echo -en "\n ---> pkitool exported to disk ....\n " 
 	dir -all $EXPORTDIR/pkitool*.zip 
 	echo -en "\ncont ... with any key ";read 
