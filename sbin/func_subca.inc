@@ -101,14 +101,13 @@ function signsubca(){
 		exit 1;
 	fi
 	# subca is keyword in ca routine
-	ca subca "$SALTN" sign \
-		| openssl ca \
+	
+	ca subca "$SALTN" sign | openssl ca \
 		-batch \
-		-days $CERTDAYS \
+		-days $ROOTDAYS \
 		-out $SUBCADIRNAME/$SUBCANAME.crt \
 		-in $SUBCADIRNAME/$SUBCANAME.req \
-		-extensions exts \
-		-preserveDN \
+		-extensions exts -preserveDN \
 		-config /dev/stdin 
 	 
 	if [ -e $SUBCADIRNAME/$SUBCANAME.crt -a ! -e $SUBCADIRNAME/$SUBCANAME.cer ]; then 
