@@ -111,7 +111,8 @@ function menu3 () {
 	\t9 - Cleanup project - will delete all candidates 
 	\tA - Get/Update PKI project from FTP Server 
 	\tB - Put/Upload PKI project to FTP Server 
-	\tZ - ZIP project folder with subdirs 
+	\tE - Export CAND keys and Certs to ZIP
+	\tZ - ZIP entire PKI with all subdirs 
 	\t99 - Return\n\n" 
 	read -p "--> $MenuLevel$PROMPT_2" userchoice 
 	keypress=$(echo $userchoice | tr -d "\n") 
@@ -158,6 +159,9 @@ function menu3 () {
 		[Z] ) # zip entire PKI 
 			ziptool; 
 			;; 
+		[E] ) # export CAND keys and Certs to ZIP	
+			exportCAND;
+			;;
 		[S] ) # switch to runlevel PKI 
 			changePKILevel; 
 			;;

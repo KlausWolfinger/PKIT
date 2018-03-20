@@ -89,7 +89,9 @@ function reInitVars() {
 	PKINAME=$(basename $PKIHOME) 
 	fi
 	BANNER="--- $PKINAME Management $Version on $HOSTNAME ---" 
-	ARCHIVEDIR=$PKIHOME_START/archives LOGDIR=$PKIHOME/log 
+	ARCHIVEDIR=$PKIHOME_START/archives 
+	EXPORTDIR=$PKIHOME_START/exports
+	LOGDIR=$PKIHOME/log 
 	TMPDIR=$PKIHOME/tmp 
 	CONFIGDIR=$PKIHOME/pkiconf 
 	ROOTCADIR=$PKIHOME/rootca
@@ -201,6 +203,9 @@ function InitDirs() {
 	fi
 	if [ ! -d $ARCHIVEDIR ]; then 
 		mkdir -p $ARCHIVEDIR
+	fi
+	if [ ! -d $EXPORTDIR ]; then
+		mkdir -p $EXPORTDIR
 	fi
 } 
 
@@ -809,6 +814,17 @@ function ziptool() {
 	dir -all $ARCHIVEDIR/pkitool*.zip 
 	echo -en "\ncont ... with any key ";read 
 } 
+function exportCAND() {
+now=$(date +"%Y-%m-%d-%S")
+echo -en "\nTool will export keys and certs from this project" 
+	echo -en "\nEnter a new exportname, please:"; read ExportName 
+	echo "Will write $EXPORTDIR/pkitool_$ExportName$now.zip"
+	echo ".. [ENTER] to cont ..";read
+	zip -r $EXPORTDIR/pkitool_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
+	echo -en "\n ---> pkitool exported to disk ....\n " 
+	dir -all $EXPORTDIR/pkitool*.zip 
+	echo -en "\ncont ... with any key ";read 
+}
 function clonepki() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
 	echo -e "This will clone the entite pki to a new directory\n" 
