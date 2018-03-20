@@ -128,8 +128,8 @@ function reInitVars() {
 	PKIconfig=$CONFIGDIR/pkitool.conf
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
-	touch . $CONFIGDIR/version.inf
 	. $CONFIGDIR/version.inf
+	. $CONFIGDIR/pkitool.inf
 	# IP
 	# ToolIP
 	
@@ -153,8 +153,8 @@ function ToggleDebugMode() {
 } 
 
 function InitDirs() { 
-	reInitVars; 
-	# echo "initialize dirs ----" 
+	 
+	# echo "initialize dirs files ----" 
 	if [ ! -d $LOGDIR ]; then 
 		mkdir $LOGDIR 
 	fi
@@ -163,6 +163,9 @@ function InitDirs() {
 	fi
 	if [ ! -d $CONFIGDIR ]; then 
 		mkdir $CONFIGDIR 
+	fi
+	if [ ! -r $CONFIGDIR/version.inf ]; then
+		touch $CONFIGDIR/version.inf
 	fi
 	if [ ! -d $ROOTCADIR ]; then
 		mkdir $ROOTCADIR 
@@ -207,6 +210,7 @@ function InitDirs() {
 	if [ ! -d $EXPORTDIR ]; then
 		mkdir -p $EXPORTDIR
 	fi
+	reInitVars;
 } 
 
 function InitConfig() { 
@@ -221,6 +225,7 @@ function InitConfig() {
 	if [ ! -r $HOSTDIR/hosts ]; then 
 		cp -p $HOSTDIR/hosts.template $HOSTDIR/hosts 
 	fi
+	reInitVars;
 }
 
 function PidLock() { 
