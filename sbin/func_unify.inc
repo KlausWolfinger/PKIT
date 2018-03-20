@@ -500,7 +500,7 @@ echo "echo change srx params for dh key file" >>$CERTSDIR/$extension/$THISSCRIPT
 dhfile=dh$DH_LENGTH.pem
 echo "echo ---- copy this block into Soap interface with StartCli -x " >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "echo confModifyParameter \"\"SSL/CSTAMutualAuth/Server/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "echo confModifyParameter '"SSL/CSTAMutualAuth/Server/SupportedDH"' '"$dhfile"'">>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo confModifyParameter \"\"SSL/EndPoint/Server/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo confModifyParameter \"\"SSL/MutualAuth/Client/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo confModifyParameter \"\"SSL/MutualAuth/Server/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
