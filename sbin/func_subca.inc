@@ -19,19 +19,19 @@ function reqsubca(){
 	if [ ! -d $SUBCADIRNAME ];then
 		mkdir -p $SUBCADIRNAME
 	fi
-	if [ -e $SubCATemplate -a ! -e $SUBCADIRNAME/subca.inf ];then
+	if [ -e $SubCATemplate -a ! -e $SUBCADIRNAME/$SUBCANAME.inf ];then
 		# echo "now copying $SubCATemplate template to $SUBCADIRNAME/subca.inf";read
 		# dir $SubCATemplate
 		
-		cmd="cp  -p $SubCATemplate $SUBCADIRNAME/subca.inf"
+		cmd="cp  -p $SubCATemplate $SUBCADIRNAME/$SUBCANAME.inf"
 		$($cmd)
 		# dir $SUBCADIRNAME;read
 		#return;
 			
 	fi
-	if [ -e $SUBCADIRNAME/subca.inf ]; then 
-		echo -en "INFO: READ X509 Attributes from $SUBCADIRNAME/subca.inf \n" 
-		. $SUBCADIRNAME/subca.inf 
+	if [ -e $SUBCADIRNAME/$SUBCANAME.inf ]; then 
+		echo -en "INFO: READ X509 Attributes from $SUBCADIRNAME/$SUBCANAME.inf \n" 
+		. $SUBCADIRNAME/$SUBCANAME.inf 
 		#read 
 		else
 		SUBCABASEDN="C=DE/L=Germany/O=SUBCA Authority/OU=PKI Management"
@@ -50,24 +50,24 @@ function reqsubca(){
 	
 	
 	export CN 
-	if [ ! -e $SUBCADIRNAME/subca-serial -o ! -e $SUBCADIRNAME/subca-index.txt -o ! -e $SUBCADIRNAME/subca.key ]; then 
+	if [ ! -e $SUBCADIRNAME/$SUBCANAME-serial -o ! -e $SUBCADIRNAME/$SUBCANAME-index.txt -o ! -e $SUBCADIRNAME/$SUBCANAME.key ]; then 
 				 
-		echo "00:00:00:01" >$SUBCADIRNAME/subca-serial 
-		echo -n >$SUBCADIRNAME/subca-index.txt 
+		echo "00:00:00:01" >$SUBCADIRNAME/$SUBCANAME-serial 
+		echo -n >$SUBCADIRNAME/$SUBCANAME-index.txt 
 	fi
-	if [ ! -e $SUBCADIRNAME/subca.key ]; then 
-		openssl genrsa -out $SUBCADIRNAME/subca.key $ROOTBITS >/dev/null 2>&1 
+	if [ ! -e $SUBCADIRNAME/$SUBCANAME.key ]; then 
+		openssl genrsa -out $SUBCADIRNAME/$SUBCANAME.key $ROOTBITS >/dev/null 2>&1 
 	fi 
 	
-	if [ ! -e $SUBCADIRNAME/subca.req ]; then 
+	if [ ! -e $SUBCADIRNAME/$SUBCANAME.req ]; then 
 		# echo "gen root request for sub ca .." 
 		# read 
 		# subCA request 
 		subCA $ca_extension "" | openssl req \
 			-batch \
 			-new \
-			-key $SUBCADIRNAME/subca.key \
-			-out $SUBCADIRNAME/subca.req \
+			-key $SUBCADIRNAME/$SUBCANAME.key \
+			-out $SUBCADIRNAME/$SUBCANAME.req \
 			-extensions v3_ca \
 			-config /dev/stdin -subj '/'"$SUBCABASEDN" >/dev/null 2>&1 
 		
@@ -91,11 +91,11 @@ function signsubca(){
 	
 
 	# test for key and request
-	if [ ! -e $SUBCADIRNAME/subca.key -a ! -e $SUBCADIRNAME/subca.req ];then
+	if [ ! -e $SUBCADIRNAME/$SUBCANAME.key -a ! -e $SUBCADIRNAME/$SUBCANAME.req ];then
 		echo "Missing subca request and key ..."
 		exit 1;
 	fi
-	if [ -e $SUBCADIRNAME/subca.crt ];then
+	if [ -e $SUBCADIRNAME/$SUBCANAME.crt ];then
 		echo -en "SubCA certificate already exists\n"
 		dir $SUBCADIRNAME;
 		exit 1;
@@ -105,15 +105,15 @@ function signsubca(){
 		| openssl ca \
 		-batch \
 		-days $CERTDAYS \
-		-out $SUBCADIRNAME/subca.crt \
-		-in $SUBCADIRNAME/subca.req \
+		-out $SUBCADIRNAME/$SUBCANAME.crt \
+		-in $SUBCADIRNAME/$SUBCANAME.req \
 		-extensions exts \
 		-preserveDN \
 		-config /dev/stdin 
 	 
-	if [ -e $SUBCADIRNAME/subca.crt -a ! -e $SUBCADIRNAME/subca.cer ]; then 
-		openssl x509 -in $SUBCADIRNAME/subca.crt -outform DER -out $SUBCADIRNAME/subca.cer 
-		cp -p $SUBCADIRNAME/subca.crt $SUBCADIRNAME/subCA.pem 
+	if [ -e $SUBCADIRNAME/$SUBCANAME.crt -a ! -e $SUBCADIRNAME/$SUBCANAME.cer ]; then 
+		openssl x509 -in $SUBCADIRNAME/$SUBCANAME.crt -outform DER -out $SUBCADIRNAME/$SUBCANAME.cer 
+		cp -p $SUBCADIRNAME/$SUBCANAME.crt $SUBCADIRNAME/$SUBCANAME.pem 
 		# cp -p $SUBCADIRNAME/subca_$SUBCANAME.cer $SUBCADIRNAME/subCA_$SUBCANAME.der 
 	fi
 
@@ -124,7 +124,7 @@ function delsubca(){
 	echo ".. deleting subCA, are you sure [y/n]"
 	if (yes_no); then
 	SUBCADIRNAME=$SUBCADIR/$SUBCANAME
-		if [ ! -e $SUBCADIRNAME/subca.crt ];then
+		if [ ! -e $SUBCADIRNAME/$SUBCANAME.crt ];then
 		echo -en "Sorry certificatefiles do not exist ...";
 		else
 		
