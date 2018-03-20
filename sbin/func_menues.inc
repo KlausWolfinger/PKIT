@@ -301,6 +301,8 @@ function menu6 () {
 	\t2 - Create Root-CA 
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tC - Perform a ROOTCA CHECK
+	\tR - Create SUBCA Request
+	\tS - Sign and create SUBCA
 	\t3 - Show X509 ROOT-CA Params 
 	\t4 - Change this Level to SUB-CA 
 	\t5 - Update CRL 
@@ -319,6 +321,16 @@ function menu6 () {
 			;; 
 		[C] ) # check rootCA
 			check_rootCA;
+			;;
+		[R] ) # create SUBCA Request
+			ask_subCAName;
+			reqsubca;
+			;;
+		[S] ) # sign SUBCA request
+			signsubca;
+			;;
+		[D]	) # delete SUBCA
+			delsubca;
 			;;
 		[2] ) # Create CA 
 			read_x509config;
