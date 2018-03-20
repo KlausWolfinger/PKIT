@@ -327,9 +327,11 @@ function menu6 () {
 			reqsubca;
 			;;
 		[S] ) # sign SUBCA request
+			ask_subCAName;
 			signsubca;
 			;;
 		[D]	) # delete SUBCA
+			ask_subCAName;
 			delsubca;
 			;;
 		[2] ) # Create CA 

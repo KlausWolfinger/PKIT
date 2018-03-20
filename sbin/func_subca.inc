@@ -10,7 +10,7 @@ function subCA() {
 	EOF
 }
 function ask_subCAName(){
-echo -en "Enter a unique name for the new subca:";read SUBCANAME
+echo -en "Enter a unique name for the subca:";read SUBCANAME
 }
 
 function reqsubca(){ 
