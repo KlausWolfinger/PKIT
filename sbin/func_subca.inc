@@ -30,7 +30,7 @@ function reqsubca(){
 			
 	fi
 	if [ -e $SUBCADIRNAME/subca.inf ]; then 
-		# echo -en "\tINFO: READ X509 Attributes from $CONFIGDIR/x509.inf \n" 
+		echo -en "INFO: READ X509 Attributes from $SUBCADIRNAME/subca.inf \n" 
 		. $SUBCADIRNAME/subca.inf 
 		#read 
 		else
@@ -121,13 +121,17 @@ function signsubca(){
 
 
 function delsubca(){
+	if (yes_no); then
 	SUBCADIRNAME=$SUBCADIR/$SUBCANAME
-	if [ ! -e $SUBCADIRNAME/subca.crt ];then
+		if [ ! -e $SUBCADIRNAME/subca.crt ];then
 		echo -en "Sorry certificatefiles do not exist ...";
-	else
+		else
 		
 		SubCARevoke;
 		#read;
-	rm -R -f $SUBCADIRNAME 
+		rm -R -f $SUBCADIRNAME 
+		fi
+	else 
+	echo "--- nothing deleted ---"
 	fi
 }
