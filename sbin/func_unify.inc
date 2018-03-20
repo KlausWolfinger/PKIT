@@ -502,8 +502,8 @@ echo "echo ---- copy this block into Soap interface with StartCli -x " >>$CERTSD
 echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo confModifyParameter \\\"SSL/CSTAMutualAuth/Server/SupportedDH\\\" \\\"$dhfile\\\"">>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo confModifyParameter \\\"SSL/EndPoint/Server/SupportedDH\\\" \\\"$dhfile\\\"" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "echo confModifyParameter \"\"SSL/MutualAuth/Client/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "echo confModifyParameter \"\"SSL/MutualAuth/Server/SupportedDH\"\" \"\"$dhfile\"\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "echo confModifyParameter \\\"SSL/MutualAuth/Client/SupportedDH\\\" \\\"$dhfile\\\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "echo confModifyParameter \\\"SSL/MutualAuth/Server/SupportedDH\\\" \\\"$dhfile\\\"" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 }
