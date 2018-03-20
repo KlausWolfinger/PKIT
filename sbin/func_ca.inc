@@ -156,6 +156,18 @@ function ca() {
 		default_md = $SHA 
 	[ ca ]
 		default_ca = CA_default
+	[ subca ]	
+		private_key = $ROOTCADIR/root.key
+		certificate = $ROOTCADIR/root.crt 
+		new_certs_dir = $PKIHOME/subca
+		database = $DATABASE 
+		default_md = $SHA 
+		policy = policy_anything 
+		serial = $ROOTCADIR/root-serial 
+		certs = $PKIHOME/subca 
+		RANDFILE = $ROOTCADIR/root-random 
+		#crl_dir = $CRLDIR 
+		crl = $CRLDIR/rootca.crl
 	[ CA_default ] 
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
