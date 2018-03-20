@@ -470,26 +470,11 @@ function editConfig() {
 } 
 
 function changeto_subca() {
-echo -en "!!!! This will destroy this CA level !!!!\n"
+echo -en "!!!! This will change this CA level !!!!\n"
 echo -en "!!!! Database MUST BE initially empty \n"
-echo -en ".. remove all rootca certificates in rootca folder manually\n"
 # ask_subCAName;
-if [[ -s $ROOTCADIR/root-index.txt ]]; then 
-	echo "Database is not empty !"; 
-	else 
-	echo "OK, Database is empty, we can continue ...(sure ?)"; 
-	yes_no;
-	echo -en ".. replace now rootCA.pem with new from PKI  ...\n"
-	echo -en ".. copy the new rootCA.pem to root.crt  ...\n"
-	echo -en ".. perform this manually now !\n"
-	echo -en ".. ready ?...\n";
-	read
-	rm -f $ROOTCADIR/rootCA*.*
-	# this is obsolete maybe 
-	rm -f $ROOTCADIR/root.crt
-	rm -f $ROOTCADIR/root.cer
-	####
-	fi
+	
+sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
 
 }
   

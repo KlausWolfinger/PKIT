@@ -304,8 +304,10 @@ function menu6 () {
 	\tR - Create SUBCA Request
 	\tS - Sign and create SUBCA
 	\tD - Delete SUBCA
-	\t3 - Show X509 ROOT-CA Params 
-	\t4 - Change this Level to SUB-CA 
+	\t3 - Show X509 ROOT-CA Params"
+	echo -en " 
+	\t4 - Change this Level to SUB-CA "
+	echo -en "
 	\t5 - Update CRL 
 	\t---------------------------------------- 
 	\t99 - Return\n\n" 

@@ -44,3 +44,7 @@ SHA="sha1"
 # CRLDAYS: how many days is the revocation list valid after issueing
 CRLDAYS=185
 
+# do never change this parameters !!!
+CALevel=0
+# #########
+
