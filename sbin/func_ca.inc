@@ -62,6 +62,7 @@ function create_rootca(){
 		rm -f $CERTSDIR/*.*
 		echo "01" >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
+		ln -s $ROOTCADIR/root-index.txt $ROOTCADIR/root-index.txt.attr
 	fi
 	if [ ! -e $ROOTCADIR/root.key ]; then 
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
