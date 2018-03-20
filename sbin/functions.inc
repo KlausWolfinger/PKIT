@@ -805,9 +805,9 @@ function ziptool() {
 	now=$(date +"%Y-%m-%d-%S")
 	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
-	echo "$ARCHIVEDIR/pkitool_$ArchiveName_$now.zip";
+	echo "$ARCHIVEDIR/pkitool_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";readE
-	zip -r $ARCHIVEDIR/pkitool_$ArchiveName_$now.zip $PKIHOME \
+	zip -r $ARCHIVEDIR/pkitool_$ArchiveName$now.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
@@ -820,9 +820,9 @@ function exportCAND() {
 now=$(date +"%Y-%m-%d-%S")
 echo -en "\nTool will export keys and certs from this project" 
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
-	echo "Will write $EXPORTDIR/pkitool_$ExportName_$now.zip"
+	echo "Will write $EXPORTDIR/pkitool_$ExportName$now.zip"
 	echo ".. [ENTER] to cont ..";read
-	zip -r $EXPORTDIR/pkitool_$ExportName_$now.zip $PKIHOME/certs $PKIHOME/keys 
+	zip -r $EXPORTDIR/pkitool_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
 	echo -en "\n ---> pkitool exported to disk ....\n " 
 	dir -all $EXPORTDIR/pkitool*.zip 
 	echo -en "\ncont ... with any key ";read 
