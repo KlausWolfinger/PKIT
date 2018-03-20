@@ -121,6 +121,7 @@ function signsubca(){
 
 
 function delsubca(){
+	echo ".. deleting subCA, are you sure [y/n]"
 	if (yes_no); then
 	SUBCADIRNAME=$SUBCADIR/$SUBCANAME
 		if [ ! -e $SUBCADIRNAME/subca.crt ];then
