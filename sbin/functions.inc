@@ -129,7 +129,6 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	. $CONFIGDIR/version.inf
-	. $CONFIGDIR/pkitool.inf
 	# IP
 	# ToolIP
 	
