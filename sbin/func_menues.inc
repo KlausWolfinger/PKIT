@@ -299,9 +299,9 @@ function menu6 () {
 	echo -en "\n--> \tSelect action:\n 
 	\t1 - Edit X509 ROOT-CA
 	\tW - Write rootCA empty database 
-	\tI - Create RootCA-Request interactively 
+	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
-	\tQ - Create port RootCA-Request from RootCA Cert
+	\tQ - Create new RootCA-Request from this RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tB - Replace root.crt with certificate from Enterprise PKI
 	\tC - Perform a ROOTCA CHECK
