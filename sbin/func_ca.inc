@@ -182,7 +182,7 @@ vi $ROOTCADIR/root.crt
 else
 echo "There is not root.crt, please create first ..."
 echo "[ENTER] to cont ....";read
-
+fi
 
 }
 function create_root_p12() {
