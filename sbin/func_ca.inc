@@ -2,6 +2,7 @@ function base() {
 	cat <<-EOF
 	[ req ] 
 	distinguished_name = req_distinguished_name 
+	attributes = req_attributes
 	[ req_distinguished_name ] 
 	[ req_attributes ]
 	challengePassword  = $ChallPassWD
