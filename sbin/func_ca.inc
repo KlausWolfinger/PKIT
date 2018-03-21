@@ -171,6 +171,20 @@ function create_rootca(){
 
 }
 
+function replace_rootcert() {
+
+if [ -e $ROOTCADIR/root.crt ]; then
+echo "vi will open the root.crt"
+echo "replace the pem block with the new one, signed from emterprise PKI"
+echo "[ENTER] to continue ...";read
+vi $ROOTCADIR/root.crt
+
+else
+echo "There is not root.crt, please create first ..."
+echo "[ENTER] to cont ....";read
+
+
+}
 function create_root_p12() {
 # openssl pkcs12 -export -out rootCA.p12 -inkey root.key -in rootCA.pem
 	if [ -e $ROOTCADIR/root.crt ]; then

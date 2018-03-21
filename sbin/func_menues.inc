@@ -303,6 +303,7 @@ function menu6 () {
 	\t2 - Create Root-CA 
 	\tQ - Create port RootCA-Request from RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
+	\tB - Replace root.crt with certificate from Enterprise PKI
 	\tC - Perform a ROOTCA CHECK
 	\tR - Create SUBCA Request
 	\tS - Sign and create SUBCA
@@ -325,6 +326,9 @@ function menu6 () {
 		[A] ) # Create a p12 keybag with passphrase
 			create_root_p12;
 			;; 
+		[B] ) # replace root.crt with signed cert from enterprise PKI-Tool
+			replace_rootcert;
+			;;
 		[C] ) # check rootCA
 			check_rootCA;
 			;;
