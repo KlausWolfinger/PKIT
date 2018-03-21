@@ -129,6 +129,7 @@ function create_rootca(){
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
 		
 		### new version
+		echo "creating request from rootCA"
 		openssl x509 \
 			-in $ROOTCADIR/root.crt \
 			-signkey $ROOTCADIR/root.key \
