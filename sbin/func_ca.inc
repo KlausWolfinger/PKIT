@@ -88,7 +88,7 @@ openssl req \
 	
 }
 
-function create_rootCA_Req() ]{
+function create_rootCA_Req() {
 if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
 		
 		### old version
