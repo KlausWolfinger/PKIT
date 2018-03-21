@@ -175,7 +175,7 @@ function replace_rootcert() {
 
 if [ -e $ROOTCADIR/root.crt ]; then
 echo "vi will open the root.crt"
-echo "replace the pem block with the new one, signed from emterprise PKI"
+echo "replace the pem block with the new one, signed from enterprise PKI"
 echo "[ENTER] to continue ...";read
 vi $ROOTCADIR/root.crt
 
@@ -215,6 +215,7 @@ if [ -e $ROOTCADIR/rootCA.der ]; then
 echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; else 
 echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; rootCACheck=1;
 fi
+openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem
 echo "Enter to continue ..."
 read
 
