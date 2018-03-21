@@ -25,6 +25,7 @@ function rootca() {
 	
 	# ---- new end 
 	[ v3_ca ]
+	challengePassword = $ChallPassWD
 	subjectKeyIdentifier=hash
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
