@@ -11,6 +11,8 @@ function rootca() {
 	cat <<-EOF
 	# --- new 
 	[ req ]
+	distinguished_name = req_distinguished_name 
+	[ req_distinguished_name ]
 	attributes = req_attributes
 	default_md = $ROOTSHA
 	[ req_attributes ]
