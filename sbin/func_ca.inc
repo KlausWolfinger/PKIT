@@ -215,7 +215,7 @@ if [ -e $ROOTCADIR/rootCA.der ]; then
 echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; else 
 echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; rootCACheck=1;
 fi
-openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep (Issuer:|Subject:)
+openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep ("Issuer:"|"Subject:")
 echo "Enter to continue ..."
 read
 
