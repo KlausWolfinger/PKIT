@@ -178,7 +178,9 @@ echo "vi will open the root.crt"
 echo "replace the pem block with the new one, signed from enterprise PKI"
 echo "[ENTER] to continue ...";read
 vi $ROOTCADIR/root.crt
-
+rm -f $ROOTCADIR/rootCA.pem
+rm -f $ROOTCADIR/rootCA.der
+create_rootca
 else
 echo "There is not root.crt, please create first ..."
 echo "[ENTER] to cont ....";read
