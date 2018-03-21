@@ -7,7 +7,7 @@ function base() {
 	EOF
 } 
 function rootca() { 
-    base 
+    #base 
 	cat <<-EOF
 	# --- new 
 	[ req ]
