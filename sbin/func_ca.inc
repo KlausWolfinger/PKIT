@@ -102,7 +102,10 @@ function create_rootca(){
 		### new sign rootca request
 		rootca $ca_extension "" sign | openssl ca \
 				-batch \
+				-x509 \
+				-set_serial 0 \
 				-days $ROOTDAYS \
+				-key $ROOTCADIR/root.key \
 				-out $ROOTCADIR/root.crt \
 				-in $ROOTCADIR/root_$HOSTNAME.req \
 				-extensions v3_ca
