@@ -299,6 +299,8 @@ function menu6 () {
 	echo -en "\n--> \tSelect action:\n 
 	\t1 - Edit X509 ROOT-CA
 	\t2 - Create Root-CA 
+	\tQ - Create RootCA-Request from RootCA Cert
+	\tI - Create RootCA-Request interactively
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tC - Perform a ROOTCA CHECK
 	\tR - Create SUBCA Request
@@ -352,6 +354,12 @@ function menu6 () {
 		[5] ) # update CRL 
 			UpdateCRL; 
 			;; 
+		[Q] ) # create RootCA Request from RootCA Certificate
+			create_rootCA_Req;
+			;;
+		[I] ) # create RootCA Request interactive
+			create_rootCA_Req_IA;
+			;;
 		99 ) # main menu 
 			menu0 
 			;; 
