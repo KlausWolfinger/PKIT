@@ -216,7 +216,7 @@ openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
 if [ $hash_rootcrt = $hash_rootpem ]; then 
 echo "Certificate Files are equal, that's good ..."
 else
-echo "Certificate Files are NOT equal, that's bad ..."
+echo "Certificate Files are NOT equal, that's bad ..."; ((rootCACheck++))
 fi
 else 
 echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck++));
@@ -227,6 +227,11 @@ echo -en ".. $ROOTCADIR/rootCA.der check OK...\n";
 
 else 
 echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
+fi
+if [ $rootCACheck -eq 0 ]; then
+echo "CHECK WAS SUCCESSFUL --- GOOD"
+else
+echo "CHECK FAILED !!!! Repair the RootCA first !!!"
 fi
 echo "Enter to continue ..."
 read
