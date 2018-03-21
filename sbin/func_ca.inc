@@ -63,9 +63,8 @@ function create_dh(){
 		fi
 	done 
 } 
-
-function create_rootca(){ 
-	mkdir -m 700 -p $ROOTCADIR 
+function create_rootCA_DB() {
+mkdir -m 700 -p $ROOTCADIR 
 	export CN 
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
 		rm -f $ROOTCADIR/*.* 
@@ -77,7 +76,52 @@ function create_rootca(){
 	if [ ! -e $ROOTCADIR/root.key ]; then 
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
 	fi 
+
+}
+function create_rootCA_Req_IA() {
+rm -f $ROOTCADIR/This_$HOSTNAME.csr
+openssl req \
+-key $ROOTCADIR/root.key \
+-new \
+-out $ROOTCADIR/This_$HOSTNAME.csr 
+
 	
+}
+
+function create_rootCA_Req() ]{
+if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
+		
+		### old version
+		#echo "gen special root csr for ca .." 
+		# read 
+		# rootca request 
+		rm -f root_$HOSTNAME.csr
+		rootca $ca_extension "" | openssl req \
+			-batch \
+			-new \
+			-key $ROOTCADIR/root.key \
+			-out $ROOTCADIR/root_$HOSTNAME.csr \
+			-extensions v3_ca \
+			-config /dev/stdin \
+			-subj '/'"$BASEDN" >/dev/null 2>&1 
+		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
+		
+		### new version
+		echo "... post creating request from rootCA"
+		openssl x509 \
+			-in $ROOTCADIR/root.crt \
+			-signkey $ROOTCADIR/root.key \
+			-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
+			
+		else 
+		echo -en "\t---> root req exists, nothing todo\n" 
+		#openssl req -new -key privkey.pem -out cert.csr 
+	fi
+
+}
+
+function create_rootca(){ 
+	create_rootCA_DB
 	
 	
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
@@ -112,34 +156,7 @@ function create_rootca(){
 		###
 	fi
 	
-	if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
-		
-		### old version
-		#echo "gen special root csr for ca .." 
-		# read 
-		# rootca request 
-		rm -f root_$HOSTNAME.csr
-		rootca $ca_extension "" | openssl req \
-			-batch \
-			-new \
-			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root_$HOSTNAME.csr \
-			-extensions v3_ca \
-			-config /dev/stdin \
-			-subj '/'"$BASEDN" >/dev/null 2>&1 
-		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
-		
-		### new version
-		echo "... post creating request from rootCA"
-		openssl x509 \
-			-in $ROOTCADIR/root.crt \
-			-signkey $ROOTCADIR/root.key \
-			-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
-			
-		else 
-		echo -en "\t---> root req exists, nothing todo\n" 
-		#openssl req -new -key privkey.pem -out cert.csr 
-	fi
+	
 	
 	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
