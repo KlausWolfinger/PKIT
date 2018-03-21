@@ -79,7 +79,7 @@ function create_rootca(){
 	fi 
 	
 	if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
-		echo "gen root request for external ca .." 
+		echo "gen root request for ca .." 
 		# read 
 		# rootca request 
 		rootca $ca_extension "" | openssl req \
@@ -97,10 +97,10 @@ function create_rootca(){
 	fi
 	
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
-		# echo -en "\n\t ca extension = $ca_extension\n" 
+		echo -en "\n\t ca extension = $ca_extension\n" 
 		# read 
 		### new sign rootca request
-		rootca $ca_extension "" sign | openssl ca \
+		ca $ca_extension "" sign | openssl ca \
 				-batch \
 				-days $ROOTDAYS \
 				-out $ROOTCADIR/root.crt \
