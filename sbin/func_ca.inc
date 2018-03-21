@@ -5,7 +5,7 @@ function base() {
 	attributes = req_attributes
 	[ req_distinguished_name ] 
 	[ req_attributes ]
-	challengePassword  = $ChallPassWD
+	challengePassword = $ChallPassWD
 	EOF
 } 
 function rootca() { 
@@ -82,6 +82,7 @@ function create_rootca(){
 			-key $ROOTCADIR/root.key \
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
+			-attributes req_attributes 
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
 		ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in $ROOTCADIR/root.crt).0 
