@@ -73,7 +73,7 @@ function create_rootca(){
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
 	fi 
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
-		echo -en "\n\t ca extension = $ca_extension\n" 
+		# echo -en "\n\t ca extension = $ca_extension\n" 
 		# read 
 		rootca $ca_extension "" | openssl req \
 			-batch \
@@ -84,6 +84,7 @@ function create_rootca(){
 			-key $ROOTCADIR/root.key \
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
+			-attributes req_attributes 
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
 		ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in $ROOTCADIR/root.crt).0 
