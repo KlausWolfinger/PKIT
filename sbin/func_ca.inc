@@ -32,9 +32,7 @@ function rootca() {
 	keyUsage = cRLSign, keyCertSign 
 	EOF
 } 
-# --------new # not implemented full
-
-# --------new 
+ 
 function crl() {  
 	base 
 	cat <<-EOF
@@ -79,22 +77,7 @@ function create_rootca(){
 	if [ ! -e $ROOTCADIR/root.key ]; then 
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
 	fi 
-	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
-		# echo -en "\n\t ca extension = $ca_extension\n" 
-		# read 
-		rootca $ca_extension "" | openssl req \
-			-batch \
-			-x509 \
-			-set_serial 0 \
-			-days $ROOTDAYS \
-			-new \
-			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root.crt \
-			-extensions v3_ca \
-			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
-		ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in $ROOTCADIR/root.crt).0 
-	fi
+	
 	if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
 		echo "gen root request for external ca .." 
 		# read 
@@ -111,6 +94,39 @@ function create_rootca(){
 		echo -en "\t---> root req exists, nothing todo\n" 
 		#openssl req -new -key privkey.pem -out cert.csr 
 	fi
+	
+	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
+		# echo -en "\n\t ca extension = $ca_extension\n" 
+		# read 
+		### new sign rootca request
+		rootca $extension "" sign | openssl ca \
+				-batch \
+				-days $ROOTDAYS \
+				-out $ROOTCADIR/root.crt \
+				-in $ROOTCADIR/root_$HOSTNAME.req \
+				-extensions exts -preserveDN\
+				-config /dev/stdin
+				-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
+		### new end
+		
+		###
+		### works without challengePassword
+		#rootca $ca_extension "" | openssl req \
+		#	-batch \
+		#	-x509 \
+		#	-set_serial 0 \
+		#	-days $ROOTDAYS \
+		#	-new \
+		#	-key $ROOTCADIR/root.key \
+		#	-out $ROOTCADIR/root.crt \
+		#	-extensions v3_ca \
+		#	-config /dev/stdin \
+		#	-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
+		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
+		###
+		###
+	fi
+	
 	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
 		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem		
