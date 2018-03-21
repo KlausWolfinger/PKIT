@@ -7,17 +7,18 @@ function base() {
 	EOF
 } 
 function rootca() { 
-    #base 
-	cat <<-EOF
+    cat <<-EOF
 	# --- new 
 	[ req ]
-	distinguished_name = req_distinguished_name 
-	[ req_distinguished_name ]
-	attributes = req_attributes
 	default_md = $ROOTSHA
+	distinguished_name = req_distinguished_name
+	attributes = req_attributes	
+	
+	[ req_distinguished_name ]
+	
 	[ req_attributes ]
 	#challengePassword = $ChallPassWD
-	challengePassword = 6C97019C924C669C59F8158B02744BD4C505871DAC5B5B4196EFDE50A23B77114FE3951FB3297318409F465138F39DC3C0E0C4A5B325E4FB4127691B6AAC59ADB724A75966D600A79A116C5634ED3D0DDF974148FF0495BCD16E4018237004B138951300
+	challengePassword =  6C97019C924C669C59F8158B02744BD4C505871DAC5B5B4196EFDE50A23B77114FE3951FB3297318409F465138F39DC3C0E0C4A5B325E4FB4127691B6AAC59ADB724A75966D600A79A116C5634ED3D0DDF974148FF0495BCD16E4018237004B138951300
 	challengePassword_min = 4
 	challengePassword_max = 220
 	
