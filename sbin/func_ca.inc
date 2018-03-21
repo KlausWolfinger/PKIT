@@ -198,26 +198,34 @@ function create_root_p12() {
 
 function check_rootCA() {
 #
+rootCACheck=0
 echo -en ".. This will perform a rootCA check ...\n"
 if [ -e $ROOTCADIR/root.key ]; then
 echo -en ".. $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
-echo -en ".. $ROOTCADIR/root.key check NOK...\n"; rootCACheck=1;
+echo -en ".. $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck=++));
 fi
 if [ -e $ROOTCADIR/root.crt ]; then
-echo -en ".. $ROOTCADIR/root.crt check OK...\n"; rootCACheck=0; else 
-echo -en ".. $ROOTCADIR/root.crt check NOK...\n"; rootCACheck=1; 
+hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
+echo -en ".. $ROOTCADIR/root.crt check OK...\n";  else 
+echo -en ".. $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck=++)); 
 fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
-echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n"; rootCACheck=0; 
+hash_rootcrt=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
+echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n";
 openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
 else 
-echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; rootCACheck=1;
+echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck=++));
+if [ $hash_rootcrt -eq $hash_rootcrt ]; then 
+echo "Certificate Files are equal, that's good ..."
+else
+echo "Certificate Files are NOT equal, that's bad ..."
+fi
 fi
 if [ -e $ROOTCADIR/rootCA.der ]; then
-echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; 
+echo -en ".. $ROOTCADIR/rootCA.der check OK...\n";  
 
 else 
-echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; rootCACheck=1;
+echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck=++));
 fi
 echo "Enter to continue ..."
 read
