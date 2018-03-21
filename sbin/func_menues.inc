@@ -298,9 +298,10 @@ function menu6 () {
 	echo -en "\n#\tCA Management --->" 
 	echo -en "\n--> \tSelect action:\n 
 	\t1 - Edit X509 ROOT-CA
+	\tW - Write rootCA empty database 
+	\tI - Create RootCA-Request interactively 
 	\t2 - Create Root-CA 
-	\tQ - Create RootCA-Request from RootCA Cert
-	\tI - Create RootCA-Request interactively
+	\tQ - Create port RootCA-Request from RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tC - Perform a ROOTCA CHECK
 	\tR - Create SUBCA Request
@@ -338,6 +339,9 @@ function menu6 () {
 		[D]	) # delete SUBCA
 			ask_subCAName;
 			delsubca;
+			;;
+		[W] ) # create initial empty RootCA DATABASE
+			create_rootCA_DB;
 			;;
 		[2] ) # Create CA 
 			read_x509config;
