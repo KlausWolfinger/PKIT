@@ -1,5 +1,5 @@
+# production
 function base() { 
-	echo "base..."
 	cat <<-EOF
 	[ req ] 
 	distinguished_name = req_distinguished_name 
@@ -7,15 +7,11 @@ function base() {
 	EOF
 } 
 function rootca() { 
-    echo "rootca...."
-	base 
+    base 
 	cat <<-EOF
 	# --- new 
 	[ req ] 
 	default_md = $ROOTSHA
-	attributes = req_attributes
-	[ req_attributes ]
-	challengePassword = $ChallPassWD	
 	# ---- new end 
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
@@ -84,7 +80,7 @@ function create_rootca(){
 			-key $ROOTCADIR/root.key \
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
-			-attributes req_attributes 
+			-attributes req 
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
 		ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in $ROOTCADIR/root.crt).0 
