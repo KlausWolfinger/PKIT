@@ -97,10 +97,10 @@ function create_rootca(){
 	fi
 	
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
-		echo -en "\n\t ca extension = $ca_extension\n" 
+		echo -en "Creating now rootCA\n" 
 		# read 
 		### new sign rootca request
-		ca $ca_extension "" sign | openssl ca \
+		rootca $ca_extension "" sign | openssl ca \
 				-batch \
 				-days $ROOTDAYS \
 				-out $ROOTCADIR/root.crt \
