@@ -17,9 +17,7 @@ function rootca() {
 	[ req_distinguished_name ]
 	
 	[ req_attributes ]
-	#challengePassword = $ChallPassWD
-	challengePassword_default = A Challenge Password
-	#6C97019C924C669C59F8158B02744BD4C505871DAC5B5B4196EFDE50A23B77114FE3951FB3297318409F465138F39DC3C0E0C4A5B325E4FB4127691B6AAC59ADB724A75966D600A79A116C5634ED3D0DDF974148FF0495BCD16E4018237004B138951300
+	challengePassword = $ChallPassWD
 	challengePassword_min = 4
 	challengePassword_max = 220
 	
@@ -41,12 +39,12 @@ function crl() {
 	[ CA_default ] 
 	private_key = $ROOTCADIR/root.key 
 	certificate = $ROOTCADIR/root.crt 
-	new_certs_dir = $PKIHOME/certs 
+	new_certs_dir = $CERTSCACHEDIR 
 	database = $ROOTCADIR/root-index.txt 
 	default_md = $SHA
 	policy = policy_anything 
 	serial = $ROOTCADIR/root-serial 
-	certs = $PKIHOME/certs 
+	certs = $CERTSCACHEDIR 
 	RANDFILE = $ROOTCADIR/root-random 
 	#crl_dir = $CRLDIR 
 	crl = $CRLDIR/rootca.crl 
@@ -231,12 +229,12 @@ function ca() {
 	[ CA_default ] 
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
-		new_certs_dir = $PKIHOME/certs
+		new_certs_dir = $CERTSCACHEDIR
 		database = $DATABASE 
 		default_md = $SHA 
 		policy = policy_anything 
 		serial = $ROOTCADIR/root-serial 
-		certs = $PKIHOME/certs 
+		certs = $CERTSCACHEDIR 
 		RANDFILE = $ROOTCADIR/root-random 
 		#crl_dir = $CRLDIR 
 		crl = $CRLDIR/rootca.crl 

@@ -98,7 +98,8 @@ function reInitVars() {
 	SUBCADIR=$PKIHOME/subca	
 	
 	CRLDIR=$PKIHOME/crl 
-	CERTSDIR=$PKIHOME/certs 
+	CERTSDIR=$PKIHOME/certs
+	CERTSCACHEDIR=$PKIHOME/certscache
 	OSVCERTSDIR=$PKIHOME/certs 
 	KEYSDIR=$PKIHOME/keys 
 	DHDIR=$PKIHOME/dh
@@ -115,7 +116,7 @@ function reInitVars() {
 	ToolIP=$(getMyIP)
     pkiAccount="$pkiUser@$ToolIP:$PKIFOLDER"
     OSVCertsDir=$OSVSSLDIR/certs
-    OSVPrivateDir=$OSVSSLDIR/private
+	OSVPrivateDir=$OSVSSLDIR/private
     OSVdhDir=$OSVSSLDIR/dh_keys
 	
 	CRLWEBDIR="/tmp" 
@@ -208,6 +209,9 @@ function InitDirs() {
 	fi
 	if [ ! -d $EXPORTDIR ]; then
 		mkdir -p $EXPORTDIR
+	fi
+	if [ ! -d $CERTSCACHEDIR ]; then
+		mkdir -p $CERTSCACHEDIR
 	fi
 	reInitVars;
 } 
