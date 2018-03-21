@@ -115,27 +115,27 @@ function create_rootca(){
 	if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
 		
 		### old version
-		#echo "gen root request for ca .." 
+		#echo "gen special root csr for ca .." 
 		# read 
 		# rootca request 
-		#rootca $ca_extension "" | openssl req \
-		#	-batch \
-		#	-new \
-		#	-key $ROOTCADIR/root.key \
-		#	-out $ROOTCADIR/root_$HOSTNAME.req \
-		#	-extensions v3_ca \
-		#	-config /dev/stdin \
-		#	-subj '/'"$BASEDN" >/dev/null 2>&1 
+		rm -f root_$HOSTNAME_special.csr
+		rootca $ca_extension "" | openssl req \
+			-batch \
+			-new \
+			-key $ROOTCADIR/root.key \
+			-out $ROOTCADIR/root_$HOSTNAME_special.csr \
+			-extensions v3_ca \
+			-config /dev/stdin \
+			-subj '/'"$BASEDN" >/dev/null 2>&1 
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
 		
 		### new version
-		echo "creating request from rootCA"
+		echo "... post creating request from rootCA"
 		openssl x509 \
 			-in $ROOTCADIR/root.crt \
 			-signkey $ROOTCADIR/root.key \
-			-x509toreq -out root_$HOSTNAME.req
-		
-		
+			-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
+			
 		else 
 		echo -en "\t---> root req exists, nothing todo\n" 
 		#openssl req -new -key privkey.pem -out cert.csr 
