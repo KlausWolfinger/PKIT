@@ -80,7 +80,6 @@ function create_rootca(){
 			-key $ROOTCADIR/root.key \
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
-			-attributes req 
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
 		ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in $ROOTCADIR/root.crt).0 
