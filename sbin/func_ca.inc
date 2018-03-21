@@ -88,7 +88,8 @@ function create_rootca(){
 			-key $ROOTCADIR/root.key \
 			-out $ROOTCADIR/root_$HOSTNAME.req \
 			-extensions v3_ca \
-			-config /dev/stdin -subj '/'"$BASEDN" >/dev/null 2>&1 
+			-config /dev/stdin \
+			-subj '/'"$BASEDN" >/dev/null 2>&1 
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
 		else 
 		echo -en "\t---> root req exists, nothing todo\n" 
