@@ -2,18 +2,18 @@ function base() {
 	cat <<-EOF
 	[ req ] 
 	distinguished_name = req_distinguished_name 
-	attributes = req_attributes
 	[ req_distinguished_name ] 
-	[ req_attributes ]
-	challengePassword = $ChallPassWD
 	EOF
 } 
 function rootca() { 
 	base 
 	cat <<-EOF
 	# --- new 
+	attributes = req_attributes
 	[ req ] 
-	default_md = $ROOTSHA 
+	default_md = $ROOTSHA
+	[ req_attributes ]
+	challengePassword = $ChallPassWD	
 	# ---- new end 
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
