@@ -208,11 +208,15 @@ echo -en ".. $ROOTCADIR/root.crt check OK...\n"; rootCACheck=0; else
 echo -en ".. $ROOTCADIR/root.crt check NOK...\n"; rootCACheck=1; 
 fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
-echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n"; rootCACheck=0; else 
+echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n"; rootCACheck=0; 
+openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
+else 
 echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; rootCACheck=1;
 fi
 if [ -e $ROOTCADIR/rootCA.der ]; then
-echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; else 
+echo -en ".. $ROOTCADIR/rootCA.der check OK...\n"; rootCACheck=0; 
+
+else 
 echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; rootCACheck=1;
 fi
 openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
