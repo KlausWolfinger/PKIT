@@ -19,7 +19,7 @@ function rootca() {
 	[ req_attributes ]
 	challengePassword = $ChallPassWD
 	challengePassword_min = 4
-	challengePassword_max = 220
+	challengePassword_max = 20
 	
 	# ---- new end 
 	[ v3_ca ]
@@ -94,14 +94,14 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 		# read 
 		# rootca request 
 		rm -f root_$HOSTNAME.csr
-		rootca $ca_extension "" | openssl req \
-			-batch \
-			-new \
-			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root_$HOSTNAME.csr \
-			-extensions v3_ca \
-			-config /dev/stdin \
-			-subj '/'"$BASEDN" >/dev/null 2>&1 
+		#rootca $ca_extension "" | openssl req \
+		#	-batch \
+		#	-new \
+		#	-key $ROOTCADIR/root.key \
+		#	-out $ROOTCADIR/root_$HOSTNAME.csr \
+		#	-extensions v3_ca \
+		#	-config /dev/stdin \
+		#	-subj '/'"$BASEDN" >/dev/null 2>&1 
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
 		
 		### new version
