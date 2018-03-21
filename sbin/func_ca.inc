@@ -104,7 +104,7 @@ function create_rootca(){
 				-days $ROOTDAYS \
 				-out $ROOTCADIR/root.crt \
 				-in $ROOTCADIR/root_$HOSTNAME.req \
-				-extensions exts -preserveDN\
+				-extensions v3_ca
 				-config /dev/stdin
 				-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
 		### new end
