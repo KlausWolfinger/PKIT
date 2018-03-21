@@ -118,12 +118,12 @@ function create_rootca(){
 		#echo "gen special root csr for ca .." 
 		# read 
 		# rootca request 
-		rm -f root_$HOSTNAME_special.csr
+		rm -f root_$HOSTNAME.csr
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-new \
 			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root_$HOSTNAME_special.csr \
+			-out $ROOTCADIR/root_$HOSTNAME.csr \
 			-extensions v3_ca \
 			-config /dev/stdin \
 			-subj '/'"$BASEDN" >/dev/null 2>&1 
