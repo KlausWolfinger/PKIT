@@ -10,7 +10,10 @@ function rootca() {
     base 
 	cat <<-EOF
 	# --- new 
-	[ req ] 
+	[ req ]
+	attributes = req_attributes
+	[ req_attributes ]
+	#challengePassword = $ChallPassWD	
 	default_md = $ROOTSHA
 	# ---- new end 
 	[ v3_ca ]
