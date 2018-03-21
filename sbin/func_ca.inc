@@ -12,9 +12,13 @@ function rootca() {
 	# --- new 
 	[ req ]
 	attributes = req_attributes
-	[ req_attributes ]
-	challengePassword = $ChallPassWD	
 	default_md = $ROOTSHA
+	[ req_attributes ]
+	#challengePassword = $ChallPassWD
+	challengePassword = 6C97019C924C669C59F8158B02744BD4C505871DAC5B5B4196EFDE50A23B77114FE3951FB3297318409F465138F39DC3C0E0C4A5B325E4FB4127691B6AAC59ADB724A75966D600A79A116C5634ED3D0DDF974148FF0495BCD16E4018237004B138951300
+	challengePassword_min = 4
+	challengePassword_max = 220
+	
 	# ---- new end 
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
