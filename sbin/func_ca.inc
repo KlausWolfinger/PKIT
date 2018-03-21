@@ -210,10 +210,10 @@ echo -en ".. $ROOTCADIR/root.crt check OK...\n";  else
 echo -en ".. $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck++)); 
 fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
-hash_rootcrt=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
+hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
 echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n";
 openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
-if [ $hash_rootcrt = $hash_rootcrt ]; then 
+if [ $hash_rootcrt = $hash_rootpem ]; then 
 echo "Certificate Files are equal, that's good ..."
 else
 echo "Certificate Files are NOT equal, that's bad ..."
