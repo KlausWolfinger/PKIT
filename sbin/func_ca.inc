@@ -9,8 +9,8 @@ function rootca() {
 	base 
 	cat <<-EOF
 	# --- new 
-	attributes = req_attributes
 	[ req ] 
+	attributes = req_attributes
 	default_md = $ROOTSHA
 	[ req_attributes ]
 	challengePassword = 123456789	
