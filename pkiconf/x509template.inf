@@ -26,6 +26,9 @@ ROOTCN="PKITOOL Root CA"
 #ROOTCRLURI="http://ca.mycompany.de/rootca.crl"
 #ROOTOCSPURI="http://ca.mycompany.de/rootca.ocsp"
 
+ChallPassWD=""
+
+
 # --- from here are the parameters for the signing process
 CERTBITS=2048
 #CERTBITS=1024

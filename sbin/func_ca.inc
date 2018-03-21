@@ -3,6 +3,8 @@ function base() {
 	[ req ] 
 	distinguished_name = req_distinguished_name 
 	[ req_distinguished_name ] 
+	[ req_attributes ]
+	challengePassword  = $ChallPassWD
 	EOF
 } 
 function rootca() { 
