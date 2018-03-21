@@ -13,7 +13,7 @@ function rootca() {
 	[ req ] 
 	default_md = $ROOTSHA
 	[ req_attributes ]
-	challengePassword = $ChallPassWD	
+	challengePassword = 123456789	
 	# ---- new end 
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
