@@ -99,7 +99,7 @@ function create_rootca(){
 		# echo -en "\n\t ca extension = $ca_extension\n" 
 		# read 
 		### new sign rootca request
-		rootca $extension "" sign | openssl ca \
+		rootca $ca_extension "" sign | openssl ca \
 				-batch \
 				-days $ROOTDAYS \
 				-out $ROOTCADIR/root.crt \
