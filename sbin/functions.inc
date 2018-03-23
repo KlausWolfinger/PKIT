@@ -807,7 +807,7 @@ function ziptool() {
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
-		-x "$ARCHIVEDIR/*.*"
+		-x "$ARCHIVEDIR/*.*"\
 		-x "$EXPORTDIR/*.*"
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
