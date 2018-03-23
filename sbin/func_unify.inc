@@ -472,7 +472,7 @@ function backup_srxtlsconf(){
 
 #shell script compiler for OSV	
 function osvscripter () {
-THISSCRIPT=osvpkiactivator.sh
+THISSCRIPT=Installer_$CN.sh
 
 echo "#!/bin/bash" >$CERTSDIR/$extension/$THISSCRIPT
 echo "# su -srx" >>$CERTSDIR/$extension/$THISSCRIPT
