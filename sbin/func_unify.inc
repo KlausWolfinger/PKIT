@@ -482,8 +482,8 @@ CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
 DHDIR1=$(echo $DHDIR | awk '{print substr($0,2)}')
 
 echo "scp $pkiAccount"$ROOTCADIR1"/rootCA.pem /tmp/rootCA.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "scp $pkiAccount"$CERTSDIR1"/osvserver/osv_cluster_s.pem /tmp/server.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "scp $pkiAccount"$CERTSDIR1"/osvclient/osv_cluster_c.pem /tmp/client.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "scp $pkiAccount"$CERTSDIR1"/osvserver/$CN.pem /tmp/server.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "scp $pkiAccount"$CERTSDIR1"/osvclient/$CN.pem /tmp/client.pem &&" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "scp $pkiAccount"$DHDIR1"/dh2048.pem /tmp/dh2048.pem;" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "read "ENTER"" >>$SBINdir/$THISSCRIPT
 echo "cp -p "$OSVCertsDir"/root.pem "$OSVCertsDir"/root.pem.save" >>$CERTSDIR/$extension/$THISSCRIPT
