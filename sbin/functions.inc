@@ -802,14 +802,16 @@ function ziptool() {
 	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkitool_$ArchiveName$now.zip";
-	echo ".. [ENTER] to cont ..";readE
-	zip -r $ARCHIVEDIR/pkitool_$ArchiveName$now.zip $PKIHOME \
+	echo ".. [ENTER] to cont ..";read
+	zip -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
 		-x "$ARCHIVEDIR/*.*"
+		-x "$EXPORTDIR/*.*"
+		
 	echo -en "\n ---> pkitool archives on disk ....\n " 
-	dir -all $ARCHIVEDIR/pkitool*.zip 
+	dir -all $ARCHIVEDIR/pki*.zip 
 	echo -en "\ncont ... with any key ";read 
 } 
 function exportCAND() {
@@ -819,9 +821,9 @@ function exportCAND() {
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
 	echo "Will write $EXPORTDIR/pkitool_$ExportName$now.zip"
 	echo ".. [ENTER] to cont ..";read
-	zip -r $EXPORTDIR/pkitool_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
+	zip -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
 	echo -en "\n ---> pkitool exported to disk ....\n " 
-	dir -all $EXPORTDIR/pkitool*.zip 
+	dir -all $EXPORTDIR/*.zip 
 	echo -en "\ncont ... with any key ";read 
 }
 function clonepki() { 
