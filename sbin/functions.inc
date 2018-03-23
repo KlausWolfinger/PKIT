@@ -214,6 +214,7 @@ function InitDirs() {
 		mkdir -p $CERTSCACHEDIR
 	fi
 	reInitVars;
+	
 } 
 
 function InitConfig() { 
@@ -733,13 +734,13 @@ hostArray=($(cat $HOSTDIR/hosts \
 	echo -e "\nfound $tLen candidates in file\n"
 	duplicatesExist=$(sort $HOSTDIR/hosts_alias.log | uniq -cd)
 	if test -n "$duplicatesExist";  then 
-	echo "------- ALERT -----"
-	echo "   found duplicates in alias : $duplicatesExist"
-	#cat $HOSTDIR/hosts | grep "$duplicatesExist"
-	echo "! CORRECT THIS FIRST, PLEASE !"
-	read;
+		echo "------- ALERT -----"
+		echo "   found duplicates in alias : $duplicatesExist"
+		#cat $HOSTDIR/hosts | grep "$duplicatesExist"
+		echo "! CORRECT THIS FIRST, PLEASE !"
+		read;
 	else
-	duplicatesExist=""
+		duplicatesExist=""
 	fi
 }
 
@@ -795,7 +796,8 @@ function editx509() {
 function LessHelp() { 
 	less $CONFIGDIR/help.txt 
 } 
-function ziptool() { 
+function ziptool() {
+	InitDirs 
 	now=$(date +"%Y-%m-%d-%S")
 	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
@@ -811,8 +813,9 @@ function ziptool() {
 	echo -en "\ncont ... with any key ";read 
 } 
 function exportCAND() {
-now=$(date +"%Y-%m-%d-%S")
-echo -en "\nTool will export keys and certs from this project" 
+	InitDirs
+	now=$(date +"%Y-%m-%d-%S")
+	echo -en "\nTool will export keys and certs from this project" 
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
 	echo "Will write $EXPORTDIR/pkitool_$ExportName$now.zip"
 	echo ".. [ENTER] to cont ..";read
