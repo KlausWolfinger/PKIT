@@ -295,6 +295,7 @@ function create_keys_certs() {
 			#------------------------------------------ 
 			# ----------- if osvserver ----------------
 			if [ $extension = 'osvserver' ]; then
+			
 			echo "creating OSV script ...."
 			osvscripter
 			fi
