@@ -827,7 +827,7 @@ function exportCAND() {
 	echo -en "\ncont ... with any key ";read
 	# copy the zip to pkishare
 	
-	if [ ! -d $PKISHARE ]; then 
+	if [ -d $PKISHARE ]; then 
 	sudo cp -a $EXPORTDIR $PKISHARE
 	sudo chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE 
 	fi
