@@ -824,13 +824,15 @@ function exportCAND() {
 	zip -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
 	echo -en "\n ---> pkiCAND exported to disk ....\n " 
 	dir -all $EXPORTDIR/*.zip 
-	echo -en "\ncont ... with any key ";read
-	# copy the zip to pkishare
-	
 	if [ -d $PKISHARE ]; then 
+	echo -en "\n ---> copy $EXPORTDIR to $PKISHARE"
 	sudo cp -a $EXPORTDIR $PKISHARE
 	sudo chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE 
 	fi
+	echo -en "\ncont ... with any key ";read
+	# copy the zip to pkishare
+	
+	
 }
 function clonepki() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
