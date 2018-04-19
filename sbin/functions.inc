@@ -106,6 +106,10 @@ function reInitVars() {
 	WWWCERTSDIR=$PKIHOME/www-public/roots 
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
+	PKISHARE=/home/pkishare
+	PKISHAREUSER=pkishare
+	PKISHAREGROUP=pkishare
+	
 	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
@@ -820,7 +824,13 @@ function exportCAND() {
 	zip -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys 
 	echo -en "\n ---> pkiCAND exported to disk ....\n " 
 	dir -all $EXPORTDIR/*.zip 
-	echo -en "\ncont ... with any key ";read 
+	echo -en "\ncont ... with any key ";read
+	# copy the zip to pkishare
+	
+	if [ ! -d $PKISHARE ]; then 
+	sudo cp -a $EXPORTDIR $PKISHARE
+	sudo chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE 
+	fi
 }
 function clonepki() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
