@@ -107,7 +107,7 @@ function readConfig() {
 			else 
 			. $PKIconfig 
 			BANNER="--- Project: $PKINAME $Version --- \n \ --- $custbanner ---" 
-			ToolIP=$(hostname -i | sed 's/[ \t]*$//')
+			ToolIP=$(getMyIP)
 		fi
 		return 
 } 
