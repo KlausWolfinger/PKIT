@@ -826,8 +826,8 @@ function exportCAND() {
 	dir -all $EXPORTDIR/*.zip 
 	if [ -d $PKISHARE ]; then 
 	echo -en "\n ---> copy $EXPORTDIR to $PKISHARE"
-	su root cp -a $EXPORTDIR $PKISHARE
-	su root chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE 
+	su root -c "cp -a $EXPORTDIR $PKISHARE"
+	su root -c "chown -R $PKISHAREUSER:$PKISHAREGROUP" $PKISHARE 
 	fi
 	echo -en "\ncont ... with any key ";read
 	# copy the zip to pkishare
