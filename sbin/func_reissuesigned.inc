@@ -9,7 +9,7 @@ export CN
 		| grep -v "^[ ]*!" \
 		)) 
 	tLen=${#certArray[@]}
-	for (( i=0;i<${tLen}; i++ )); do
+	for (( i=1;i<${tLen}; i++ )); do
 		echo -en "$i --> \t${certArray[$i]}\n" 
 		done 
 		echo
