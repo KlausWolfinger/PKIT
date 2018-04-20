@@ -16,7 +16,7 @@ export CN
 		echo
 		echo -en "\t--> For reissuing enter number from list: " 
 		read certnum;
-		cert=${certArray[((certnum--))]} 
+		cert=${certArray[((certnum-1))]} 
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:)
