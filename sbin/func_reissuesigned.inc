@@ -20,7 +20,8 @@ export CN
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:)
-		echo -e "\n ... choosen extension = $extension and CN = $CN";read		
+		echo -e "\n ... choosen extension = $extension and CN = $CN";
+		echo -en "\n\t--> Press ENTER to continue";read		
 		if [ ! -r $CERTSDIR/$extension/"$CN".crt ]; then
 			echo  -e "\n ------------------------------
 Can't find the $CN certificate, it should signed first ... 
@@ -48,7 +49,7 @@ Can't find the $CN certificate, it should signed first ...
 			-reqexts exts \
 			-subj /"$SUBDN"/CN="$CN""$CERTMAIL" 
 		echo -en "\n\t Optionally edit the Candidate $CA ...";
-		echo -en "\n\t Then you need to Re-Sign the $CA request ...";
+		echo -en "\n\t Then you need to Sign the $CA request again ...";
 		echo -en "\n\t--> Press ENTER to continue";read 
 	
 
