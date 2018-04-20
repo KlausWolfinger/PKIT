@@ -10,7 +10,8 @@ export CN
 		)) 
 	tLen=${#certArray[@]}
 	for (( i=1;i<=${tLen}; i++ )); do
-		echo -en "$i --> \t${certArray[((i--))]}\n" 
+		
+		echo -en "$i --> \t${certArray[$(( i-1 ))]}\n" 
 		done 
 		echo
 		echo -en "\t--> For reissuing enter number from list: " 
