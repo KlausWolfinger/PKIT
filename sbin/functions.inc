@@ -831,6 +831,9 @@ function exportCAND() {
 	echo -en "\n Enter the ROOT Password again\n"
 	su root -c "chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE"
 	fi
+	echo -en "\n You can now download the export by SFTP with user $PKISHAREUSER remotely "
+	echo -en "\n Th eIP address of this system is $(getMyIP)"
+	read
 	echo -en "\n continue ... with any key ";read
 	# copy the zip to pkishare
 	
