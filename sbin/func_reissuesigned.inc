@@ -10,12 +10,12 @@ export CN
 		)) 
 	tLen=${#certArray[@]}
 	for (( i=1;i<=${tLen}; i++ )); do
-		echo -en "$i --> \t${certArray[$i]}\n" 
+		echo -en "$i --> \t${certArray[((i--))]}\n" 
 		done 
 		echo
 		echo -en "\t--> For reissuing enter number from list: " 
 		read certnum;
-		cert=${certArray[$certnum]} 
+		cert=${certArray[((certnum--))]} 
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:)
