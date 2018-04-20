@@ -20,7 +20,7 @@ export CN
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:)
-		# echo -e "\n ... choosen extension = $extension and CN = $CN";read		
+		echo -e "\n ... choosen extension = $extension and CN = $CN";read		
 		if [ ! -r $CERTSDIR/$extension/"$CN".crt ]; then
 			echo  -e "\n ------------------------------
 Can't find the $CN certificate, it should signed first ... 
