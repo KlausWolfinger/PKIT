@@ -213,7 +213,7 @@ function menu5 () {
 	\tM - Maintain current candidates file 
 	\tQ - Request certificates from candidates 
 	\tS - Sign certificates from candidates 
-	\tR - Reissue / resign certificate request from DB 
+	\tR - Reissue / resign certificate request from DB (beta) 
 	\tC - CRL Revoke (selective) 
 	\tU - CRL UNrevoke (selective) 
 	\tN - new crl (update) 
