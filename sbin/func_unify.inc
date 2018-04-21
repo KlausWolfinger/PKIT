@@ -477,6 +477,7 @@ THISSCRIPT=Installer_$CN.sh
 echo "#!/bin/bash" >$CERTSDIR/$extension/$THISSCRIPT
 echo "# su -srx" >>$CERTSDIR/$extension/$THISSCRIPT
 
+
 ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
 CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
 DHDIR1=$(echo $DHDIR | awk '{print substr($0,2)}')
@@ -512,6 +513,7 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 # keystore changer for CMP Server
 function keystorechanger () {
 ThisScriptFile=$CERTSDIR/$extension/$CN.sh
+ToolIP=$(getMyIP)
 
 #  ------- create this script
 #File=/opt/siemens/share/tomcat/conf/server.xml
