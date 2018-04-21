@@ -532,6 +532,7 @@ CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
 
 echo "#!/bin/bash" >$ThisScriptFile
 echo "P12PassPhrase=$PassPhrase" >>$ThisScriptFile
+echo "# ToolIP = $ToolIP" >>$ThisScriptFile
 #
 echo "echo \"--- CMP Certs Installer and Hashreplacer\"" >>$ThisScriptFile
 echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
