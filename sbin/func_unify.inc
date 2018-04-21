@@ -545,7 +545,7 @@ echo "read PKITUsername" >>$ThisScriptFile
 echo "echo \"Enter PKIT directory [exports|certs/cmp]: \"" >>$ThisScriptFile
 echo "read PKITGetDir" >>$ThisScriptFile 
 
-echo "pkiShareAccount=\$PKITUsername\@\$ToolIP:" >>$ThisScriptFile
+pkiShareAccount="$PKITUsername@$ToolIP:"
 echo "echo \" OK, I use \$pkiShareAccount/"" >>$ThisScriptFile
 
 
