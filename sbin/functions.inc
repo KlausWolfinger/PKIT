@@ -821,8 +821,7 @@ function exportCAND() {
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
 	echo "Will write $EXPORTDIR/pkiCAND_$ExportName$now.zip"
 	echo ".. [ENTER] to cont ..";read
-	zip -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys \\
-			$PKIHOME/rootca/rootCA.pem
+	zip -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys $PKIHOME/rootca/rootCA.pem
 	echo -en "\n ---> pkiCAND exported to disk ....\n " 
 	dir -all $EXPORTDIR/*.zip 
 	if [ -d $PKISHARE ]; then 
