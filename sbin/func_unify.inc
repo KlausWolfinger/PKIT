@@ -511,7 +511,7 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 # keystore changer for CMP Server
 function keystorechanger () {
-ThisScriptFile=$CERTSDIR/$extension/$CN_HashInstaller.sh
+ThisScriptFile=$CERTSDIR/$extension/$CN.sh
 
 #  ------- create this script
 #File=/opt/siemens/share/tomcat/conf/server.xml
