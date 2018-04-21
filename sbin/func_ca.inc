@@ -243,7 +243,7 @@ echo -en "\nCHECK WAS SUCCESSFUL --- GOOD"
 else
 echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!"
 fi
-echo "Enter to continue ..."
+echo -en "\nEnter to continue ..."
 read
 
 
