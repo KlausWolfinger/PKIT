@@ -232,7 +232,7 @@ echo -en "--> $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
 fi
 
 if [ -e $ROOTCADIR/root-serial ]; then
-echo -en "--> $ROOTCADIR/root-serial $(cat $ROOTCADIR/root-serial) check OK...\n";
+echo -en "--> $ROOTCADIR/root-serial >>$(cat $ROOTCADIR/root-serial)<< check OK...\n";
 
 else 
 echo -en "--> $ROOTCADIR/root-serial does not exist NOK...\n"; ((rootCACheck++));
