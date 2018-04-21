@@ -511,15 +511,8 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 # keystore changer for CMP Server
 function keystorechanger () {
-echo "--- CMP Certs Installer and Hashreplacer"
-echo "This tool is not released, no warranty !"
-echo " What you need:"
-echo " 1. IP Address of PKIT"
-echo " 2. Password of pkishare user account on PKIT"
-echo " 3. IP Address of PKIT Server [should be coded already in this script]"
-echo
-echo "Which Certificate do you want do fetch from PKIT [Common Name]: "
-read CMPCERTNAME
+ThisScriptFile=$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+
 #  ------- create this script
 #File=/opt/siemens/share/tomcat/conf/server.xml
 #Line=$(egrep -n "tomcat-keystore.p12" $File | cut -d":" -f1)
@@ -535,32 +528,44 @@ read CMPCERTNAME
 ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
 CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
 
-echo "#!/bin/bash" >$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "P12PassPhrase="$PassPhrase >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "#!/bin/bash" >$ThisScriptFile
+echo "P12PassPhrase=$PassPhrase" >>$ThisScriptFile
+#
+echo "echo \"--- CMP Certs Installer and Hashreplacer\"" >>$ThisScriptFile
+echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
+echo "echo \" What you need:\"" >>$ThisScriptFile
+echo "echo \" 1. IP Address of PKIT\"" >>$ThisScriptFile
+echo "echo \" 2. Password of pkishare user account on PKIT\"" >>$ThisScriptFile
+echo "echo \" 3. IP Address of PKIT Server [should be coded already in this script]\"" >>$ThisScriptFile
+echo "echo" >>$ThisScriptFile
+echo "echo \"Which Certificate do you want do fetch from PKIT [Common Name]: \"" >>$ThisScriptFile
+echo echo "\"read CMPCERTNAME\"" >>$ThisScriptFile 
+
+
+echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$ThisScriptFile
+echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$ThisScriptFile
     # backups
-echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$ThisScriptFile
+echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$ThisScriptFile
  
-echo "scp $pkiAccount$CERTSDIR1/$extension/$CMPCERTNAME.p12 /tmp/cmpcert_new.p12" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "scp $pkiAccount$CERTSDIR1/$extension/$CMPCERTNAME.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
 echo
 #
-echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
 echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/
-common/conf/tomcat-keystore.p12" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+common/conf/tomcat-keystore.p12" >>$ThisScriptFile
 #
 	# --- first ----
-echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "LineNr=\$(( \$Line + 1 )) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "NewLine=\"keystorePass=\$PassHash\"" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$ThisScriptFile
+echo "LineNr=\$(( \$Line + 1 )) " >>$ThisScriptFile
+echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$ThisScriptFile
+echo "NewLine=\"keystorePass=\$PassHash\"" >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
 	# --- second ---
-echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "echo \"--- well done ---\" ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
-echo "echo \"--- restart symphonia ---\" ">>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
+echo "echo \"--- well done ---\" ">>$ThisScriptFile
+echo "echo \"--- restart symphonia ---\" ">>$ThisScriptFile
 
 
 
