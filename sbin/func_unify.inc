@@ -511,7 +511,7 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 # keystore changer for CMP Server
 function keystorechanger () {
-ThisScriptFile=$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+ThisScriptFile=$CERTSDIR/$extension/$CN_HashInstaller.sh
 
 #  ------- create this script
 #File=/opt/siemens/share/tomcat/conf/server.xml
@@ -539,7 +539,7 @@ echo "echo \" 2. Password of pkishare user account on PKIT\"" >>$ThisScriptFile
 echo "echo \" 3. IP Address of PKIT Server [should be coded already in this script]\"" >>$ThisScriptFile
 echo "echo" >>$ThisScriptFile
 echo "echo \"Which Certificate do you want do fetch from PKIT [Common Name]: \"" >>$ThisScriptFile
-echo echo "\"read CMPCERTNAME\"" >>$ThisScriptFile 
+echo "read CMPCERTNAME" >>$ThisScriptFile 
 
 
 echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$ThisScriptFile
@@ -552,10 +552,9 @@ echo "scp $pkiAccount$CERTSDIR1/$extension/$CMPCERTNAME.p12 /tmp/cmpcert_new.p12
 echo
 #
 echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
-echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/
-common/conf/tomcat-keystore.p12" >>$ThisScriptFile
+echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/common/conf/tomcat-keystore.p12" >>$ThisScriptFile
 #
-	# --- first ----
+# --- first ----
 echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$ThisScriptFile
 echo "LineNr=\$(( \$Line + 1 )) " >>$ThisScriptFile
 echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$ThisScriptFile
