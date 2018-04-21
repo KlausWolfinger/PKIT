@@ -201,39 +201,47 @@ function create_root_p12() {
 function check_rootCA() {
 #
 rootCACheck=0
-echo -en ".. This will perform a rootCA check ...\n"
+echo -en "\n--Y This will perform a rootCA check ...\n"
 if [ -e $ROOTCADIR/root.key ]; then
-echo -en ".. $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
-echo -en ".. $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
+echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
+echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
 fi
 if [ -e $ROOTCADIR/root.crt ]; then
 hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
-echo -en ".. $ROOTCADIR/root.crt check OK...\n";  else 
-echo -en ".. $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck++)); 
+echo -en "--> $ROOTCADIR/root.crt check OK...\n";  else 
+echo -en "--> $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck++)); 
 fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
 hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
-echo -en ".. $ROOTCADIR/rootCA.pem check OK...\n";
+echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
 openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:'
 if [ $hash_rootcrt = $hash_rootpem ]; then 
-echo "Certificate Files are equal, that's good ..."
+echo "--> Certificate Files are equal, that's good ..."
 else
-echo "Certificate Files are NOT equal, that's bad ..."; ((rootCACheck++))
+echo "--> Certificate Files are NOT equal, that's bad ..."; ((rootCACheck++))
 fi
 else 
-echo -en ".. $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck++));
+echo -en "--Y $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck++));
 
 fi
 if [ -e $ROOTCADIR/rootCA.der ]; then
-echo -en ".. $ROOTCADIR/rootCA.der check OK...\n";  
+echo -en "--> $ROOTCADIR/rootCA.der check OK...\n";  
 
 else 
-echo -en ".. $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
+echo -en "--> $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
 fi
+
+if [ -e $ROOTCADIR/serial ]; then
+echo -en "--> $ROOTCADIR/serial $(cat $ROOTCADIR/serial) check OK...\n";
+
+else 
+echo -en "--> $ROOTCADIR/serial does not exist NOK...\n"; ((rootCACheck++));
+fi
+
 if [ $rootCACheck -eq 0 ]; then
-echo "CHECK WAS SUCCESSFUL --- GOOD"
+echo -en "\nCHECK WAS SUCCESSFUL --- GOOD"
 else
-echo "CHECK FAILED !!!! Repair the RootCA first !!!"
+echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!"
 fi
 echo "Enter to continue ..."
 read
