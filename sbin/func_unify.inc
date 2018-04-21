@@ -557,7 +557,7 @@ echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/
 echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$ThisScriptFile
 echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$ThisScriptFile
  
-echo "scp $pkiShareAccount$PKITGetDir/$extension/$CN.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
+echo "scp \$pkiShareAccount\$PKITGetDir/$extension/$CN.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
 echo
 #
 echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
