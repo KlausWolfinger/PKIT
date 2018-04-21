@@ -201,7 +201,7 @@ function create_root_p12() {
 function check_rootCA() {
 #
 rootCACheck=0
-echo -en "\n--Y This will perform a rootCA check ...\n"
+echo -en "\n--> This will perform a rootCA check ...\n"
 if [ -e $ROOTCADIR/root.key ]; then
 echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
 echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
@@ -231,11 +231,11 @@ else
 echo -en "--> $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
 fi
 
-if [ -e $ROOTCADIR/serial ]; then
-echo -en "--> $ROOTCADIR/serial $(cat $ROOTCADIR/serial) check OK...\n";
+if [ -e $ROOTCADIR/root-serial ]; then
+echo -en "--> $ROOTCADIR/root-serial $(cat $ROOTCADIR/root-serial) check OK...\n";
 
 else 
-echo -en "--> $ROOTCADIR/serial does not exist NOK...\n"; ((rootCACheck++));
+echo -en "--> $ROOTCADIR/root-serial does not exist NOK...\n"; ((rootCACheck++));
 fi
 
 if [ $rootCACheck -eq 0 ]; then
