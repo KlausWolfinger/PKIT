@@ -511,6 +511,15 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 
 # keystore changer for CMP Server
 function keystorechanger () {
+echo "--- CMP Certs Installer and Hashreplacer"
+echo "This tool is not released, no warranty !"
+echo " What you need:"
+echo " 1. IP Address of PKIT"
+echo " 2. Password of pkishare user account on PKIT"
+echo " 3. IP Address of PKIT Server [should be coded already in this script]"
+echo
+echo "Which Certificate do you want do fetch from PKIT [Common Name]: "
+read CMPCERTNAME
 #  ------- create this script
 #File=/opt/siemens/share/tomcat/conf/server.xml
 #Line=$(egrep -n "tomcat-keystore.p12" $File | cut -d":" -f1)
@@ -523,6 +532,9 @@ function keystorechanger () {
 #sed -i -e $(echo $LineNr)c"$NewLine" $File
 # -------------
 
+ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
+CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
+
 echo "#!/bin/bash" >$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "P12PassPhrase="$PassPhrase >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
@@ -530,6 +542,14 @@ echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/
     # backups
 echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+ 
+echo "scp $pkiAccount$CERTSDIR1/$extension/$CMPCERTNAME.p12 /tmp/cmpcert_new.p12" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo
+#
+echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/
+common/conf/tomcat-keystore.p12" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
+#
 	# --- first ----
 echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
 echo "LineNr=\$(( \$Line + 1 )) " >>$CERTSDIR/$extension/cmpkeyhashreplacer.sh
