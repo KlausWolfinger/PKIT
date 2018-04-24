@@ -543,13 +543,11 @@ echo "echo \" 3. IP Address of PKIT Server [should be coded already in this scri
 echo "echo" >>$ThisScriptFile
 echo "echo \"Enter PKIT username [pki|pkishare]: \"" >>$ThisScriptFile
 echo "read PKITUsername" >>$ThisScriptFile 
-echo "echo \"Enter PKIT directory [exports|certs/cmp]: \"" >>$ThisScriptFile
+echo "echo \"Enter PKIT directory [exports|PKIT/certs/certs/cmp]: \"" >>$ThisScriptFile
 echo "read PKITGetDir" >>$ThisScriptFile 
 
 echo "pkiShareAccount=\$PKITUsername@$ToolIP:" >>$ThisScriptFile
 echo "echo \" OK, I use \$pkiShareAccount\"" >>$ThisScriptFile
-
-
 
 echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$ThisScriptFile
 echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$ThisScriptFile
@@ -557,11 +555,12 @@ echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/
 echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$ThisScriptFile
 echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$ThisScriptFile
  
-echo "scp \$pkiShareAccount\$PKITGetDir/$extension/$CN.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
+echo "scp \$pkiShareAccount\$PKITGetDir/$CN.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
 echo
 #
 echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
 echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/common/conf/tomcat-keystore.p12" >>$ThisScriptFile
+echo "rm /tmp/cmpcert_new.p12" >>$ThisScriptFile
 #
 # --- first ----
 echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$ThisScriptFile
