@@ -511,8 +511,66 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 }
 
 # keystore changer for CMP Server
+
+function keystorechanger_local () {
+ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
+
+#  ------- create this script
+#File=/opt/siemens/share/tomcat/conf/server.xml
+#Line=$(egrep -n "tomcat-keystore.p12" $File | cut -d":" -f1)
+#LineNr=$(( $Line + 1 ))
+#PassHash=$(/opt/siemens/servicetools/cmp/encodePassphrase.sh 12345678)
+#NewLine='keystorePass="'$PassHash'"'
+#sed -i -e $(echo $LineNr)c"$NewLine" $File
+#File=/opt/siemens/common/conf/application-external/trust-store.properties
+#LineNr=$(egrep -n "keystorePass" $File | cut -d":" -f1)
+#sed -i -e $(echo $LineNr)c"$NewLine" $File
+# -------------
+
+echo "#!/bin/bash" >$ThisScriptFile
+echo "Enter P12PassPhrase" >>$ThisScriptFile
+echo "read R12PassPhrase" >>$ThisScriptFile
+#
+echo "echo \"--- CMP local Certs Installer and Hashreplacer\"" >>$ThisScriptFile
+echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
+echo "echo \" What you need:\"" >>$ThisScriptFile
+
+echo "echo \" 1. Root Access on this CMP [$USER:$HOSTNAME] \"" >>$ThisScriptFile
+echo "echo \" 2. p12 certificate from PKIT\"" >>$ThisScriptFile
+echo "echo \" 3. /tmp/cmpcert_new.p12\"" >>$ThisScriptFile
+echo "echo" >>$ThisScriptFile
+
+echo "echo \" ... are you ready ? If not -> [CRTL-c]\"" >>$ThisScriptFile
+echo "read" >>$ThisScriptFile
+
+
+echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$ThisScriptFile
+echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/trust-store.properties " >>$ThisScriptFile
+    # backups
+echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$ThisScriptFile
+echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$ThisScriptFile
+#
+echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
+echo "cat /tmp/cmpcert_new.p12 >/opt/siemens/common/conf/tomcat-keystore.p12" >>$ThisScriptFile
+#
+# --- first ----
+echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f1)" >>$ThisScriptFile
+echo "LineNr=\$(( \$Line + 1 )) " >>$ThisScriptFile
+echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$ThisScriptFile
+echo "NewLine=\"keystorePass=\$PassHash\"" >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
+	# --- second ---
+echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
+echo "echo \"--- well done ---\" ">>$ThisScriptFile
+echo "echo \"--- restart symphonia ---\" ">>$ThisScriptFile
+
+
+
+}
+
 function keystorechanger () {
-ThisScriptFile=$CERTSDIR/$extension/$CN.sh
+ThisScriptFile=$CERTSDIR/$extension/$CN.remote.sh
 ToolIP=$(getMyIP)
 
 #  ------- create this script
@@ -534,7 +592,7 @@ echo "#!/bin/bash" >$ThisScriptFile
 echo "P12PassPhrase=$PassPhrase" >>$ThisScriptFile
 echo "# ToolIP = $ToolIP" >>$ThisScriptFile
 #
-echo "echo \"--- CMP Certs Installer and Hashreplacer\"" >>$ThisScriptFile
+echo "echo \"--- CMP remote Certs Installer and Hashreplacer\"" >>$ThisScriptFile
 echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
 echo "echo \" What you need:\"" >>$ThisScriptFile
 echo "echo \" 1. IP Address of PKIT\"" >>$ThisScriptFile

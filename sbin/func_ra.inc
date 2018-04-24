@@ -331,6 +331,7 @@ function create_keys_certs() {
 	# -------- CMP -------
 		if [ $extension = 'cmp' ]; then
 				keystorechanger
+				keystorechanger_local
 		fi
 	# -------- Assistant 
 		if [ $extension = 'assistant' ]; then 
