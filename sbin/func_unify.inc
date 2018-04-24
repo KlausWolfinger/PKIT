@@ -528,7 +528,7 @@ ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
 # -------------
 
 echo "#!/bin/bash" >$ThisScriptFile
-echo "Enter P12PassPhrase" >>$ThisScriptFile
+echo "echo \"Enter P12PassPhrase\"" >>$ThisScriptFile
 echo "read R12PassPhrase" >>$ThisScriptFile
 #
 echo "echo \"--- CMP local Certs Installer and Hashreplacer\"" >>$ThisScriptFile
