@@ -543,7 +543,7 @@ echo "echo \" 3. IP Address of PKIT Server [should be coded already in this scri
 echo "echo" >>$ThisScriptFile
 echo "echo \"Enter PKIT username [pki|pkishare]: \"" >>$ThisScriptFile
 echo "read PKITUsername" >>$ThisScriptFile 
-echo "echo \"Enter PKIT directory [exports|PKIT/certs/certs/cmp]: \"" >>$ThisScriptFile
+echo "echo \"Enter PKIT directory [exports|PKIT/certs/cmp]: \"" >>$ThisScriptFile
 echo "read PKITGetDir" >>$ThisScriptFile 
 
 echo "pkiShareAccount=\$PKITUsername@$ToolIP:" >>$ThisScriptFile
