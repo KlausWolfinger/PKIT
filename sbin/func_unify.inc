@@ -540,7 +540,7 @@ echo "echo \" What you need:\"" >>$ThisScriptFile
 echo "echo \" 1. IP Address of PKIT\"" >>$ThisScriptFile
 echo "echo \" 2. Password of pkishare user account on PKIT\"" >>$ThisScriptFile
 echo "echo \" 3. IP Address of PKIT Server [$ToolIP]\"" >>$ThisScriptFile
-echo "echo \" 4. Root Access on CMP Server\"" >>$ThisScriptFile
+echo "echo \" 4. Root Access on this CMP [$USER:$HOSTNAME] \"" >>$ThisScriptFile
 echo "echo \" 5. p12 certificate from PKIT\"" >>$ThisScriptFile
 echo "echo" >>$ThisScriptFile
 echo "echo \"Enter PKIT username [pki|pkishare]: \"" >>$ThisScriptFile
