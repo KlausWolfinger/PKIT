@@ -562,8 +562,10 @@ echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$ThisScri
 	# --- second ---
 echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$ThisScriptFile
 echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
-echo "echo \"--- well done ---\" ">>$ThisScriptFile
+echo "echo \"--- if there are no errors, then ---\" ">>$ThisScriptFile
 echo "echo \"--- restart symphonia ---\" ">>$ThisScriptFile
+echo "echo \"--- else : ---\" ">>$ThisScriptFile
+echo "echo \"--- replace files with backups ---\" ">>$ThisScriptFile
 
 
 
