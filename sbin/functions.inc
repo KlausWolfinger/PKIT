@@ -109,12 +109,15 @@ function reInitVars() {
 	PKISHARE=/home/pkishare
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
+	PKISHAREFOLDER=exports
+	
 	
 	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	ToolIP=$(getMyIP)
     pkiAccount="$pkiUser@$ToolIP:$PKIFOLDER"
+	pkiShareAccount="$PKISHAREUSER@$ToolIP:$PKISHAREFOLDER"
     OSVCertsDir=$OSVSSLDIR/certs
 	OSVPrivateDir=$OSVSSLDIR/private
     OSVdhDir=$OSVSSLDIR/dh_keys
