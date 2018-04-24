@@ -539,7 +539,7 @@ echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
 echo "echo \" What you need:\"" >>$ThisScriptFile
 echo "echo \" 1. IP Address of PKIT\"" >>$ThisScriptFile
 echo "echo \" 2. Password of pkishare user account on PKIT\"" >>$ThisScriptFile
-echo "echo \" 3. IP Address of PKIT Server [should be coded in this script already ]\"" >>$ThisScriptFile
+echo "echo \" 3. IP Address of PKIT Server [$ToolIP]\"" >>$ThisScriptFile
 echo "echo \" 4. Root Access on CMP Server\"" >>$ThisScriptFile
 echo "echo \" 5. p12 certificate from PKIT\"" >>$ThisScriptFile
 echo "echo" >>$ThisScriptFile
