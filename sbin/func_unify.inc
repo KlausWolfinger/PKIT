@@ -512,6 +512,7 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 }
 
 # keystore changer for CMP Server
+#
 
 function keystorechanger_local () {
 ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
