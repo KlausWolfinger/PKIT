@@ -515,6 +515,7 @@ echo "echo #-----------" >>$CERTSDIR/$extension/$THISSCRIPT
 # to do
 # rename p12 filename after change, this is update proof
 # refer to new p12 filename in server.xml and trust-store.properties
+#
 
 function keystorechanger_local () {
 ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
