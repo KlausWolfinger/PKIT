@@ -526,15 +526,15 @@ ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
 #LineNr=$(( $Line + 1 ))
 #PassHash=$(/opt/siemens/servicetools/cmp/encodePassphrase.sh 12345678)
 #NewLine='keystorePass="'$PassHash'"'
-#sed -i -e $(echo $LineNr) -c"$NewLine" $File
+#sed -i -e $(echo $LineNr)c\ "$NewLine" $File
 #File=/opt/siemens/common/conf/application-external/trust-store.properties
 #LineNr=$(egrep -n "keystorePass" $File | cut -d":" -f1)
-#sed -i -e $(echo $LineNr) -c"$NewLine" $File
+#sed -i -e $(echo $LineNr)c\ "$NewLine" $File
 # -------------
 
 echo "#!/bin/bash" >$ThisScriptFile
 echo "echo \"Enter P12PassPhrase\"" >>$ThisScriptFile
-echo "read R12PassPhrase" >>$ThisScriptFile
+echo "read P12PassPhrase" >>$ThisScriptFile
 #
 echo "echo \"--- CMP local Certs Installer and Hashreplacer\"" >>$ThisScriptFile
 echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
@@ -625,7 +625,7 @@ echo "CMPtrustStorePropertiesFile=/opt/siemens/common/conf/application-external/
 echo "cp -p \$CMPtrustStorePropertiesFile \$CMPtrustStorePropertiesFile.save.tool " >>$ThisScriptFile
 echo "cp -p \$CMPserverXMLFile \$CMPserverXMLFile.save.tool " >>$ThisScriptFile
  
-echo "scp \$pkiShareAccount\$PKITGetDir/$CN.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
+echo "scp \$pkiShareAccount\$PKITGetDir/$CN.pass.p12 /tmp/cmpcert_new.p12" >>$ThisScriptFile
 echo
 #
 echo "cp -p /opt/siemens/common/conf/tomcat-keystore.p12 /opt/siemens/common/conf/tomcat-keystore.p12-backup" >>$ThisScriptFile
@@ -637,10 +637,10 @@ echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f
 echo "LineNr=\$(( \$Line + 1 )) " >>$ThisScriptFile
 echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$ThisScriptFile
 echo "NewLine=\"keystorePass=\$PassHash\"" >>$ThisScriptFile
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c\\ \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
 	# --- second ---
 echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$ThisScriptFile
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c\\ \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
 echo "echo \"--- if there are no errors, then ---\" ">>$ThisScriptFile
 echo "echo \"--- restart symphonia ---\" ">>$ThisScriptFile
 echo "echo \"--- else : ---\" ">>$ThisScriptFile
