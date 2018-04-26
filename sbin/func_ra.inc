@@ -228,7 +228,15 @@ function create_keys_certs() {
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-out $CERTSDIR/$extension/"$CN".pem; 
+			
+			if [ $extension = 'osvserver' ]; then
 			cat $KEYSDIR/$extension/"$CN".key >>$CERTSDIR/$extension/"$CN".pem 
+			fi
+			if [ $extension = 'osvclient' ]; then
+			cat $KEYSDIR/$extension/"$CN".key >>$CERTSDIR/$extension/"$CN".pem 
+			fi
+			
+			
 			else 
 			echo -en "\t---> $CN pem exists, nothing todo\n" 
 			fi 
