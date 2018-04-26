@@ -167,9 +167,10 @@ function InitDirs() {
 	if [ ! -d $CONFIGDIR ]; then 
 		mkdir $CONFIGDIR 
 	fi
-	if [ ! -r $CONFIGDIR/version.inf ]; then
-		touch $CONFIGDIR/version.inf
-	fi
+	# if [ ! -r $CONFIGDIR/version.inf ]; then
+	# timestamp filechange is problem for git checkouts
+	# touch $CONFIGDIR/version.inf
+	# fi
 	if [ ! -d $ROOTCADIR ]; then
 		mkdir $ROOTCADIR 
 	fi
