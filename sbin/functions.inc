@@ -679,6 +679,7 @@ function CleanupProject(){
 		echo "01" > $ROOTCADIR/root-serial 
 		echo -en "\tINFO: Removed host certificates and keys, init rootca DB !!\n ";
 }
+
 function remove_allcerts() {
 	#echo -en "--degugging --\n "
 	echo -en "\tWARNING: This will delete ALL host certificates and keys\n 
