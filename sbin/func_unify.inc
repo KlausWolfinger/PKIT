@@ -526,10 +526,10 @@ ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
 #LineNr=$(( $Line + 1 ))
 #PassHash=$(/opt/siemens/servicetools/cmp/encodePassphrase.sh 12345678)
 #NewLine='keystorePass="'$PassHash'"'
-#sed -i -e $(echo $LineNr)c"$NewLine" $File
+#sed -i -e $(echo $LineNr) -c"$NewLine" $File
 #File=/opt/siemens/common/conf/application-external/trust-store.properties
 #LineNr=$(egrep -n "keystorePass" $File | cut -d":" -f1)
-#sed -i -e $(echo $LineNr)c"$NewLine" $File
+#sed -i -e $(echo $LineNr) -c"$NewLine" $File
 # -------------
 
 echo "#!/bin/bash" >$ThisScriptFile
@@ -563,10 +563,10 @@ echo "Line=\$(egrep -n tomcat-keystore.p12" "\$CMPserverXMLFile | cut -d\":\" -f
 echo "LineNr=\$(( \$Line + 1 )) " >>$ThisScriptFile
 echo "PassHash=\$(/opt/siemens/servicetools/cmp/encodePassphrase.sh \$P12PassPhrase) " >>$ThisScriptFile
 echo "NewLine=\"keystorePass=\$PassHash\"" >>$ThisScriptFile
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c\\ \$NewLine " "\$CMPserverXMLFile " >>$ThisScriptFile
 	# --- second ---
 echo "LineNr=\$(egrep -n \"keystorePass\" \$CMPtrustStorePropertiesFile | cut -d\":\" -f1) " >>$ThisScriptFile
-echo "sed -i -e \$(echo \$LineNr)c \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
+echo "sed -i -e \$(echo \$LineNr)c\\ \$NewLine  \$CMPtrustStorePropertiesFile " >>$ThisScriptFile
 echo "echo \"--- if there are no errors, then ---\" ">>$ThisScriptFile
 echo "echo \"--- restart symphonia ---\" ">>$ThisScriptFile
 echo "echo \"--- else : ---\" ">>$ThisScriptFile
