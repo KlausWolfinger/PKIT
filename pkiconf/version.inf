@@ -1,4 +1,4 @@
-Version='2.2dev'
+Version='2.2c'
 
 # changelog
 # osv and cmd script included to scp certificates and install key hash
