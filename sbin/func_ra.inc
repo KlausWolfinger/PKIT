@@ -312,6 +312,14 @@ function create_keys_certs() {
 			else 
 			echo -en "\t---> $CN chain.p12 with empty passphrase exists, nothing todo\n" 
 			fi
+			cat >$CERTSDIR/$extension/README_aboutp12.txt <<-EOL 
+			About the p12 friendly name for UC: 
+			For UC TOMCAT server the CN must be 'tomcat'. 
+			You can check this by opening the keybag with:
+			# openssl pkcs12 -in [filename].chain.p12 | less
+			# 
+			EOL
+			fi 
 			
 		fi 
 			
