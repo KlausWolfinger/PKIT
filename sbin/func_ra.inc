@@ -191,7 +191,11 @@ function create_keys_certs() {
 		# SALTN is DNS and IP (subjectAltAttributes) 
 		# extension is "keyword like tlsserver, tlsboth etc 
 		extension=$(echo "$cert" | cut -f1 -d:) 
-		# --------------------------------------------------------- 
+		FriendlyName = ''
+		# ---------------------------------------------------------
+		# adaptions for special cases 
+		#
+		# ---------------------------------------------------------
 		if [ -e $CERTSDIR/$extension/"$CN".req -a ! -e $CERTSDIR/$extension/"$CN".crt ]; then 
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
@@ -250,19 +254,22 @@ function create_keys_certs() {
 			else 
 			echo -en "\t---> $CN chain.pem exists, nothing todo\n" 
 			fi 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
-			openssl pkcs12 \
-				-export \
-				-inkey $KEYSDIR/$extension/"$CN".key \
-				-in $CERTSDIR/$extension/"$CN".crt \
-				-name "$CN" -out $CERTSDIR/$extension/"$CN".p12 \
-				-nodes \
-				-passout pass: 
-			else
-			echo -en "\t---> $CN p12 exists, nothing todo\n" 
-			fi 
+			#-------------------------------------------------------
+			# this was redundant:
+			#if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
+			#
+			#openssl pkcs12 \
+			#	-export -inkey $KEYSDIR/$extension/"$CN".key \
+			#	-in $CERTSDIR/$extension/"$CN".crt \
+			#	-name "$CN" \
+			#	-out $CERTSDIR/$extension/"$CN".p12 \
+			#	-nodes \
+			#	-passout pass: 
+			#else
+			#echo -en "\t---> $CN p12 exists, nothing todo\n" 
+			#fi 
 			#--------------------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
 			openssl pkcs12 \
 				-export -inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
@@ -272,7 +279,7 @@ function create_keys_certs() {
 				-nodes \
 				-passout pass: 
 			else 
-			echo -en "\t---> $CN p12.chain exists, nothing todo\n" 
+			echo -en "\t---> $CN .p12 with empty passphrase exists, nothing todo\n" 
 			fi 
 			#--------------------------------------------------------- 
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
@@ -292,7 +299,7 @@ function create_keys_certs() {
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "$CN" \
-				-out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
+				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
@@ -325,7 +332,7 @@ function create_keys_certs() {
 		fi 
 	#--------------------------------------------------------- 
 	# -------- UC Server 
-		if [ $extension = 'ucfrontend' ]; then 
+		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ]; then 
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".UC.pem ]; then
 				openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
@@ -335,6 +342,22 @@ function create_keys_certs() {
 				else 
 				echo -en "\t---> $CN UC.pem exists, nothing todo\n" 
 			fi 
+			
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
+				rm -f $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12
+				openssl pkcs12 \
+				-export \
+				-inkey $KEYSDIR/$extension/"$CN".key \
+				-in $CERTSDIR/$extension/"$CN".crt \
+				-name "tomcat" \
+				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
+				-certfile $ROOTCADIR/root.crt \
+				-nodes \
+				-passout pass:"$PassPhrase" 
+			else 
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
+			fi
+			
 		fi 
 	# -------- CMP -------
 		if [ $extension = 'cmp' ]; then
