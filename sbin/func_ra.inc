@@ -271,8 +271,10 @@ function create_keys_certs() {
 			#--------------------------------------------------------- 
 			
 			# -------- case UC Server - name = tomcat
-		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ]; then 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".UC.pem ]; then
+		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ];
+		then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".UC.pem ]; 
+			then
 				openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-out $CERTSDIR/$extension/"$CN".UC.pem.tmp 
@@ -296,13 +298,14 @@ function create_keys_certs() {
 			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
 			fi
 			
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.p12 ]; 
+			then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "tomcat" \
-				-out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
+				-out $CERTSDIR/$extension/"$CN".chain.p12 \
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass: 
