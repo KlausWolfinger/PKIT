@@ -269,6 +269,50 @@ function create_keys_certs() {
 			#echo -en "\t---> $CN p12 exists, nothing todo\n" 
 			#fi 
 			#--------------------------------------------------------- 
+			
+			# -------- case UC Server - name = tomcat
+		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".UC.pem ]; then
+				openssl x509 \
+				-in $CERTSDIR/$extension/"$CN".crt \
+				-out $CERTSDIR/$extension/"$CN".UC.pem.tmp 
+				cat $ROOTCADIR/root.crt $CERTSDIR/$extension/"$CN".UC.pem.tmp >$CERTSDIR/$extension/"$CN".UCchain.pem 
+				rm $CERTSDIR/$extension/"$CN".UC.pem.tmp 
+				else 
+				echo -en "\t---> $CN UC.pem exists, nothing todo\n" 
+			fi 
+			
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
+				openssl pkcs12 \
+				-export \
+				-inkey $KEYSDIR/$extension/"$CN".key \
+				-in $CERTSDIR/$extension/"$CN".crt \
+				-name "tomcat" \
+				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
+				-certfile $ROOTCADIR/root.crt \
+				-nodes \
+				-passout pass:"$PassPhrase" 
+			else 
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
+			fi
+			
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
+				openssl pkcs12 \
+				-export \
+				-inkey $KEYSDIR/$extension/"$CN".key \
+				-in $CERTSDIR/$extension/"$CN".crt \
+				-name "tomcat" \
+				-out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
+				-certfile $ROOTCADIR/root.crt \
+				-nodes \
+				-passout pass: 
+			else 
+			echo -en "\t---> $CN chain.p12 with empty passphrase exists, nothing todo\n" 
+			fi
+			
+		fi 
+			
+			# -------------- write standard p12 keybags - name = $CN -----------
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
 			openssl pkcs12 \
 				-export -inkey $KEYSDIR/$extension/"$CN".key \
@@ -331,34 +375,7 @@ function create_keys_certs() {
 			fi 
 		fi 
 	#--------------------------------------------------------- 
-	# -------- UC Server 
-		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ]; then 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".UC.pem ]; then
-				openssl x509 \
-				-in $CERTSDIR/$extension/"$CN".crt \
-				-out $CERTSDIR/$extension/"$CN".UC.pem.tmp 
-				cat $ROOTCADIR/root.crt $CERTSDIR/$extension/"$CN".UC.pem.tmp >$CERTSDIR/$extension/"$CN".UCchain.pem 
-				rm $CERTSDIR/$extension/"$CN".UC.pem.tmp 
-				else 
-				echo -en "\t---> $CN UC.pem exists, nothing todo\n" 
-			fi 
-			
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
-				rm -f $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12
-				openssl pkcs12 \
-				-export \
-				-inkey $KEYSDIR/$extension/"$CN".key \
-				-in $CERTSDIR/$extension/"$CN".crt \
-				-name "tomcat" \
-				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
-				-certfile $ROOTCADIR/root.crt \
-				-nodes \
-				-passout pass:"$PassPhrase" 
-			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
-			fi
-			
-		fi 
+	
 	# -------- CMP -------
 		if [ $extension = 'cmp' ]; then
 				keystorechanger
