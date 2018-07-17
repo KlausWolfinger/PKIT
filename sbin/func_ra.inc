@@ -321,7 +321,7 @@ function create_keys_certs() {
 			EOL
 			fi 
 			
-		fi 
+		
 			
 			# -------------- write standard p12 keybags - name = $CN -----------
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
