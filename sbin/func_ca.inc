@@ -158,8 +158,12 @@ function create_rootca(){
 	
 	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
-		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem		
-		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der 
+		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
+		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
+		umask 022 
+		cp 	$ROOTCADIR/root.crt $WWWDIR/rootCA.pem
+		umask 0077
+		 
 	fi
 	
 	cat > $ROOTCADIR/WebBrowserREADME.txt <<-EOL

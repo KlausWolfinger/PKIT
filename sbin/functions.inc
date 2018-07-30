@@ -103,7 +103,8 @@ function reInitVars() {
 	SBINdir=$PKIHOME/sbin
 	SSLbackupdir=$PKIHOME/sslbackups 
 	WWWCADIR=$PKIHOME/www-public/roots
-	WWWCERTSDIR=$PKIHOME/www-public/roots 
+	WWWCERTSDIR=$PKIHOME/www-public/roots
+	WWWDIR=$PKIHOME/www
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
 	PKISHARE=/home/pkishare
@@ -199,11 +200,15 @@ function InitDirs() {
 	if [ ! -d $SSLbackupdir ]; then 
 		mkdir $SSLbackupdir 
 	fi
+	if [ ! -d $WWWDIR ]; then 
+		mkdir -p $WWWDIR 
+	fi
 		#echo $WWWCADIR 
 		#echo $WWWCERTSDIR 
 	if [ ! -d $WWWCADIR ]; then 
 		mkdir -p $WWWCADIR 
 	fi
+	
 	if [ ! -d $WWWCERTSDIR ]; then 
 		#echo "erzeuge" $WWWCADIR
 		mkdir -p $WWWCADIR 
