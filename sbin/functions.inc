@@ -853,8 +853,8 @@ function exportCAND() {
 }
 function clonepki() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
-	echo -e "This will clone the entite pki to a new project\n" 
-	echo -e "After cloning, switch to the new project...\n" 
+	echo -e "This will clone the entite pki to a new project" 
+	echo -e "After cloning, switch to the new project..." 
 	echo -en "\nEnter an pkiname, please:";read NewPkiName
 	mkdir $PKIHOME/PKIclone-$NewPkiName
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME \
