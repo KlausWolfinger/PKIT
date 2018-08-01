@@ -861,11 +861,12 @@ function clonepki() {
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*"
-	unzip -qq $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/ 
+	unzip -qq $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/  2>$LOGDIR/clone.log
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
 	#dir -c $PKIHOME/PKIclone-$NewPkiName
-	read echo -en "\n\nENTER to continue ..." 
+	echo -en "\n\nENTER to continue ..." 
+	read
 } 
 function CandAddReq() {
 	clear 
