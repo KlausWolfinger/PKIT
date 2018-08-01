@@ -134,6 +134,7 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	. $CONFIGDIR/version.inf
+	## does not exist in clone ???
 	# IP
 	# ToolIP
 	
@@ -860,7 +861,8 @@ function clonepki() {
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
-		-x "$PKIHOME/PKIclone*" &>$LOGDIR/lastclonezip.log
+		-x "$PKIHOME/PKIclone*" \
+		-x "$PKIHOME/log" &>$LOGDIR/lastclonezip.log
 	unzip -qq $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/  &>$LOGDIR/lastcloneunzip.log
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
