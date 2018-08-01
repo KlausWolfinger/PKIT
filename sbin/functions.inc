@@ -861,7 +861,7 @@ function clonepki() {
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*"
-	unzip $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/ 
+	unzip -qq $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/ 
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
 	#dir -c $PKIHOME/PKIclone-$NewPkiName
