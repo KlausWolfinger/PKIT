@@ -482,7 +482,7 @@ function editConfig() {
 		vi $PKIconfig 
 	fi
 } 
-
+ 
 function changeto_subca() {
 echo -en "!!!! This will change this CA level !!!!\n"
 echo -en "!!!! Database MUST BE initially empty \n"
@@ -492,7 +492,9 @@ sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
 
 }
   
-function UpdateCRL() { 
+function UpdateCRL() {
+	# re-read config 
+	. $PKIconfig
 	# echo -en "--- Updating CRL ...\n" 
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
@@ -508,7 +510,8 @@ function UpdateCRL() {
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	done 
-	cp $CRLDIR/rootca.crl $CRLWEBDIR 
+	cp $CRLDIR/rootca.crl $CRLWEBDIR
+	
 	chmod 644 $CRLWEBDIR/rootca.crl 
 	echo 
 	echo "*****************************************************" 
