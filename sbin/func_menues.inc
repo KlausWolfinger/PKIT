@@ -103,7 +103,7 @@ function menu3 () {
 	\tI - Re-Initialize Tool (Plugins $PLUGINV) 
 	\tip - Show System IPs 
 	\tC - Clone PKI to new project
-	\tS - Switch to PKI project (beta) 
+	\tS - Switch to PKI project 
 	\tD - Destroy entire project (this level) 
 	\tK - Delete DiffiHellman Files
 	\t7 - Remove&Revoke all external candidates certificates	
