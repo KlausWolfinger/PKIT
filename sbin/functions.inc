@@ -853,8 +853,8 @@ function exportCAND() {
 }
 function clonepki() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
-	echo -e "This will clone the entite pki to a new directory\n" 
-	echo -e "After cloning, start the tool inside the new directory...\n" 
+	echo -e "This will clone the entite pki to a new project\n" 
+	echo -e "After cloning, switch to the new project...\n" 
 	echo -en "\nEnter an pkiname, please:";read NewPkiName
 	mkdir $PKIHOME/PKIclone-$NewPkiName
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME \
@@ -864,7 +864,7 @@ function clonepki() {
 	unzip $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/ 
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
-	dir -c $PKIHOME/PKIclone-$NewPkiName
+	#dir -c $PKIHOME/PKIclone-$NewPkiName
 	read echo -en "\n\nENTER to continue ..." 
 } 
 function CandAddReq() {
