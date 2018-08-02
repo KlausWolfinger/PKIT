@@ -864,8 +864,8 @@ function clonepki() {
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip . \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
-		-x "$PKIHOME/PKIclone*" \
-		-x "$PKIHOME/log" &>$LOGDIR/lastclonezip.log
+		-x "$PKIHOME/PKIclone*/**\*" \
+		-x "$PKIHOME/log/**\*" &>$LOGDIR/lastclonezip.log
 	
 	# Extract it all to a folder called D, but without directory structure (note this will extract files in 
 	# subdirectories of D into the top-level output D folder)
