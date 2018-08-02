@@ -860,7 +860,7 @@ function clonepki() {
 	echo -en "\nEnter an pkiname, please:";read NewPkiName
 	mkdir $PKIHOME/PKIclone-$NewPkiName
 	
-	# zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME \
+	# zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME 
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip . \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
