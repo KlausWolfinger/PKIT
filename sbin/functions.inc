@@ -858,12 +858,19 @@ function clonepki() {
 	echo -e "After cloning, switch to the new project..." 
 	echo -en "\nEnter an pkiname, please:";read NewPkiName
 	mkdir $PKIHOME/PKIclone-$NewPkiName
+	
+	
 	zip -r $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
 		-x "$PKIHOME/log" &>$LOGDIR/lastclonezip.log
-	unzip -qq $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip -d $PKIHOME/PKIclone-$NewPkiName/  &>$LOGDIR/lastcloneunzip.log
+	
+	# Extract it all to a folder called D, but without directory structure (note this will extract files in 
+	# subdirectories of D into the top-level output D folder)
+	# unzip -d D -j f.zip */D/*
+	
+	unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ -j $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip */$PKIHOME/PKIclone-$NewPkiName/*  &>$LOGDIR/lastcloneunzip.log
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
 	#dir -c $PKIHOME/PKIclone-$NewPkiName
