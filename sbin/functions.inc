@@ -870,7 +870,7 @@ function clonepki() {
 	# subdirectories of D into the top-level output D folder)
 	# unzip -d D -j f.zip */D/*  !! in variable $PKIHOME is a / 
 	
-	unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ -j $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip  &>$LOGDIR/lastcloneunzip.log
+	unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip  &>$LOGDIR/lastcloneunzip.log
 	
 	#unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ -j $PKIHOME/PKIclo#ne-$NewPkiName/PKIclone-$NewPkiName.zip *$PKIHOME/PKIclone-$NewPkiName/*  &>$LOGDIR/lastcloneunzip.log
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
