@@ -868,9 +868,9 @@ function clonepki() {
 	
 	# Extract it all to a folder called D, but without directory structure (note this will extract files in 
 	# subdirectories of D into the top-level output D folder)
-	# unzip -d D -j f.zip */D/*
+	# unzip -d D -j f.zip */D/*  !! in variable $PKIHOME is a / 
 	
-	unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ -j $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip */$PKIHOME/PKIclone-$NewPkiName/*  &>$LOGDIR/lastcloneunzip.log
+	unzip -qq -d $PKIHOME/PKIclone-$NewPkiName/ -j $PKIHOME/PKIclone-$NewPkiName/PKIclone-$NewPkiName.zip *$PKIHOME/PKIclone-$NewPkiName/*  &>$LOGDIR/lastcloneunzip.log
 	echo -en "Created clone successfully: in $PKIHOME/PKIclone-$NewPkiName\n" 
 	echo -en "----------------------------\n"
 	#dir -c $PKIHOME/PKIclone-$NewPkiName
