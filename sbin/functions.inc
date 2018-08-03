@@ -852,7 +852,8 @@ function exportCAND() {
 	
 
 function clonepki() {
-clear echo -e "--- PKI Tool Clone Utility ---\n" 
+	clear 
+	echo -e "--- PKI Tool Clone Utility ---\n" 
 	echo -e "This will clone the entite pki to a new project" 
 	echo -e "After cloning, switch to the new project...\n"
 	echo -en "\nEnter an new pkiname, please:";read NewPkiName
@@ -861,7 +862,7 @@ clear echo -e "--- PKI Tool Clone Utility ---\n"
 		echo "ENTER to continue ..."
 		read
 		return
-fi 
+	fi 
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewPkiName
