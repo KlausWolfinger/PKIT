@@ -100,7 +100,7 @@ function reInitVars() {
 	KEYSDIR=$PKIHOME/keys 
 	DHDIR=$PKIHOME/dh
 	HOSTDIR=$PKIHOME/host 
-	SBINdir=$PKIHOME/sbin
+	SBINdir=$PKIHOME_START/sbin
 	SSLbackupdir=$PKIHOME/sslbackups 
 	WWWCADIR=$PKIHOME/www-public/roots
 	WWWCERTSDIR=$PKIHOME/www-public/roots
@@ -865,7 +865,7 @@ function clonepki() {
 		return
 	fi 
 	
-	
+	# do not change order !!
 	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/host $PKIHOME/PKIclone-$NewPkiName
