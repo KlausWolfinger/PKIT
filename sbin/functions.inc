@@ -511,6 +511,9 @@ function UpdateCRL() {
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	done 
+		if [ ! -d $CRLWEBDIR ]; then 
+			mkdir -p $CRLWEBDIR
+		fi
 	cp $CRLDIR/rootca.crl $CRLWEBDIR
 	
 	chmod 644 $CRLWEBDIR/rootca.crl 
