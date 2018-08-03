@@ -849,7 +849,8 @@ function exportCAND() {
 	echo -en "\n The IP address of this system is $(getMyIP)"
 	echo -en "\n continue ... with any key ";read
 	# copy the zip to pkishare
-	
+
+}	
 
 function clonepki() {
 	clear 
