@@ -850,9 +850,30 @@ function exportCAND() {
 	echo -en "\n continue ... with any key ";read
 	# copy the zip to pkishare
 	
+
+function clonepki() {
+clear echo -e "--- PKI Tool Clone Utility ---\n" 
+	echo -e "This will clone the entite pki to a new project" 
+	echo -e "After cloning, switch to the new project...\n"
+	echo -en "\nEnter an new pkiname, please:";read NewPkiName
+	if [ -d "$PKIHOME/PKIclone-$NewPkiName" ]; then
+		echo "This clone name exists already, delete manually or creata a new one"
+		echo "ENTER to continue ..."
+		read
+		return
+fi 
+	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/host $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/crl $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/certscache $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/dh $PKIHOME/PKIclone-$NewPkiName
+	cp -R -p $PKIHOME/pkiconf $PKIHOME/PKIclone-$NewPkiName
 	
 }
-function clonepki() { 
+
+function clonepki_deprecated() { 
 	clear echo -e "--- PKI Tool Clone Utility ---\n" 
 	echo -e "This will clone the entite pki to a new project" 
 	echo -e "After cloning, switch to the new project...\n"
