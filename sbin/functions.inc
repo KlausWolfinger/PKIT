@@ -867,7 +867,7 @@ function clonepki() {
 	
 	# do not change order !!
 	mkdir $PKIHOME/PKIclone-$NewPkiName
-	mkdir $PKIHOME/PKIclone-$NewPkiName/keys
+	mkdir -p $PKIHOME/PKIclone-$NewPkiName/keys
 	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/host $PKIHOME/PKIclone-$NewPkiName
@@ -875,7 +875,7 @@ function clonepki() {
 	cp -R -p $PKIHOME/certscache $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/dh $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/pkiconf $PKIHOME/PKIclone-$NewPkiName
-	mkdir $PKIHOME/PKIclone-$NewPkiName/rootca
+	mkdir -p $PKIHOME/PKIclone-$NewPkiName/rootca
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
 	
 }
