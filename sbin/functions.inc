@@ -866,6 +866,7 @@ function clonepki() {
 	fi 
 	
 	# do not change order !!
+	mkdir $PKIHOME/PKIclone-$NewPkiName/keys
 	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/host $PKIHOME/PKIclone-$NewPkiName
