@@ -883,7 +883,7 @@ function clonepki() {
 	cp -R -p $PKIHOME/certscache $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/dh $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/pkiconf $PKIHOME/PKIclone-$NewPkiName
-	echo "$NewPkiName" >$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
+	echo "projectname=$NewPkiName" >$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
 	mkdir -p $PKIHOME/PKIclone-$NewPkiName/rootca
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
 	
