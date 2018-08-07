@@ -835,9 +835,15 @@ function ziptool() {
 		-x "$ARCHIVEDIR/*.*"\
 		-x "$PKIHOME/tmp*"\
 		-x "$PKIHOME/sbin*"\
+		-x "$PKIHOME/pkiconf/*"\
+		-x "$PKIHOME/sslbackups/*"\
+		-x "$PKIHOME/exports/*"\
+		-x "$PKIHOME/www-public/*"\
+		-x "$PKIHOME/www/*"\
 		-x "$PKIHOME/*.sh"\
 		-x "$PKIHOME/log/*"\
 		-x "$PKIHOME/.git/*"\
+		-x "$PKIHOME/.gitignore/*" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
