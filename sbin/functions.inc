@@ -424,6 +424,8 @@ function print_x509config(){
 	CERTDAYS = $CERTDAYS 
 	CERTMAIL = $CERTMAIL 
 	ca_extension = $ca_extension 
+	WWWCADIR= $WWWCADIR
+	WWWCERTSDIR = $WWWCERTSDIR
 	--> Press ENTER to continue" 
 	read 
 } 
