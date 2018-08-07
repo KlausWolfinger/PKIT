@@ -163,6 +163,8 @@ function create_rootca(){
 		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
 		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
 		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName
+		echo "## lastlog ##" >$WWWDIR/lastlog.log
+		echo "## RootFileName=$RootFileName ##" >>$WWWDIR/lastlog.log
 		chmod 644 $WWWDIR/$RootFileName
 		 
 	fi
