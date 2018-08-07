@@ -857,18 +857,22 @@ function exportCAND() {
 	echo -en "\nTool will export keys and certs from this project" 
 	echo -en "\nEnter a new exportname, please:"; read ExportName 
 	echo "Will write $EXPORTDIR/pkiCAND_$ExportName$now.zip"
-	echo ".. [ENTER] to cont ..";read
+	echo "You will be asked to enter a strong password for archive encryption ";
+	echo ".. [ENTER] to cont ..";
+	read
 	zip --encrypt -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys $PKIHOME/rootca/rootCA.pem
 	echo -en "\n ---> pkiCAND exported to disk ....\n " 
 	dir -all $EXPORTDIR/*.zip 
 	if [ -d $PKISHARE ]; then 
 	echo -en "\n ---> copy $EXPORTDIR to $PKISHARE"
-	echo -en "\n Enter the ROOT Password\n"
-	cp $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKISHARE
-	fi
+	cp $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKISHARE/exports/
 	echo -en "\n You can now download the export by SFTP with user $PKISHAREUSER remotely "
 	echo -en "\n The IP address of this system is $(getMyIP)"
 	echo -en "\n continue ... with any key ";read
+	
+	else
+	echo -en "\n Copied the encrypted archive to local folder $EXPORTDIR "
+	fi
 	# copy the zip to pkishare
 
 }	
