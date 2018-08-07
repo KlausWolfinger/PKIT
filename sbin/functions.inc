@@ -832,6 +832,7 @@ function ziptool() {
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
+		-x "$PKIHOME/archives/*" \
 		-x "$ARCHIVEDIR/*.*"\
 		-x "$PKIHOME/tmp*"\
 		-x "$PKIHOME/sbin*"\
