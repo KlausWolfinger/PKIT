@@ -120,6 +120,9 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 
 function create_rootca(){ 
 	create_rootCA_DB
+	local rootfile=$projectname
+	local rootfileext='CA.pem'
+	local RootFileName=$rootfile$rootfileext
 	
 	
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
@@ -160,8 +163,8 @@ function create_rootca(){
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
 		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
 		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
-		cp 	$ROOTCADIR/root.crt $WWWDIR/rootCA.pem
-		chmod 644 $WWWDIR/rootCA.pem
+		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName.pem
+		chmod 644 $WWWDIR/$RootFileName.pem
 		 
 	fi
 	

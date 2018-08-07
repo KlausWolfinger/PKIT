@@ -80,6 +80,7 @@ function reInitVars() {
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
 	PKINAME="RootCA Level 0" 
+	PKITprojectName='root'
 	else 
 	# echo "not equal"
 	PKINAME=$(basename $PKIHOME) 
@@ -102,15 +103,16 @@ function reInitVars() {
 	HOSTDIR=$PKIHOME/host 
 	SBINdir=$PKIHOME_START/sbin
 	SSLbackupdir=$PKIHOME/sslbackups 
-	WWWCADIR=$PKIHOME/www-public/roots
-	WWWCERTSDIR=$PKIHOME/www-public/roots
-	WWWDIR=$PKIHOME/www
+	WWWCADIR=$PKIHOME_START/www-public/roots
+	WWWCERTSDIR=$PKIHOME_START/www-public/roots
+	WWWDIR=$PKIHOME_START/www
 	OSVSSLDIR="/usr/local/ssl"
 	pkiUser=$(whoami)
 	PKISHARE=/home/pkishare
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
 	PKISHAREFOLDER=exports
+	
 	
 	
 	
@@ -134,6 +136,7 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	. $CONFIGDIR/version.inf
+	. $CONFIGDIR/projectname.inf
 	## does not exist in clone ???
 	# IP
 	# ToolIP
