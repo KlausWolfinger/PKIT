@@ -828,7 +828,7 @@ function ziptool() {
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkiProject_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";read
-	zip -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip $PKIHOME \
+	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip $PKIHOME \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
