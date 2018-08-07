@@ -864,9 +864,7 @@ function exportCAND() {
 	if [ -d $PKISHARE ]; then 
 	echo -en "\n ---> copy $EXPORTDIR to $PKISHARE"
 	echo -en "\n Enter the ROOT Password\n"
-	su root -c "cp -a $EXPORTDIR $PKISHARE"
-	echo -en "\n Enter the ROOT Password again\n"
-	su root -c "chown -R $PKISHAREUSER:$PKISHAREGROUP $PKISHARE"
+	cp $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKISHARE
 	fi
 	echo -en "\n You can now download the export by SFTP with user $PKISHAREUSER remotely "
 	echo -en "\n The IP address of this system is $(getMyIP)"
