@@ -831,21 +831,21 @@ function ziptool() {
 	echo ".. [ENTER] to cont ..";read
 	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
 		-x "./*.zip" \
-		-x "$PKIHOME/sslbackups/*.*" \
-		-x "$PKIHOME/PKIclone*" \
+		-x "./sslbackups/*.*" \
+		-x "./PKIclone*" \
 		-x "./archives/*" \
 		-x "$ARCHIVEDIR/*.*"\
-		-x "$PKIHOME/tmp*"\
-		-x "$PKIHOME/sbin*"\
-		-x "$PKIHOME/pkiconf/*"\
-		-x "$PKIHOME/sslbackups/*"\
-		-x "$PKIHOME/exports/*"\
-		-x "$PKIHOME/www-public/*"\
-		-x "$PKIHOME/www/*"\
-		-x "$PKIHOME/*.sh"\
-		-x "$PKIHOME/log/*"\
+		-x "./tmp*"\
+		-x "./sbin*"\
+		-x "./pkiconf/*"\
+		-x "./sslbackups/*"\
+		-x "./exports/*"\
+		-x "./www-public/*"\
+		-x "./www/*"\
+		-x "./*.sh"\
+		-x "./log/*"\
 		-x "./.git/*"\
-		-x "$PKIHOME/.gitignore" \
+		-x "./.gitignore" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
