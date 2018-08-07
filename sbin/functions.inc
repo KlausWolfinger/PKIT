@@ -824,11 +824,12 @@ function LessHelp() {
 function ziptool() {
 	InitDirs 
 	now=$(date +"%Y-%m-%d-%S")
+	cd $PKIHOME
 	echo -en "\nTool will write a full archive from current project level!" 
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkiProject_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";read
-	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip $PKIHOME \
+	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
 		-x "$PKIHOME/*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
