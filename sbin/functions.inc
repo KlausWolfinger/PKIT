@@ -843,7 +843,7 @@ function ziptool() {
 		-x "$PKIHOME/*.sh"\
 		-x "$PKIHOME/log/*"\
 		-x "$PKIHOME/.git/*"\
-		-x "$PKIHOME/.gitignore/*" \
+		-x "$PKIHOME/.gitignore" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
