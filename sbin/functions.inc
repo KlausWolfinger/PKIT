@@ -833,7 +833,12 @@ function ziptool() {
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
 		-x "$ARCHIVEDIR/*.*"\
-		-x "$EXPORTDIR/*.*"
+		-x "$PKIHOME/tmp*"\
+		-x "$PKIHOME/sbin*"\
+		-x "$PKIHOME/*.sh"\
+		-x "$PKIHOME/log/*"\
+		-x "$PKIHOME/.git/*"\
+		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
 	dir -all $ARCHIVEDIR/pki*.zip 
