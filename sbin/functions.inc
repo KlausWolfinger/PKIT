@@ -499,6 +499,9 @@ sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
 }
   
 function UpdateCRL() {
+	. $CONFIGDIR/projectname.inf
+	local crlfileext='.crl'
+	local crlFileName=$PKITprojectName$crlfileext
 	# re-read config 
 	. $PKIconfig
 	# echo -en "--- Updating CRL ...\n" 
@@ -514,19 +517,19 @@ function UpdateCRL() {
 	perl $SBINdir/update_index.pl $CERTSDIR/$extension/"$CN".crt 
 	# write crl 
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
-	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
+	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/$crlFileName -config /dev/stdin 
 	done 
 		if [ ! -d $CRLWEBDIR ]; then 
 			mkdir -p $CRLWEBDIR
 		fi
-	cp $CRLDIR/rootca.crl $CRLWEBDIR
+	cp $CRLDIR/$crlFileName $CRLWEBDIR
 	
-	chmod 644 $CRLWEBDIR/rootca.crl 
+	chmod 644 $CRLWEBDIR/$crlFileName 
 	echo 
 	echo "*****************************************************" 
 	echo "* NOTE: YOU HAVE TO DISTRIBUTE THE UPDATED CRL NOW. *" 
 	echo "*****************************************************" 
-	echo "**** Get the new crl file from $CRLWEBDIR/rootca.crl ****" 
+	echo "**** Get the new crl file from $CRLWEBDIR/$crlFileName  ****" 
 	# echo -en "\n\t--> Press ENTER to continue" 
 	# read 
 } 
