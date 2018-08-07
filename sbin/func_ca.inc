@@ -122,7 +122,7 @@ function create_rootca(){
 	create_rootCA_DB
 	local rootfileext='CA.pem'
 	local RootFileName=$PKITprojectName$rootfileext
-	. 
+	
 	
 	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
 		echo -en "Creating now rootCA\n" 
