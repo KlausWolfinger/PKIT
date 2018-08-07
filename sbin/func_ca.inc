@@ -162,8 +162,8 @@ function create_rootca(){
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
 		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
 		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
-		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName.pem
-		chmod 644 $WWWDIR/$RootFileName.pem
+		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName
+		chmod 644 $WWWDIR/$RootFileName
 		 
 	fi
 	
