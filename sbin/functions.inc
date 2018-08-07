@@ -653,7 +653,7 @@ function destroypki() {
 		rm -f $PKIHOME/crl/*
 		rm -R -f $CANDCERTSDIR/*	
 		# rm -f $PKIHOME/dh/*.pem 
-		# rm -R -f $WWWCADIR/* 
+		rm -R -f $WWWCADIR/$RootFileName 
 		# rm -R -f $WWWCERTSDIR/*
 		#mkdir -m 700 -p $KEYSDIR 
 		#mkdir -m 700 -p $PKIHOME/certs 
