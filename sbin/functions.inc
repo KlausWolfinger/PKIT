@@ -830,10 +830,10 @@ function ziptool() {
 	echo "$ARCHIVEDIR/pkiProject_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";read
 	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
-		-x "$PKIHOME/*.zip" \
+		-x "./*.zip" \
 		-x "$PKIHOME/sslbackups/*.*" \
 		-x "$PKIHOME/PKIclone*" \
-		-x "$PKIHOME/archives/*" \
+		-x "./archives/*" \
 		-x "$ARCHIVEDIR/*.*"\
 		-x "$PKIHOME/tmp*"\
 		-x "$PKIHOME/sbin*"\
@@ -844,7 +844,7 @@ function ziptool() {
 		-x "$PKIHOME/www/*"\
 		-x "$PKIHOME/*.sh"\
 		-x "$PKIHOME/log/*"\
-		-x "$PKIHOME/.git/*"\
+		-x "./.git/*"\
 		-x "$PKIHOME/.gitignore" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
 		
