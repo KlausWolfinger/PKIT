@@ -119,6 +119,7 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 }
 
 function create_rootca(){ 
+	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
 	local RootFileName=$PKITprojectName$rootfileext
