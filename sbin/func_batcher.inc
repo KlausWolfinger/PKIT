@@ -135,10 +135,7 @@ read
 		[:]ip* ) 
 			# Cli
 			echo "command: $CLIcommand"
-			if [ eval $CLIcommand ];then
-			else
-			echo "error"
-			fi
+			eval $CLIcommand 2>/dev/null
 			read -p "ENTER to cont"			
 			;;
 		[:]ls* ) 
