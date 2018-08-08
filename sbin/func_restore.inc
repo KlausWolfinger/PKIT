@@ -52,7 +52,7 @@ if (yes_no)
 				
 				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/x509.inf $ImportX509File  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 				
-				cat $PKIHOME/pkiconf/x509.inf.imported  >$PKIHOME/PKIclone-$NewProjectName/pkiconf/x509.inf
+				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported  >$PKIHOME_START/PKIclone-$NewProjectName/pkiconf/x509.inf
 
 				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/pkitool.conf $ImportPkiConfFile >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
 				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/PKIclone-$NewProjectName/pkiconf/pkitool.conf
