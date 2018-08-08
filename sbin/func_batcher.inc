@@ -126,17 +126,19 @@ function pkitcli() {
 #
 clear
 menu_header
+echo
 # CA management 
 	case $keypress in 
 		
 		[:]ip ) 
 			# Cli
+			echo "---- ip address ----"
 			ip a
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
 			echo -en "\n#####################################################\n"
-			echo "# you entered an invalid command: \"$keypress\"   #"
+			echo "# you entered an invalid command: \"$keypress\""
 			echo "#####################################################"
 			read -p "ENTER to cont ..."	
 			return 
