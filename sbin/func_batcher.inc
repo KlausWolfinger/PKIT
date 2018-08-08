@@ -124,22 +124,23 @@ esac;
 	
 function pkitcli() {
 #
+CLIcommand=$(echo "$keypress" | cut -d ":" -f 2)
 clear
 menu_header
 echo
 # CA management 
 	case $keypress in 
 		
-		[:]ip ) 
+		[:]ip* ) 
 			# Cli
 			echo "---- ip address ----"
-			ip a
+			$($CLIcommand)
 			read -p "ENTER to cont"			
 			;;
 		[:]ls* ) 
 			# Cli
 			echo 
-			$($keypress)
+			$($CLIcommand)
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
