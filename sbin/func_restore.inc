@@ -15,10 +15,11 @@ echo "--- RESTORE MAY DESTROY YOUR PROJECT ---"
 echo "--- ARE YOU SURE ? [Yy or Nn]"
 if (yes_no) 
 	then
-	 if ( ! -e $PKIHOME_START/pkiconf/restoreconf.inf )
+	if ( ! -e $PKIHOME_START/pkiconf/restoreconf.inf )
 		then
 		cp -p $PKIHOME_START/pkiconf/restoreconftemplate.inf  $PKIHOME_START/pkiconf/restoreconf.inf
 	fi	
+fi	
 	. $PKIHOME_START/pkiconf/restoreconf.inf
 	
 # file tests
