@@ -148,6 +148,10 @@ echo "-----------------------------------------"
 			echo "command: $CLIcommand" 
 			eval $CLIcommand | less 2>/dev/null
 			read -p "ENTER to cont"			
+			;;
+		[:]restore ) 
+			# Cli
+			menu7			
 			;;	
 		*) # main menu 
 			echo -en "\n#####################################################\n"

@@ -397,6 +397,43 @@ function menu6 () {
 			;; 
 		esac 
 } 
+
+function menu7 () { 
+	# CA management 
+	MenuLevel=7
+	MenuName="RESTORE"
+	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	let LOOPCNT++ 
+	clear 
+	menu_header 
+	echo -en "\n#\tRESTORE --->" 
+	echo -en "\n--> \tSelect action:\n 
+	\C - Change Restore Config
+	\R - Start Restore
+	\t---------------------------------------- 
+	\t99 - Return\n\n" 
+	read -p "--> $MenuLevel$PROMPT_2" userchoice 
+	keypress=$(echo $userchoice | tr -d "\n") 
+	Lastaction=$keypress 
+	case $keypress in 
+		[C] ) # Edit Root CA X509
+			echo "Restore Config;
+			read
+			;;
+		[R] ) # Create a p12 keybag with passphrase
+			echo "Start Restore"
+			read
+			;; 
+		
+		:* )
+			# Cli
+			pkitcli	
+			;;
+		99 ) # main menu 
+			menu0 
+			;; 
+		esac 
+} 
 function menu_header () { # common menu header 
 	if [ $(whoami) != 'srx' ]; then 
 		#echo -en "\t!!!! --- On OSV login as srx --- !!!!" 
