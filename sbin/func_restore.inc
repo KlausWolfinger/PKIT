@@ -21,13 +21,13 @@ if (yes_no)
 			ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
 			read -p "test1"
 		fi
-		if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
+	if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
-				read -p "test2"
-				cat $ImportPkiConfFile
-				read -p "file1"
-				cat $ImportX509File
-				read -p "file2"
+				echo "test2"
+				echo "ImportPkiConfFile = $ImportPkiConfFile"
+				echo "ImportX509File = $ImportX509File"
+				
+				read -p "Break"
 				
 				awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
@@ -40,7 +40,7 @@ if (yes_no)
 					echo "Missing files to restore"
 					echo "$ImportPkiConfFile and $ImportX509File"
 					read -p "Enter to exit ..."
-		fi
+	fi
 read -p "test3"		
 	
 fi	
