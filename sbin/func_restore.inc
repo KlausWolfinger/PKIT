@@ -22,27 +22,24 @@ if (yes_no)
 		. $PKIHOME_START/pkiconf/restoreconf.inf
 		ImportX509File=$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf
 		ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
+		# copy oldpki to restore folder
+		cp -R $OldPKIDir $PKIHOME_START/$RestoreSourceDir
+		read -p "break"
 	if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
-				echo "test2"
-				echo "ImportPkiConfFile = $ImportPkiConfFile"
-				echo "ImportX509File = $ImportX509File"
-				
-				read -p "Break"
+				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
+				cp -p $PKIHOME/pkiconf/pkitool.conf $PKIHOME/pkiconf/pkitool.conf.save
 				
 				awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
-				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
 				cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
 
 				awk -F= '!a[$1]++' $ImportPkiConfFile $PKIHOME/pkiconf/pkitool.conf >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
-				cp -p $PKIHOME/pkiconf/pkitool.conf $PKIHOME/pkiconf/pkitool.conf.save
 				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/pkiconf/pkitool.conf
-				else
-					echo "Missing files to restore"
-					echo "$ImportPkiConfFile and $ImportX509File"
-					read -p "Enter to exit ..."
+			else
+				echo "Missing files to restore"
+				echo "$ImportPkiConfFile and $ImportX509File"
+				read -p "Enter to exit ..."
 	fi
-read -p "test3"		
 	
 fi	
 	
