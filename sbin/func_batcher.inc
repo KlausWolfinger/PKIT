@@ -135,7 +135,7 @@ read
 		[:]ip* ) 
 			# Cli
 			echo "command: $CLIcommand"
-			if ( ! $( eval $CLIcommand 2>/dev/null ))
+			if ( ! $($CLIcommand 2>/dev/null ))
 			then
 			echo "The command $CLIcommand is not valid !"
 			#eval $CLIcommand 2>/dev/null
