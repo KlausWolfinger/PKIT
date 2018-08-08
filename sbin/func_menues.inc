@@ -418,7 +418,7 @@ function menu7 () {
 	case $keypress in 
 		[C] ) # Edit Root CA X509
 			echo "Restore Config"
-			read
+			pki_restore_conf
 			;;
 		[R] ) # Create a p12 keybag with passphrase
 			pki_restore			

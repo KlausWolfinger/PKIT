@@ -63,3 +63,14 @@ fi
 
 
 }
+
+function pki_restore_conf () {
+if [ ! -e $PKIHOME_START/pkiconf/restoreconf.inf ]
+			then
+			cp -p $PKIHOME_START/pkiconf/restoreconftemplate.inf  $PKIHOME_START/pkiconf/restoreconf.inf
+					
+		fi
+vi $PKIHOME_START/pkiconf/restoreconf.inf
+. $PKIHOME_START/pkiconf/restoreconf.inf
+
+}
