@@ -10,7 +10,7 @@ function createRestoreProject() {
 	fi 
 	
 	# do not change order !!
-	mkdir $PKIHOME/PKIclone-$NewProjectName
+	mkdir $PKIHOME_START/PKIclone-$NewProjectName
 	
 	
 }
@@ -40,7 +40,7 @@ if (yes_no)
 		ImportX509File=$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf
 		ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
 		# copy oldpki to restore folder
-		mkdir $PKIHOME_START/$RestoreSourceDir/rootca
+		mkdir -p $PKIHOME_START/$RestoreSourceDir/rootca
 		cp -p -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
