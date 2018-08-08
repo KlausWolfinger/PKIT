@@ -408,8 +408,8 @@ function menu7 () {
 	menu_header 
 	echo -en "\n#\tRESTORE --->" 
 	echo -en "\n--> \tSelect action:\n 
-	\C - Change Restore Config
-	\R - Start Restore
+	\tC - Change Restore Config
+	\tR - Start Restore
 	\t---------------------------------------- 
 	\t99 - Return\n\n" 
 	read -p "--> $MenuLevel$PROMPT_2" userchoice 
