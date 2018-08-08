@@ -568,7 +568,7 @@ function UpdateCRL() {
 	extension=$(echo "$cert" | cut -f1 -d:) 
 	CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 	#echo -en "\n--> Extension: $extension\n\n" 
-	perl $SBINdir/update_index.pl $CERTSDIR/$extension/"$CN".crt 
+	perl $SBINdir/update_index.pl $CERTSDIR/$extension/"$CN".crt $ROOTCADIR/root-index.txt
 	# write crl 
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/$crlFileName -config /dev/stdin 

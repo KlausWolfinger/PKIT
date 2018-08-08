@@ -8,7 +8,7 @@
 $openssl = '/usr/bin/openssl';
 $crt_filename = $ARGV[0];
 $index_filename = "root-index.txt";
-
+$index_filename = $ARGV[1];
 open(OPENSSL, "$openssl x509 -noout -serial -subject -enddate -in $crt_filename |") ||
   die "Can't open $openssl: $!";
   
