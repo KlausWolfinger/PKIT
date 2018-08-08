@@ -955,3 +955,10 @@ function ListCertIndex() {
 	echo
 	
 }
+
+function pkitcli() {
+#
+clear
+echo "--- pkit Cli ---"
+read
+}
