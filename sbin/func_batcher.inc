@@ -141,7 +141,7 @@ read
 		[:]ls* ) 
 			# Cli
 			echo 
-			$($CLIcommand)
+			$(/bin/$CLIcommand)
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
