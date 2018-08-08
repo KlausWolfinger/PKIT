@@ -186,12 +186,12 @@ X509file \
 PKIconfig \
 SubCATemplate \
 DATABASE )
-rm -f $LOGDIR/vars.log
+rm -f $PKIHOME_START/log/vars.log
 for i in ${VarsArray[@]}; do
  cmd="echo \$$i"
- echo "$i = $(eval $cmd)" >>$LOGDIR/vars.log 
+ echo "$i = $(eval $cmd)" >>$PKIHOME_START/log/vars.log 
 done
-less $LOGDIR/vars.log
+less $PKIHOME_START/log/vars.log
 
 }
  
