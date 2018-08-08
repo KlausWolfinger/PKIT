@@ -21,7 +21,7 @@ if (yes_no)
 			ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
 			read -p "test1"
 		fi
-		if [ -e $ImportPkiConfFile -a -e $ImportX509File ]
+		if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
 				read -p "test2"
 				cat $ImportPkiConfFile
