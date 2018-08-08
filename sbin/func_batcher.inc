@@ -135,23 +135,19 @@ read
 		[:]ip* ) 
 			# Cli
 			echo "command: $CLIcommand"
-			if ( ! $($CLIcommand 2>/dev/null ))
-			then
-			echo "The command $CLIcommand is not valid !"
-			#eval $CLIcommand 2>/dev/null
-			fi
+			eval $CLIcommand 2>/dev/null
 			read -p "ENTER to cont"			
 			;;
 		[:]ls* ) 
 			# Cli
 			echo "command: $CLIcommand" 
-			eval $CLIcommand
+			eval $CLIcommand 2>/dev/null
 			read -p "ENTER to cont"			
 			;;
 		[:]tree* ) 
 			# Cli
 			echo "command: $CLIcommand" 
-			eval $CLIcommand
+			eval $CLIcommand 2>/dev/null
 			read -p "ENTER to cont"			
 			;;	
 		*) # main menu 
