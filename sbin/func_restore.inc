@@ -33,11 +33,12 @@ if (yes_no)
 				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
 				cp -p $PKIHOME/pkiconf/pkitool.conf $PKIHOME/pkiconf/pkitool.conf.save
 				
-				awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
-				cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
+				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/x509.inf $ImportX509File  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
+				
+				#cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
 
-				awk -F= '!a[$1]++' $ImportPkiConfFile $PKIHOME/pkiconf/pkitool.conf >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
-				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/pkiconf/pkitool.conf
+				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/pkitool.conf $ImportPkiConfFile >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
+				#cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/pkiconf/pkitool.conf
 			else
 				echo "Missing files to restore"
 				echo "$ImportPkiConfFile and $ImportX509File"
