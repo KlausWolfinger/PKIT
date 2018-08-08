@@ -120,6 +120,7 @@ case "$Param1" in
 	
 	
 esac;
+}
 	
 function pkitcli() {
 #
