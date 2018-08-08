@@ -135,7 +135,7 @@ menu_header
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
-			echo "#####################################################"
+			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\"   #"
 			echo "#####################################################"
 			read -p "ENTER to cont ..."	
