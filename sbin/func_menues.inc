@@ -417,7 +417,7 @@ function menu7 () {
 	Lastaction=$keypress 
 	case $keypress in 
 		[C] ) # Edit Root CA X509
-			echo "Restore Config;
+			echo "Restore Config"
 			read
 			;;
 		[R] ) # Create a p12 keybag with passphrase
@@ -433,7 +433,8 @@ function menu7 () {
 			menu0 
 			;; 
 		esac 
-} 
+}
+ 
 function menu_header () { # common menu header 
 	if [ $(whoami) != 'srx' ]; then 
 		#echo -en "\t!!!! --- On OSV login as srx --- !!!!" 
