@@ -5,13 +5,22 @@ function pki_restore () {
 # check files (pkitool.conf x509.inf)
 # describe doing
 # 
-awk -F= '!a[$1]++' restore/x509.inf pkiconf/x509.inf >pkiconf/x509.inf.imported
-cp -p pkiconf/x509.inf pkiconf/x509.inf.save
-cat pkiconf/x509.inf.imported  >pkiconf/x509.inf
+clear
+echo "--- RESTORE Utility ---"
+echo "--- RESTORE MAY DESTROY YOUR PROJECT ---"
+echo "--- ARE YOU SURE ? "
+if (yes_no) 
+	then
 
-awk -F= '!a[$1]++' restore/pkitool.conf pkiconf/pkitool.conf >pkiconf/pkitool.conf.imported
-cp -p pkiconf/pkitool.conf pkiconf/pkitool.conf.save
-cat pkiconf/pkitool.conf.imported  >pkiconf/pkitool.conf
+
+	awk -F= '!a[$1]++' restore/x509.inf pkiconf/x509.inf >pkiconf/x509.inf.imported
+	cp -p pkiconf/x509.inf pkiconf/x509.inf.save
+	cat pkiconf/x509.inf.imported  >pkiconf/x509.inf
+
+	awk -F= '!a[$1]++' restore/pkitool.conf pkiconf/pkitool.conf >pkiconf/pkitool.conf.imported
+	cp -p pkiconf/pkitool.conf pkiconf/pkitool.conf.save
+	cat pkiconf/pkitool.conf.imported  >pkiconf/pkitool.conf
+fi
 
 # cleanup project
 # copy rootca

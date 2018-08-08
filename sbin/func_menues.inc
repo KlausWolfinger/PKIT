@@ -421,8 +421,7 @@ function menu7 () {
 			read
 			;;
 		[R] ) # Create a p12 keybag with passphrase
-			echo "Start Restore"
-			read
+			pki_restore			
 			;; 
 		
 		:* )
