@@ -128,13 +128,7 @@ clear
 echo "--- pkit Cli ---"
 read
 # CA management 
-	MenuLevel=7
-	MenuName="CLI"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
-	let LOOPCNT++ 
 	clear 
-	menu_header
-	
 	case $keypress in 
 		
 		[:]* ) 
