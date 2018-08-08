@@ -14,12 +14,12 @@ echo "--- RESTORE MAY DESTROY YOUR PROJECT ---"
 echo "--- ARE YOU SURE ? [Yy or Nn]"
 if (yes_no) 
 	then
-	if ( ! -e $PKIHOME_START/pkiconf/restoreconf.inf )
+	if [ ! -e $PKIHOME_START/pkiconf/restoreconf.inf ]
 		then
 		cp -p $PKIHOME_START/pkiconf/restoreconftemplate.inf  $PKIHOME_START/pkiconf/restoreconf.inf
 		. $PKIHOME_START/pkiconf/restoreconf.inf
 	fi
-	if ( -e $ImportPkiConfFile -a -e $ImportX509File )
+	if [ -e $ImportPkiConfFile -a -e $ImportX509File ]
 		then
 			awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 			cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
