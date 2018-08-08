@@ -1,6 +1,5 @@
 # restore from old pki to PKIT
 function pki_restore () {
-
 # vars
 ImportX509File="$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf"
 ImportPkiConfFile="$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf"
