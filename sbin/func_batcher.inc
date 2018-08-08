@@ -125,7 +125,7 @@ esac;
 function pkitcli() {
 #
 clear
-echo "--- pkit Cli ---"
+menu_header
 # CA management 
 	clear 
 	case $keypress in 
