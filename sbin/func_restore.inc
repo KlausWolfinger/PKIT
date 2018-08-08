@@ -41,6 +41,7 @@ if (yes_no)
 		ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
 		# copy oldpki to restore folder
 		mkdir -p $PKIHOME_START/$RestoreSourceDir/rootca
+		mkdir -p $PKIHOME_START/$RestoreSourceDir/crl
 		cp -p -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
