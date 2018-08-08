@@ -159,7 +159,7 @@ function create_requests() {
 
 
 function create_keys_certs() {
-	$PKIHOME/pkiconf/pkitool.conf # load current passphrase
+	. $PKIHOME/pkiconf/pkitool.conf # load current passphrase
 	if [ "$HidePassPhrase" -eq "1" ]; then
 	P12FileNamePass="_x_x"
 	else
