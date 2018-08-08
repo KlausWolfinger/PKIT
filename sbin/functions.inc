@@ -655,7 +655,7 @@ function destroypki() {
 		rm -f $PKIHOME/params/* 
 		rm -f $PKIHOME/crl/*
 		rm -R -f $CANDCERTSDIR/*
-		rm -R -f $PKIHOME_START/$RestoreSourceDir/
+		rm -R -f $PKIHOME_START/restore/
 		rm -R -f $PKIHOME_START/log/
 		# rm -f $PKIHOME/dh/*.pem 
 		rm -R -f $WWWCADIR/$RootFileName 
