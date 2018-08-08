@@ -139,7 +139,7 @@ function reInitVars() {
 	. $CONFIGDIR/projectname.inf
 }
 
-function ListVars () {
+function ListVars() {
 
 VarsArray=(PKIUSERHOME \
 PKINAME \
@@ -186,10 +186,11 @@ X509file \
 PKIconfig \
 SubCATemplate \
 DATABASE )
-
+rm -f $LOGDIR/vars.log
 for i in ${VarsArray[@]}; do
- echo "$i = $$i" | less
+ echo "$i = $$i" >>$LOGDIR/vars.log 
 done
+less $LOGDIR/vars.log
 
 }
  
