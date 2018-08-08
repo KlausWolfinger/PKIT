@@ -956,9 +956,4 @@ function ListCertIndex() {
 	
 }
 
-function pkitcli() {
-#
-clear
-echo "--- pkit Cli ---"
-read
-}
+

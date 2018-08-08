@@ -121,6 +121,28 @@ case "$Param1" in
 	
 esac;
 	
-
-
+function pkitcli() {
+#
+clear
+echo "--- pkit Cli ---"
+read
+# CA management 
+	MenuLevel=7
+	MenuName="CLI"
+	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	let LOOPCNT++ 
+	clear 
+	menu_header
+	
+	case $keypress in 
+		
+		[:]* ) 
+			# Cli
+			echo "command: $keypress"
+			read -p "ENTER to cont"			
+			;;
+		*) # main menu 
+			return 
+			;; 
+		esac 
 }
