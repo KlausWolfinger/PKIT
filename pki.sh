@@ -148,6 +148,14 @@ source $PKIHOME/sbin/func_reissuesigned.inc
 # echo "functions func_createtls.inc loaded...."
 # read
 fi
+if [ ! -e $PKIHOME/sbin/func_restore.inc ]; then
+echo "PKI include file func_restore.inc does not exist !"
+exit 1
+else 
+source $PKIHOME/sbin/func_restore.inc
+# echo "functions func_restore.inc loaded...."
+# read
+fi
 
 }
 libloader;
