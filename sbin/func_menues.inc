@@ -62,7 +62,7 @@ function menu0 () {
 			[Qq] ) 
 				exit 0 
 				;; 
-			[:] ) 
+			:* ) 
 				# Cli
 				pkitcli	
 				;;
@@ -88,7 +88,7 @@ function menu2 () {
 				editConfig;
 				checkConfig; 
 				;; 
-			[:] ) 
+			[:]* ) 
 				# Cli
 				pkitcli	
 				;;	
@@ -173,7 +173,7 @@ function menu3 () {
 		[S] ) # switch to runlevel PKI 
 			changePKILevel; 
 			;;
-		[:] ) 
+		[:]* ) 
 			# Cli
 			pkitcli	
 			;;	
@@ -207,7 +207,7 @@ function menu4 () {
 				echo "not implemented ...."; 
 				read
 			;; 
-			[:] ) 
+			[:]* ) 
 				# Cli
 				pkitcli	
 				;;
@@ -388,7 +388,7 @@ function menu6 () {
 		[I] ) # create RootCA Request interactive
 			create_rootCA_Req_IA;
 			;;
-		[:] ) 
+		[:]* ) 
 			# Cli
 			pkitcli	
 			;;
