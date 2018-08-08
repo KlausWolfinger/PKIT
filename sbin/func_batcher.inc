@@ -132,18 +132,24 @@ read
 # CA management 
 	case $keypress in 
 		
-		[:]ip* ) 
+		[:]ip[ ]* ) 
 			# Cli
 			echo "command: $CLIcommand"
 			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
-		[:]ls* ) 
+		[:]ls [ ]* ) 
 			# Cli
 			echo "command: $CLIcommand" 
 			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
+		[:]tree[ ]* ) 
+			# Cli
+			echo "command: $CLIcommand" 
+			eval $CLIcommand
+			read -p "ENTER to cont"			
+			;;	
 		*) # main menu 
 			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\""
