@@ -127,7 +127,6 @@ function pkitcli() {
 clear
 menu_header
 # CA management 
-	clear 
 	case $keypress in 
 		
 		[:]ip ) 
