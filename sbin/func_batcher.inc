@@ -141,13 +141,13 @@ read
 		[:]ls* ) 
 			# Cli
 			echo "command: $CLIcommand" 
-			eval $CLIcommand 2>/dev/null
+			eval $CLIcommand | less 2>/dev/null
 			read -p "ENTER to cont"			
 			;;
 		[:]tree* ) 
 			# Cli
 			echo "command: $CLIcommand" 
-			eval $CLIcommand 2>/dev/null
+			eval $CLIcommand | less 2>/dev/null
 			read -p "ENTER to cont"			
 			;;	
 		*) # main menu 
