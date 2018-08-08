@@ -476,7 +476,7 @@ THISSCRIPT=Installer_$CN.sh
 
 echo "#!/bin/bash" >$CERTSDIR/$extension/$THISSCRIPT
 echo "# change user with su - srx" >>$CERTSDIR/$extension/$THISSCRIPT
-echo "echo \"This tool is not released, no warranty !\"" >>$THISSCRIPT
+echo "echo \"This tool is not released, no warranty !\"" >>$CERTSDIR/$extension/$THISSCRIPT
 
 
 ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')

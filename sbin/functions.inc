@@ -185,6 +185,7 @@ HOSTfile \
 X509file \
 PKIconfig \
 SubCATemplate \
+THISSCRIPT \
 DATABASE )
 rm -f $PKIHOME_START/log/vars.log
 for i in ${VarsArray[@]}; do
