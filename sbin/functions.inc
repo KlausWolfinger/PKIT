@@ -135,7 +135,7 @@ function reInitVars() {
 	PKIconfig=$CONFIGDIR/pkitool.conf
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
-	. $CONFIGDIR/version.inf
+	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
 	## does not exist in clone ???
 	# IP
