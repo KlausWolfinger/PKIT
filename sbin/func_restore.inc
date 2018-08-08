@@ -20,7 +20,7 @@ if (yes_no)
 			. $PKIHOME_START/pkiconf/restoreconf.inf
 			read -p "test1"
 		fi
-		if [ -e $ImportPkiConfFile -a -e $ImportX509File ]
+		if [ -r $ImportPkiConfFile -a -r $ImportX509File ]
 			then
 				read -p "test2"
 				cat $ImportPkiConfFile
