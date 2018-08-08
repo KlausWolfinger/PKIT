@@ -152,7 +152,11 @@ echo "-----------------------------------------"
 		[:]restore ) 
 			# Cli
 			menu7			
-			;;	
+			;;
+		[:]listvars )
+			# list all variables
+			ListVars
+			;;
 		*) # main menu 
 			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\""

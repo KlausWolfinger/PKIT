@@ -137,12 +137,62 @@ function reInitVars() {
 	DATABASE=$ROOTCADIR/root-index.txt
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
-	## does not exist in clone ???
-	# IP
-	# ToolIP
-	
-	
-} 
+}
+
+function ListVars () {
+
+VarsArray=(PKIUSERHOME \
+PKINAME \
+PKITprojectName \
+BANNER \
+ARCHIVEDIR \
+EXPORTDIR \
+LOGDIR \
+TMPDIR \
+CONFIGDIR \
+ROOTCADIR \
+SUBCADIR \
+CRLDIR \
+CERTSDIR \
+CERTSCACHEDIR \
+OSVCERTSDIR \
+KEYSDIR \
+DHDIR \
+HOSTDIR \
+SBINdir \
+SSLbackupdir \
+WWWCADIR \
+WWWCERTSDIR \
+WWWDIR \
+OSVSSLDIR \
+pkiUser \
+PKISHARE \
+PKISHAREUSER \
+PKISHAREGROUP \
+PKISHAREFOLDER \
+PKIFOLDER \
+ToolIP \
+pkiAccount \
+pkiShareAccount \
+OSVCertsDir \
+OSVPrivateDir \
+OSVdhDir \
+CRLWEBDIR \
+SoapLogFile \
+SRXInstaller \
+SRXconfig \
+HOSTfile \
+X509file \
+PKIconfig \
+SubCATemplate \
+DATABASE )
+
+for i in ${VarsArray[@]}; do
+ echo "$i = $$i" | less
+done
+
+}
+ 
 function readIP () { 
 	#sudo -u root /sbin/ifconfig 
 	# /sbin/ifconfig | grep "inet" | head -n2
