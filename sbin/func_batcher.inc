@@ -132,19 +132,19 @@ read
 # CA management 
 	case $keypress in 
 		
-		[:]ip[ ]* ) 
+		":ip " ) 
 			# Cli
 			echo "command: $CLIcommand"
 			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
-		[:]ls [ ]* ) 
+		[:]ls* ) 
 			# Cli
 			echo "command: $CLIcommand" 
 			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
-		[:]tree[ ]* ) 
+		[:]tree* ) 
 			# Cli
 			echo "command: $CLIcommand" 
 			eval $CLIcommand
