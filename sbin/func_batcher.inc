@@ -127,7 +127,8 @@ function pkitcli() {
 CLIcommand=$(echo "$keypress" | cut -d ":" -f 2)
 clear
 menu_header
-echo
+echo "command: $CLIcommand"
+read
 # CA management 
 	case $keypress in 
 		
