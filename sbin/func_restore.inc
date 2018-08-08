@@ -23,6 +23,11 @@ if (yes_no)
 		if [ -e $ImportPkiConfFile -a -e $ImportX509File ]
 			then
 				read -p "test2"
+				cat $ImportPkiConfFile
+				read -p "file1"
+				cat $ImportX509File
+				read -p "file2"
+				
 				awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
 				cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
