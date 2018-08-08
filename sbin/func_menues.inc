@@ -88,7 +88,7 @@ function menu2 () {
 				editConfig;
 				checkConfig; 
 				;; 
-			[:]* ) 
+			:* ) ) 
 				# Cli
 				pkitcli	
 				;;	
@@ -173,7 +173,7 @@ function menu3 () {
 		[S] ) # switch to runlevel PKI 
 			changePKILevel; 
 			;;
-		[:]* ) 
+		:* ) ) 
 			# Cli
 			pkitcli	
 			;;	
@@ -207,7 +207,7 @@ function menu4 () {
 				echo "not implemented ...."; 
 				read
 			;; 
-			[:]* ) 
+			:* ) ) 
 				# Cli
 				pkitcli	
 				;;
@@ -298,7 +298,7 @@ function menu5 () {
 			read_x509config;
 			SignRequest 
 			;; 
-		[:] ) 
+		:* ) 
 				# Cli
 				pkitcli	
 				;;
@@ -388,7 +388,7 @@ function menu6 () {
 		[I] ) # create RootCA Request interactive
 			create_rootCA_Req_IA;
 			;;
-		[:]* ) 
+		:* ) ) 
 			# Cli
 			pkitcli	
 			;;

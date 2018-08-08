@@ -126,17 +126,20 @@ function pkitcli() {
 #
 clear
 echo "--- pkit Cli ---"
-read
 # CA management 
 	clear 
 	case $keypress in 
 		
-		[:]* ) 
+		[:]ip ) 
 			# Cli
-			echo "command: $keypress"
+			ip a
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
+			echo "#####################################################"
+			echo "# you entered an invalid command: \"$keypress\"   #"
+			echo "#####################################################"
+			read -p "ENTER to cont ..."	
 			return 
 			;; 
 		esac 
