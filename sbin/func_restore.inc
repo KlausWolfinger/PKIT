@@ -40,7 +40,8 @@ if (yes_no)
 		ImportX509File=$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf
 		ImportPkiConfFile=$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf
 		# copy oldpki to restore folder
-		cp -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
+		mkdir $PKIHOME_START/$RestoreSourceDir/rootca
+		cp -p -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
