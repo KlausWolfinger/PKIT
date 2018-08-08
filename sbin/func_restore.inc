@@ -45,6 +45,7 @@ if (yes_no)
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
+		cp -R $OldPKIDir/host $PKIHOME_START/$RestoreSourceDir
 		read -p "--- old project copied, ENTER to continue ..."
 	if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
