@@ -11,17 +11,7 @@ function createRestoreProject() {
 	
 	# do not change order !!
 	mkdir $PKIHOME/PKIclone-$NewProjectName
-	mkdir -p $PKIHOME/PKIclone-$NewProjectName/keys
-	cp -R -p $PKIHOME/keys $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/certs $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/host $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/crl $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/certscache $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/dh $PKIHOME/PKIclone-$NewProjectName
-	cp -R -p $PKIHOME/pkiconf $PKIHOME/PKIclone-$NewProjectName
-	echo "PKITprojectName=$NewProjectName" >$PKIHOME/PKIclone-$NewProjectName/pkiconf/projectname.inf
-	mkdir -p $PKIHOME/PKIclone-$NewProjectName/rootca
-	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewProjectName
+	
 	
 }
 
@@ -43,8 +33,7 @@ if (yes_no)
 			then
 			cp -p $PKIHOME_START/pkiconf/restoreconftemplate.inf  $PKIHOME_START/pkiconf/restoreconf.inf
 			
-			read -p "test1"
-		fi
+			fi
 		createRestoreProject
 		
 		. $PKIHOME_START/pkiconf/restoreconf.inf
@@ -54,7 +43,7 @@ if (yes_no)
 		cp -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
-		cp  $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
+		cp -R $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
 		read -p "--- old project copied, ENTER to continue ..."
 	if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
@@ -67,7 +56,8 @@ if (yes_no)
 
 				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/pkitool.conf $ImportPkiConfFile >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
 				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/PKIclone-$NewProjectName/pkiconf/pkitool.conf
-				cp -R $PKIHOME_START/$RestoreSourceDir/* $PKIHOME_START/$NewProjectName
+				cp -R $PKIHOME_START/$RestoreSourceDir/* $PKIHOME_START/PKIclone-$NewProjectName
+				echo "PKITprojectName=$NewProjectName" >$PKIHOME_START/PKIclone-$NewProjectName/pkiconf/projectname.inf
 				echo "... sucessfully imported to $NewProjectName"
 				read -p "Enter to continue ...."
 				rm -f -R $PKIHOME_START/$RestoreSourceDir/*
