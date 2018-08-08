@@ -136,6 +136,12 @@ echo
 			ip a
 			read -p "ENTER to cont"			
 			;;
+		[:]ls* ) 
+			# Cli
+			echo 
+			$($keypress)
+			read -p "ENTER to cont"			
+			;;
 		*) # main menu 
 			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\""
