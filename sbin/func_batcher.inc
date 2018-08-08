@@ -132,7 +132,7 @@ read
 # CA management 
 	case $keypress in 
 		
-		":ip " ) 
+		:ip ) 
 			# Cli
 			echo "command: $CLIcommand"
 			eval $CLIcommand
