@@ -54,7 +54,7 @@ if (yes_no)
 		cp -R $OldPKIDir/rootca $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/certs $PKIHOME_START/$RestoreSourceDir
 		cp -R $OldPKIDir/keys $PKIHOME_START/$RestoreSourceDir
-		cp -R $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
+		cp  $OldPKIDir/pkiconf $PKIHOME_START/$RestoreSourceDir
 		read -p "--- old project copied, ENTER to continue ..."
 	if [ -e $ImportPkiConfFile ] && [ -e $ImportX509File ]
 			then
@@ -63,10 +63,10 @@ if (yes_no)
 				
 				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/x509.inf $ImportX509File  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 				
-				#cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
+				cat $PKIHOME/pkiconf/x509.inf.imported  >$PKIHOME/PKIclone-$NewProjectName/pkiconf/x509.inf
 
 				awk -F= '!a[$1]++'  $PKIHOME/pkiconf/pkitool.conf $ImportPkiConfFile >$PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported
-				#cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/pkiconf/pkitool.conf
+				cat $PKIHOME_START/$RestoreSourceDir/pkiconf/pkitool.conf.imported  >$PKIHOME/PKIclone-$NewProjectName/pkiconf/pkitool.conf
 				cp -R $PKIHOME_START/$RestoreSourceDir/* $PKIHOME_START/$NewProjectName
 				echo "... sucessfully imported to $NewProjectName"
 				read -p "Enter to continue ...."
