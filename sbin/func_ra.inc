@@ -46,11 +46,6 @@ function SignRequest(){
 } 
 
 function importcreq() {
-	clear 
-	dos2unix $CandFile >/dev/null 2>&1	
-	extCandsArray=($(cat $CandFile))
-	tLen=${#extCandsArray[@]}
-	#let tLen++
 	echo -en "Found $tLen entries in external candidates\n"
 	echo -en "------------------------------------------\n"
 	echo -en " Number\tSystem:Alias----------------------\n"
@@ -175,11 +170,6 @@ function create_keys_certs() {
 		fi
 		export CN 
 	CN_count=0;
-	#echo -en "--- creating keys and certs from hosts file (func_createtls.inc)...\n"
-	#mkdir -m 700 -p $CandKEYSDIR 
-	# mkdir -m 700 -p $CandCERTSDIR 
-	#mkdir -m 700 -p $CANDKEYSDIR 
-	#mkdir -m 700 -p $CANDCERTSDIR 
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
@@ -254,22 +244,6 @@ function create_keys_certs() {
 			else 
 			echo -en "\t---> $CN chain.pem exists, nothing todo\n" 
 			fi 
-			#-------------------------------------------------------
-			# this was redundant:
-			#if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
-			#
-			#openssl pkcs12 \
-			#	-export -inkey $KEYSDIR/$extension/"$CN".key \
-			#	-in $CERTSDIR/$extension/"$CN".crt \
-			#	-name "$CN" \
-			#	-out $CERTSDIR/$extension/"$CN".p12 \
-			#	-nodes \
-			#	-passout pass: 
-			#else
-			#echo -en "\t---> $CN p12 exists, nothing todo\n" 
-			#fi 
-			#--------------------------------------------------------- 
-			
 			# -------- case UC Server - name = tomcat
 		if [ $extension = 'ucfrontend' ] || [ $extension = 'ucbackend' ];
 		then 
