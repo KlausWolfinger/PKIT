@@ -127,21 +127,21 @@ function pkitcli() {
 CLIcommand=$(echo "$keypress" | cut -d ":" -f 2)
 clear
 menu_header
-echo "command: $CLIcommand"
+
 read
 # CA management 
 	case $keypress in 
 		
 		[:]ip* ) 
 			# Cli
-			echo "---- ip address ----"
-			$($CLIcommand)
+			echo "command: $CLIcommand"
+			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
 		[:]ls* ) 
 			# Cli
-			echo 
-			$(/bin/$CLIcommand)
+			echo "command: $CLIcommand" 
+			eval $CLIcommand
 			read -p "ENTER to cont"			
 			;;
 		*) # main menu 
