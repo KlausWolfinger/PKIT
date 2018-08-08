@@ -18,9 +18,11 @@ if (yes_no)
 			then
 			cp -p $PKIHOME_START/pkiconf/restoreconftemplate.inf  $PKIHOME_START/pkiconf/restoreconf.inf
 			. $PKIHOME_START/pkiconf/restoreconf.inf
+			read -p "test1"
 		fi
 		if [ -e $ImportPkiConfFile -a -e $ImportX509File ]
 			then
+				read -p "test2"
 				awk -F= '!a[$1]++' $ImportX509File $PKIHOME/pkiconf/x509.inf  >$PKIHOME_START/$RestoreSourceDir/pkiconf/x509.inf.imported
 				cp -p $PKIHOME/pkiconf/x509.inf $PKIHOME/pkiconf/x509.inf.save
 				cat pkiconf/x509.inf.imported  >$PKIHOME/pkiconf/x509.inf
@@ -32,7 +34,8 @@ if (yes_no)
 					echo "Missing files to restore"
 					echo "$ImportPkiConfFile and $ImportX509File"
 					read -p "Enter to exit ..."
-		fi	
+		fi
+read -p "test3"		
 	
 fi	
 	
