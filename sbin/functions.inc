@@ -188,7 +188,8 @@ SubCATemplate \
 DATABASE )
 rm -f $LOGDIR/vars.log
 for i in ${VarsArray[@]}; do
- echo "$i = "\$$i >>$LOGDIR/vars.log 
+ cmd="echo \$$i"
+ echo "$i = $(eval $cmd)" >>$LOGDIR/vars.log 
 done
 less $LOGDIR/vars.log
 
