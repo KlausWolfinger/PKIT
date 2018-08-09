@@ -257,7 +257,8 @@ function menu5 () {
 			#UpdateCRL;			
 			;; 
 		[Rr] ) # Reissue / resign certificates from local DB 
-			reissue_signed;			
+			reissue_signed;	
+			UpdateCRL
 			;; 
 		[Nn] ) # update CRL 
 			echo "Recalculating CRL ....";sleep 2 

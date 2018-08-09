@@ -162,6 +162,12 @@ echo "-----------------------------------------"
 			eval $CLIcommand | less 2>/dev/null
 			read -p "Debugging toggled -> ENTER to cont"	
 			;;
+		[:][?h] )
+			# change bash option set +x for debugging
+			echo "command list" 
+			
+			read -p "ENTER to cont"	
+			;;	
 		*) # main menu 
 			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\""
