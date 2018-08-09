@@ -170,13 +170,13 @@ function create_keys_certs() {
 		fi
 		export CN 
 	CN_count=0;
-	read -p "break1"
+	#read -p "break1"
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
 	| grep -v "^[ ]*!" \
 	| while read cert; do
-	read -p "break2"
+	#read -p "break2"
 		echo -en "\n--> HOST: $cert\n\n" 
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,) 
@@ -483,7 +483,7 @@ function create_keys_certs() {
 		done 
 		echo -en "\n\t--> Requested and signed all candidates" 
 		# last step
-		UpdateCRL;
+		# UpdateCRL;
 		
 		}
 		
