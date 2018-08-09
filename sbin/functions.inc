@@ -97,6 +97,10 @@ function reInitVars() {
 	CRLDIR=$PKIHOME/crl 
 	CERTSDIR=$PKIHOME/certs
 	CERTSCACHEDIR=$PKIHOME/certscache
+	if [ ! -d $CERTSCACHEDIR ] 
+	then 
+	mkdir -p $CERTSCACHEDIR
+	fi
 	OSVCERTSDIR=$OSVSSLDIR/certs 
 	KEYSDIR=$PKIHOME/keys 
 	DHDIR=$PKIHOME/dh

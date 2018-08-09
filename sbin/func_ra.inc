@@ -183,7 +183,7 @@ function create_keys_certs() {
 		# SALTN is DNS and IP (subjectAltAttributes) 
 		# extension is "keyword like tlsserver, tlsboth etc 
 		extension=$(echo "$cert" | cut -f1 -d:) 
-		FriendlyName = ''
+		FriendlyName=''
 		# ---------------------------------------------------------
 		# adaptions for special cases 
 		#
