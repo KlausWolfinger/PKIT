@@ -112,10 +112,6 @@ function reInitVars() {
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
 	PKISHAREFOLDER=exports
-	
-	
-	
-	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	ToolIP=$(getMyIP)
@@ -553,6 +549,7 @@ sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
 }
   
 function UpdateCRL() {
+reInitVars
 	. $CONFIGDIR/projectname.inf
 	local crlfileext='.crl'
 	local crlFileName=$PKITprojectName$crlfileext
