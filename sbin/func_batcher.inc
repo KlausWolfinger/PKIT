@@ -141,13 +141,12 @@ echo "-----------------------------------------"
 			# Cli
 			echo "command: $CLIcommand" 
 			eval $CLIcommand | less 2>/dev/null
-			read -p "ENTER to cont"			
+						
 			;;
 		[:]tree* ) 
 			# Cli
 			echo "command: $CLIcommand" 
 			eval $CLIcommand | less 2>/dev/null
-			read -p "ENTER to cont"			
 			;;
 		[:]restore ) 
 			# Cli

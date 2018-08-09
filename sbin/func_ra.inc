@@ -186,6 +186,7 @@ function create_keys_certs() {
 		# adaptions for special cases 
 		#
 		# ---------------------------------------------------------
+		read -p "break1"
 		if [ -e $CERTSDIR/$extension/"$CN".req -a ! -e $CERTSDIR/$extension/"$CN".crt ]; then 
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
@@ -200,6 +201,7 @@ function create_keys_certs() {
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" 
 		fi 
+		read -p "break2"
 	# --------------------------------------------------------- 
 		if [ -e $CERTSDIR/$extension/"$CN".crt -a ! -e $CERTSDIR/$extension/"$CN".cer ]; then 
 			openssl x509 \
