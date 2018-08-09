@@ -581,7 +581,7 @@ rm -f $LOGDIR/lastcrlupdate.log
 	perl $SBINdir/update_index.pl $CERTSDIR/$extension/"$CN".crt $ROOTCADIR/root-index.txt | tee >>$LOGDIR/lastcrlupdate.log
 	# write crl 
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
-	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/$crlFileName -config /dev/stdin &> $LOGDIR/lastcrlupdate.log
+	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/$crlFileName -config /dev/stdin &>> $LOGDIR/lastcrlupdate.log
 	done 
 		if [ ! -d $CRLWEBDIR ]; then 
 			mkdir -p $CRLWEBDIR
