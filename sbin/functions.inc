@@ -89,7 +89,15 @@ function reInitVars() {
 	ARCHIVEDIR=$PKIHOME_START/archives 
 	EXPORTDIR=$PKIHOME_START/exports
 	LOGDIR=$PKIHOME/log 
+	if [ ! -d $LOGDIR ] 
+	then 
+	mkdir -p $LOGDIR
+	fi
 	TMPDIR=$PKIHOME/tmp 
+	if [ ! -d $TMPDIR ] 
+	then 
+	mkdir -p $TMPDIR
+	fi
 	CONFIGDIR=$PKIHOME/pkiconf 
 	ROOTCADIR=$PKIHOME/rootca
 	SUBCADIR=$PKIHOME/subca	
