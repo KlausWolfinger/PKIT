@@ -254,7 +254,7 @@ function menu5 () {
 		[Ss] ) #sign candidates
 			read_x509config;
 			create_keys_certs;
-			UpdateCRL;			
+			#UpdateCRL;			
 			;; 
 		[Rr] ) # Reissue / resign certificates from local DB 
 			reissue_signed;			
