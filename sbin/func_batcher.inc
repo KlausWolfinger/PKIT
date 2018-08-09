@@ -157,6 +157,12 @@ echo "-----------------------------------------"
 			# list all variables
 			ListVars
 			;;
+		[:]set* )
+			# change bash option set +x for debugging
+			echo "command: $CLIcommand" 
+			eval $CLIcommand | less 2>/dev/null
+			read -p "Debugging toggled -> ENTER to cont"	
+			;;
 		*) # main menu 
 			echo -en "\n#####################################################\n"
 			echo "# you entered an invalid command: \"$keypress\""

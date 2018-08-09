@@ -32,6 +32,7 @@ function rootca() {
 } 
  
 function crl() {  
+	reInitVars
 	base 
 	cat <<-EOF
 	[ ca ] 
@@ -54,6 +55,7 @@ function crl() {
 
 } 
 function create_dh(){
+	reInitVars
 	# Diffie-Hellman-Parameter erstellen 
 	for length in $ROOTBITS $CERTBITS; do 
 		if [ ! -e $DHDIR/dh$length.pem ]; then
@@ -62,6 +64,7 @@ function create_dh(){
 	done 
 } 
 function create_rootCA_DB() {
+reInitVars
 mkdir -m 700 -p $ROOTCADIR 
 	export CN 
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
@@ -77,6 +80,7 @@ mkdir -m 700 -p $ROOTCADIR
 
 }
 function create_rootCA_Req_IA() {
+reInitVars
 rm -f $ROOTCADIR/This_$HOSTNAME.csr
 openssl req \
 -key $ROOTCADIR/root.key \
@@ -87,6 +91,7 @@ openssl req \
 }
 
 function create_rootCA_Req() {
+reInitVars
 if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
 		
 		### old version
@@ -119,6 +124,7 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 }
 
 function create_rootca(){ 
+	reInitVars
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
@@ -180,6 +186,7 @@ function create_rootca(){
 }
 
 function replace_rootcert() {
+reInitVars
 
 if [ -e $ROOTCADIR/root.crt ]; then
 echo "vi will open the root.crt"
@@ -196,6 +203,7 @@ fi
 
 }
 function create_root_p12() {
+reInitVars
 # openssl pkcs12 -export -out rootCA.p12 -inkey root.key -in rootCA.pem
 	if [ -e $ROOTCADIR/root.crt ]; then
 
@@ -207,6 +215,7 @@ function create_root_p12() {
 }
 
 function check_rootCA() {
+reInitVars
 #
 rootCACheck=0
 echo -en "\n--> This will perform a rootCA check ...\n"
@@ -258,6 +267,7 @@ read
 }
 
 function ca() { 
+reInitVars
 	base
 	cat <<-EOF
 	[ req ] 
