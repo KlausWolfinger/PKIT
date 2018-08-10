@@ -28,7 +28,7 @@ PKINAME="RootCA"
 BANNER="--- Project: $PKINAME V$Version --- \n \
  --- www.itconsulting-wolfinger.de ---"
 DEBUGMODE=0
- 
+
 THISHOST=$HOSTNAME
 LOGDIR=$PKIHOME/log
 TMPDIR=$PKIHOME/tmp

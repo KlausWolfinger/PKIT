@@ -186,20 +186,53 @@ function create_rootca(){
 }
 
 function replace_rootcert() {
-reInitVars
+	reInitVars
 
-if [ -e $ROOTCADIR/root.crt ]; then
-echo "vi will open the root.crt"
-echo "replace the pem block with the new one, signed from enterprise PKI"
-echo "[ENTER] to continue ...";read
-vi $ROOTCADIR/root.crt
-rm -f $ROOTCADIR/rootCA.pem
-rm -f $ROOTCADIR/rootCA.der
-create_rootca
-else
-echo "There is not root.crt, please create first ..."
-echo "[ENTER] to cont ....";read
-fi
+	if [ -e $ROOTCADIR/root.crt ]; then
+		echo "###########################################"
+		echo "#   vi will now open the existing root.crt"
+		echo "###########################################"
+		echo
+		echo "replace the existing pem block with the new one, signed from enterprise PKI"
+		echo "[ENTER] for opening the cert file ...";read
+		cp -p $ROOTCADIR/root.crt $ROOTCADIR/root.crt.save
+		vi $ROOTCADIR/root.crt
+		echo "###########################################"
+		echo "#   root certificate changed ... finish the action [Yy|Nn]"
+			if (yes_no); then 
+				rm -f $ROOTCADIR/rootCA.pem
+				rm -f $ROOTCADIR/rootCA.der
+				create_rootca
+				if (!check_rootCA)
+					then
+					echo "###########################################"
+					echo "#   This RootCA is noW a SUB-CA"
+					echo "###########################################";
+					read -p "[ENTER] to cont ...."
+					else
+					echo "###########################################"
+					echo "#   This SUB RootCA has errors !!"
+					echo "###########################################"
+					cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
+					echo "# restored to the last version "
+					echo "###########################################"
+					read -p "[ENTER] to cont ...."
+					
+				fi	
+					
+				
+				else
+				echo "###########################################"
+				echo "#  Skipped all actions, no change"
+				echo "###########################################"
+				read -p "[ENTER] to cont ...."
+				fi
+		
+		else
+		echo "################################################"
+		echo "# There is not root.crt, please create first ..."
+		echo "[ENTER] to cont ....";read
+	fi
 
 }
 function create_root_p12() {
