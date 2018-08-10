@@ -200,9 +200,7 @@ function replace_rootcert() {
 		echo "###########################################"
 		echo "#   root certificate changed ... finish the action [Yy|Nn]"
 			if (yes_no); then 
-				
 				check_rootCA
-				
 				if ( $rootCACheck );
 					then
 						rm -f $ROOTCADIR/rootCA.pem
@@ -231,7 +229,7 @@ function replace_rootcert() {
 				echo "#  Skipped all actions, no change"
 				echo "###########################################"
 				read -p "[ENTER] to cont ...."
-				fi
+			fi
 		
 		else
 		echo "################################################"
