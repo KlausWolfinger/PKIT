@@ -265,7 +265,7 @@ if [ -e $ROOTCADIR/rootCA.pem ]; then
 hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
 echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
 RootTestCmd="openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'"
-if (eval $RootTestCmd); then
+if [ "eval $RootTestCmd" = "0" ]; then
 	echo echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
 	else
 	echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n"; ((rootCACheck++)); 
