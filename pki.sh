@@ -1,5 +1,5 @@
 #!/bin/bash
-# multilevelpki tool 
+# multilevelpki tool
 # use with care, no warranty
 # written for Training
 # main program
@@ -28,7 +28,7 @@ PKINAME="RootCA"
 BANNER="--- Project: $PKINAME V$Version --- \n \
  --- www.itconsulting-wolfinger.de ---"
 DEBUGMODE=0
-
+ 
 THISHOST=$HOSTNAME
 LOGDIR=$PKIHOME/log
 TMPDIR=$PKIHOME/tmp
@@ -78,36 +78,36 @@ function libloader(){
 if [ ! -e $PKIHOME/sbin/func_batcher.inc ]; then
 echo "PKI include file func_batcher.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_batcher.inc
 fi
 
 if [ ! -e $PKIHOME/sbin/func_stuptest.inc ]; then
 echo "PKI include file func_stuptest.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_stuptest.inc
 fi
 
 if [ ! -e $PKIHOME/sbin/functions.inc ]; then
 echo "PKI include file functions.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/functions.inc
 fi
 
 if [ ! -e $PKIHOME/sbin/func_menues.inc ]; then
 	echo "PKI include file func_menues.inc does not exist !"
 	exit 1
-else 
+else
 source $PKIHOME/sbin/func_menues.inc
 fi
- 
+
 # func_unify.inc
 if [ ! -e $PKIHOME/sbin/func_unify.inc ]; then
 echo "PKI include file func_unify.inc does not exist !"
 ToolMode="Linux"
-else 
+else
 source $PKIHOME/sbin/func_unify.inc
 # echo "functions func_unify.inc loaded...."
 ToolMode="OSV"
@@ -117,7 +117,7 @@ fi
 if [ ! -e $PKIHOME/sbin/func_ca.inc ]; then
 echo "PKI include file func_ca.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_ca.inc
 # echo "functions func_ca.inc loaded...."
 # read
@@ -126,16 +126,16 @@ fi
 if [ ! -e $PKIHOME/sbin/func_subca.inc ]; then
 echo "PKI include file func_subca.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_subca.inc
 # echo "functions func_subca.inc loaded...."
 # read
 fi
- 
+
 if [ ! -e $PKIHOME/sbin/func_ra.inc ]; then
 echo "PKI include file func_requests.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_ra.inc
 # echo "functions func_requests.inc loaded...."
 # read
@@ -143,7 +143,7 @@ fi
 if [ ! -e $PKIHOME/sbin/func_reissuesigned.inc ]; then
 echo "PKI include file func_reissuesigned.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_reissuesigned.inc
 # echo "functions func_createtls.inc loaded...."
 # read
@@ -151,7 +151,7 @@ fi
 if [ ! -e $PKIHOME/sbin/func_restore.inc ]; then
 echo "PKI include file func_restore.inc does not exist !"
 exit 1
-else 
+else
 source $PKIHOME/sbin/func_restore.inc
 # echo "functions func_restore.inc loaded...."
 # read
@@ -191,7 +191,7 @@ if [ $# -eq 0 ];then
 	fi
 fi
 # test for batch mode parameters
-# 
+#
 
 # jump into menu loop if no ext params are given
 	while [ $# -eq 0 ]; do
@@ -199,5 +199,3 @@ fi
 	done;
 batcher;
 	echo
-
-	
