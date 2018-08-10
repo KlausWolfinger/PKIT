@@ -202,8 +202,7 @@ function replace_rootcert() {
 			if (yes_no); then 
 				check_rootCA
 				echo "rootCACheck = $rootCACheck"
-				if ( $rootCACheck );
-					then
+				if [ $rootCACheck -eq 0 ]; then
 						rm -f $ROOTCADIR/rootCA.pem
 						rm -f $ROOTCADIR/rootCA.der
 						create_rootca
