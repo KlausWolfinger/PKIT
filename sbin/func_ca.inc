@@ -203,7 +203,7 @@ function replace_rootcert() {
 				rm -f $ROOTCADIR/rootCA.pem
 				rm -f $ROOTCADIR/rootCA.der
 				create_rootca
-				if (! check_rootCA)
+				if (check_rootCA)
 					then
 					echo "###########################################"
 					echo "#   This RootCA is noW a SUB-CA"
