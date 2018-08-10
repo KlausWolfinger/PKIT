@@ -201,7 +201,8 @@ function replace_rootcert() {
 		echo "#   root certificate changed ... finish the action [Yy|Nn]"
 			if (yes_no); then 
 				
-				if (check_rootCA)
+				check_rootCA
+				if (rootCACheck)
 					then
 						rm -f $ROOTCADIR/rootCA.pem
 						rm -f $ROOTCADIR/rootCA.der
