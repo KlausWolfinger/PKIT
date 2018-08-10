@@ -264,12 +264,12 @@ fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
 hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
 echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
-RootTestCmd="openssl x509 -fingerprint -noout -in "$ROOTCADIR/rootCA.pem > /dev/null 2>&1
+RootTestCmd="openssl x509 -fingerprint -noout -in "$ROOTCADIR/root.crt > /dev/null 2>&1
 if ( eval $($RootTestCmd | grep error)  ); then
-	openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'
-	echo -en "--> $ROOTCADIR/rootCA.pem fingerprint OK...\n";
+	openssl x509 -text -noout -in $ROOTCADIR/root.crt | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'
+	echo -en "--> $ROOTCADIR/root.crt fingerprint OK...\n";
 	else
-	echo -en "--> $ROOTCADIR/rootCA.pem fingerprint NOK...\n"; ((rootCACheck++)); 
+	echo -en "--> $ROOTCADIR/root.crt fingerprint NOK...\n"; ((rootCACheck++)); 
 fi
 #openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /' # replace spaces and tabs with ==> 
 if [ $hash_rootcrt = $hash_rootpem ]; then 
