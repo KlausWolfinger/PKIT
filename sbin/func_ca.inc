@@ -202,7 +202,7 @@ function replace_rootcert() {
 			if (yes_no); then 
 				
 				check_rootCA
-				if (rootCACheck)
+				if ($rootCACheck)
 					then
 						rm -f $ROOTCADIR/rootCA.pem
 						rm -f $ROOTCADIR/rootCA.der
