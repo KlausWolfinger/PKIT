@@ -200,23 +200,26 @@ function replace_rootcert() {
 		echo "###########################################"
 		echo "#   root certificate changed ... finish the action [Yy|Nn]"
 			if (yes_no); then 
-				rm -f $ROOTCADIR/rootCA.pem
-				rm -f $ROOTCADIR/rootCA.der
-				create_rootca
+				
 				if (check_rootCA)
 					then
-					echo "###########################################"
-					echo "#   This RootCA is noW a SUB-CA"
-					echo "###########################################";
-					read -p "[ENTER] to cont ...."
+						rm -f $ROOTCADIR/rootCA.pem
+						rm -f $ROOTCADIR/rootCA.der
+						create_rootca
+						echo "###########################################"
+						echo "#   Sucessfully Changed CA to SUBCA"
+						echo "###########################################"
+						echo "#   This RootCA is noW a SUB-CA"
+						echo "###########################################";
+						read -p "[ENTER] to cont ...."
 					else
-					echo "###########################################"
-					echo "#   This SUB RootCA has errors !!"
-					echo "###########################################"
-					cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
-					echo "# restored to the last version "
-					echo "###########################################"
-					read -p "[ENTER] to cont ...."
+						echo "###########################################"
+						echo "#   This SUB RootCA has errors !!"
+						echo "###########################################"
+						cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
+						echo "# restored to the last version "
+						echo "###########################################"
+						read -p "[ENTER] to cont ...."
 					
 				fi	
 					
