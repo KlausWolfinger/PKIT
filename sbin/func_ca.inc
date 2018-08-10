@@ -264,7 +264,7 @@ fi
 if [ -e $ROOTCADIR/rootCA.pem ]; then
 hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
 echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
-RootTestCmd="openssl x509 -fingerprint -noout -in $ROOTCADIR/rootCA.pem"
+RootTestCmd="openssl x509 -fingerprint -noout -in $ROOTCADIR/rootCA.pem" > /dev/null 2>&1
 if (eval $RootTestCmd); then
 	openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'
 	echo -en "--> $ROOTCADIR/rootCA.pem fingerprint OK...\n";
