@@ -15,10 +15,6 @@
 ### Launch the PKIT
 6. ./pki.sh
 
-'''console
---- You are user pki ---
-  --- RootCA Level 0 Management 2.3a on pkit-1 ---
-
         ------ Linux SYSTEM -------
         Action Counter --> 1 <-- last action:
         90 - CA Management
@@ -28,4 +24,4 @@
         97 - PKI Tool Config
         h  - Help
                 q - Quit or <CTRL>-c
-'''                
+                
