@@ -16,8 +16,8 @@
 6. ./pki.sh
 
 
-'
-         --- You are user pki ---
+
+        --- You are user pki ---
 --- RootCA Level 0 Management 2.3a on pkit-1 ---
 
         ------ Linux SYSTEM -------
@@ -29,4 +29,4 @@
         97 - PKI Tool Config
         h  - Help
                 q - Quit or <CTRL>-c
-'
+
