@@ -16,4 +16,4 @@
 6. ./pki.sh
 
 
-![PKIT](https://github.com/KlausWolfinger/PKIT/blob/master/Bild1.png)
+![PKIT](https://github.com/KlausWolfinger/PKIT/blob/master/Bild1.png | width=100)
