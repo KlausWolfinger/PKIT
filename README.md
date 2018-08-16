@@ -1,5 +1,6 @@
-#Installation Steps:
-##Install git client
+# Installation Steps
+
+## Install git client
 
 1. apt-get install git
 2. clone the master
