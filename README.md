@@ -14,3 +14,6 @@
 
 ### Launch the PKIT
 6. ./pki.sh
+
+
+![PKIT](https://github.com/KlausWolfinger/PKIT/blob/master/Bild1.png)
