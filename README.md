@@ -30,3 +30,8 @@ cd PKIT
         h  - Help
                 q - Quit or <CTRL>-c
 ```                
+# PKIT Training
+You want to learn professional PKIT management? Subscribe and enroll to this expert 3-day workshop:
+
+https://www.ptm.de/de/training/d/t/public-key-infrastructure-pki-tool-intensiv-worksh/
+

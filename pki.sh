@@ -5,7 +5,7 @@
 # main program
 # (c) 2015 K.D. Wolfinger
 # www.itconsulting-wolfinger.de
-# 
+#
 #
 #-------------------NO WARRANTY ----------
 #BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
