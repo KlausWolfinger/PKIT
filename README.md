@@ -1,3 +1,4 @@
+![PKIT](Bild1.png)
 # Installation Steps
 
 ### Install git client
