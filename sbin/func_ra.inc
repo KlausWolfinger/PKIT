@@ -1,5 +1,5 @@
 function SignRequest(){ 
-	#echo -en "---------- debug----------\n";read
+	##echo -en "---------- debug----------\n";read
 	export CN
 	CN_count=0;
 	echo -en "--- Signing external certificates ...\n" 
