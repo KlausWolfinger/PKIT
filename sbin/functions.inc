@@ -35,11 +35,17 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
 }
 
+# Colors
+red='\e[1;31m'
+blue='\e[1;34m'
+yellow='\e[1;33m'
+transparant='\e[0m'
+
 function changePKILevel() { 
 	# change PKIHOME clear 
 	#echo -en "" 
 	echo -en "----- Change the PKI project -----\n" 
-	echo -en "----- This will change the tool-root directory -----\n" 
+	echo -en $red"----- This will change the tool-root directory -----\n" 
 	echo -en " Switch to any project, with '99' back to root \n" 
 	DirArray=($(find $PKIHOME_START -name \PKIclone\* -type d)) tLen=${#DirArray[@]} 
 	echo -e "----> Found $tLen project(s) ...\n" 
