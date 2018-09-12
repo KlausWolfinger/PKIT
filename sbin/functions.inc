@@ -942,6 +942,7 @@ function exportCAND() {
 	if [ -d $PKISHARE ]; then 
 	echo -en "\n ---> copy $EXPORTDIR to $PKISHARE"
 	cp $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKISHARE/exports/
+	chmod g+r $PKISHARE/exports/pkiCAND_$ExportName$now.zip
 	echo -en "\n You can now download the export by SFTP with user $PKISHAREUSER remotely "
 	echo -en "\n The IP address of this system is $(getMyIP)"
 	echo -en "\n continue ... with any key ";read
