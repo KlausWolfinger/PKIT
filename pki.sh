@@ -180,7 +180,7 @@ Param3=$3
 Param4=$4
 Param5=$5
 disclaimer;
-if [ $# -eq 0 ];then
+if [ $# -eq 0 ] && [ $USER != "pki" ];then
 	echo     "######################"
 	echo -en "# Enter your PIN: "
 	read -s PIN
@@ -189,6 +189,8 @@ if [ $# -eq 0 ];then
 		echo "! Wrong PIN, sorry !!"
 		exit 1
 	fi
+	else
+	echo "enabled user $USER"
 fi
 # test for batch mode parameters
 #
