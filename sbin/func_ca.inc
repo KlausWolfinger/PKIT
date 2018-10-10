@@ -154,8 +154,7 @@ function create_rootca(){
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
-			-set_serial 0x$(openssl rand -hex 19)
-			#-set_serial 0x$(openssl rand -hex 16 ) \
+			-set_serial 0x$(openssl rand -hex 19) \
 			-days $ROOTDAYS \
 			-new \
 			-key $ROOTCADIR/root.key \
