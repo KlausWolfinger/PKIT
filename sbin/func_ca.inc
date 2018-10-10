@@ -116,6 +116,7 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 		echo "... post creating request from rootCA"
 		openssl x509 \
 			-in $ROOTCADIR/root.crt \
+			-set_serial 0x$(openssl rand -hex 19) \
 			-signkey $ROOTCADIR/root.key \
 			-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
 			
