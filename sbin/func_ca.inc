@@ -23,6 +23,7 @@ function rootca() {
 	
 	# ---- new end 
 	[ v3_ca ]
+	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
@@ -77,6 +78,8 @@ mkdir -m 700 -p $ROOTCADIR
 	if [ ! -e $ROOTCADIR/root.key ]; then 
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
 	fi 
+	
+	
 
 }
 function create_rootCA_Req_IA() {
@@ -147,10 +150,12 @@ function create_rootca(){
 		
 		###
 		### works without challengePassword
+		
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
-			-set_serial 0 \
+			-set_serial 0x$(openssl rand -hex 19)
+			#-set_serial 0x$(openssl rand -hex 16 ) \
 			-days $ROOTDAYS \
 			-new \
 			-key $ROOTCADIR/root.key \

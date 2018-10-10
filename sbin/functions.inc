@@ -149,6 +149,7 @@ function reInitVars() {
 	PKIconfig=$CONFIGDIR/pkitool.conf
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
+	ROOTRANDFILE=$ROOTCADIR/root-random
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
 }
