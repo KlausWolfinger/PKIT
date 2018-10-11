@@ -11,10 +11,19 @@ function rootca() {
 	# --- new 
 	[ req ]
 	default_md = $ROOTSHA
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
 	attributes = req_attributes	
 	
 	[ req_distinguished_name ]
+	commonName	= $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default	= $ROOTCN
+	commonName_max	= 64
+
+	emailAddress = $BASEMAIL
+	emailAddress_default  = $BASEMAIL
+	emailAddress_max = 64
 	
 	[ req_attributes ]
 	challengePassword = $ChallPassWD
@@ -28,7 +37,7 @@ function rootca() {
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
 	basicConstraints = CA:true 
-	keyUsage = cRLSign, keyCertSign 
+	keyUsage = critical, cRLSign, keyCertSign 
 	EOF
 } 
  

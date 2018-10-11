@@ -6,9 +6,10 @@
 # use only for training
 #
 # BASEDN means the unique description for the CA
-BASEDN="C=DE/L=Germany/O=Certification Authority/OU=PKI Management"
+BASEDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=Certification Authority/OU=PKI Management"
+BASEMAIL="mlpki@itconsulting-wolfinger.de"
 # SUBDN means the unique description for the next SUB-LEVEL within this CA
-SUBDN="C=DE/L=Germany/O=My Company/OU=Training Department"
+SUBDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=My Company/OU=Training Department"
 # Recommended DH_LENGTH is 2048
 # !!! Important: all keylengths must be equal !!!
 DH_LENGTH=2048
