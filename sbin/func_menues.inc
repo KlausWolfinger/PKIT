@@ -323,6 +323,7 @@ function menu6 () {
 	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
 	\tQ - Create new RootCA-Request from this RootCA Cert
+	\tNQ - Create a new RootSUBCA-Request for external CA
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tB - Replace root.crt with certificate from Enterprise PKI
 	\tC - Perform a ROOTCA CHECK
@@ -385,6 +386,9 @@ function menu6 () {
 			;; 
 		[Q] ) # create RootCA Request from RootCA Certificate
 			create_rootCA_Req;
+			;;
+		NQ ) # create a new SUBROOTCA Request for external CA
+			create_SUB_rootCA_Req;
 			;;
 		[I] ) # create RootCA Request interactive
 			create_rootCA_Req_IA;

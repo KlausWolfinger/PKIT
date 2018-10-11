@@ -30,27 +30,82 @@ function rootca() {
 	challengePassword_min = 4
 	challengePassword_max = 20
 	
-	# ---- new end 
+	# ---- new end
+# nur dieser Block wird zur CA Erstellung verwendet	
 	[ v3_ca ]
-	policy = policy_PKIT
+	#policy = policy_PKIT
 	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
-	basicConstraints = CA:true 
+	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
 
 	[ policy_PKIT ]
 	countryName		= match
-	stateOrProvinceName	= optional
-	localityName		= optional
-	organizationName	= supplied
+	stateOrProvinceName		= optional
+	localityName			= optional
+	organizationName		= supplied
 	organizationalUnitName	= optional
-	commonName		= supplied
-	emailAddress		= optional
+	commonName				= supplied
+	emailAddress			= optional
 	
 	EOF
 } 
+
+function subrootca() {
+cat <<-EOF
+	# --- new 
+	
+	
+	[ req_subca ]
+	oid_section		= new_oids
+	default_md = $ROOTSHA
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+	distinguished_name = req_distinguished_name
+	attributes = req_attributes	
+	
+	[ new_oids ]
+
+	# We can add new OIDs in here for use by 'ca', 'req' and 'ts'.
+	# Add a simple OID like this:
+	# testoid1=1.2.3.4
+	# Or use config file substitution like this:
+	# testoid2=${testoid1}.5.6
+
+	# Policies used by the TSA examples.
+	tsa_policy1 = 1.2.3.4.1
+	tsa_policy2 = 1.2.3.4.5.6
+	tsa_policy3 = 1.2.3.4.5.7
+	
+	[ req_distinguished_name ]
+	commonName	= $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default	= $ROOTCN
+	commonName_max	= 64
+
+	emailAddress = $BASEMAIL
+	emailAddress_default  = $BASEMAIL
+	emailAddress_max = 64
+	
+	[ req_attributes ]
+	challengePassword = $ChallPassWD
+	challengePassword_min = 4
+	challengePassword_max = 20
+	
+	
+	[ v3_req ]
+	#policy = policy_PKIT
+	#randfile=$ROOTCADIR/root-random
+	subjectKeyIdentifier=hash
+	#authorityKeyIdentifier=keyid:always,issuer:always
+	authorityKeyIdentifier=keyid:always,issuer:always 
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+	
+	EOF
+}
  
 function crl() {  
 	reInitVars
@@ -147,6 +202,25 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 
 }
 
+function create_SUB_rootCA_Req(){
+	' BLOCK [ req_subca ] NUTZEN
+	reInitVars
+	. $CONFIGDIR/projectname.inf
+	local SUBRootReqFIle=sub_$PKITprojectName.req
+	subrootca $ca_extension "" | openssl req \
+			-batch \
+			-x509 \
+			-set_serial 0x$(openssl rand -hex 19) \
+			-days $ROOTDAYS \
+			-new \
+			-key $ROOTCADIR/root.key \
+			-out $ROOTCADIR/root.crt \
+			-extensions req_subca \
+			-config /dev/stdin \
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"BASEMAIL" >/dev/null 2>&1 
+		
+}
+
 function create_rootca(){ 
 	reInitVars
 	. $CONFIGDIR/projectname.inf
@@ -182,7 +256,7 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"BASEMAIL" >/dev/null 2>&1 
 		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
 		###
 		###
