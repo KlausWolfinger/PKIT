@@ -189,7 +189,7 @@ function create_SUB_rootCA_Req(){
 	local SUBRootReqFile=sub_$PKITprojectName.req
 	# check if rootca exists first !
 	check_rootCA	
-	subrootca $ca_extension "" | openssl req \
+	subrootca | openssl req \
 			-new \
 			-config /dev/stdin \
 			-key $ROOTCADIR/root.key \
