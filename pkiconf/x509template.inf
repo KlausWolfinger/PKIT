@@ -7,22 +7,26 @@
 #
 # BASEDN means the unique description for the CA
 BASEDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=Certification Authority/OU=PKI Management"
+ROOTCN="PKITOOL Root CA"
 BASEMAIL="mlpki@itconsulting-wolfinger.de"
-# SUBDN means the unique description for the next SUB-LEVEL within this CA
-SUBDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=My Company/OU=Training Department"
+CPSPOL="http://pkit.itconsulting-wolfinger.de/policy/"
+CPSEV="http://pkit.itconsulting-wolfinger.de/evpolicy/"
+
+
 # Recommended DH_LENGTH is 2048
 # !!! Important: all keylengths must be equal !!!
 DH_LENGTH=2048
 #DH_LENGTH=1024
 #DH_LENGTH=512
 ROOTBITS=2048
+#ROOTBITS=4096
 #ROOTBITS=1024
 #ROOTBITS=512
 ROOTSHA="sha256"
 #ROOTSHA="sha512"
 #ROOTSHA="sha1"
 ROOTDAYS=3650
-ROOTCN="PKITOOL Root CA"
+
 #ROOTCERTURI="http://ca.mycompany.de/rootca.crt"
 #ROOTCRLURI="http://ca.mycompany.de/rootca.crl"
 #ROOTOCSPURI="http://ca.mycompany.de/rootca.ocsp"
@@ -31,20 +35,23 @@ ChallPassWD=""
 
 
 # --- from here are the parameters for the signing process
+SUBDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=My Company/OU=Training Department"
+SUBCN="My Company Server VM" 
 CERTBITS=2048
 #CERTBITS=1024
 #CERTBITS=512
 # CERTSDAYS means: how many days are signed certificates valid
 CERTDAYS=1500
-#CERTMAIL="pkiadmin@mycompany.de"
+
 
 ca_extension=""
 # for sha1
-SHA="sha1"
+# CERTSHA="sha1"
 # for sha2
-#SHA="sha256"
+CERTSHA="sha256"
 
 # Parameter for Revocation Lists
+CRLSHA="sha256"
 # CRLDAYS: how many days is the revocation list valid after issueing
 CRLDAYS=185
 

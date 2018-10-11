@@ -19,6 +19,7 @@ function SignRequest(){
 		mv $CANDCERTSDIR/$extension/"$CN".req $CANDCERTSDIR/$extension/tmp-"$CN".req 
 		rm -f $CANDCERTSDIR/$extension/"$CN".* 
 		mv $CANDCERTSDIR/$extension/tmp-"$CN".req $CANDCERTSDIR/$extension/"$CN".req 
+		# -create_serial is especially important. Many HOW-TOs will have you echo "01" into the serial file thus starting the serial number at 1, and using 8-bit serial numbers instead of 128-bit serial numbers. This will generate a random 128-bit serial number to start with. The randomness helps to ensure that if you make a mistake and start over, you won't overwrite existing serial numbers out there.
 		ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -106,7 +107,8 @@ function importcreq() {
 		echo -en "\n\t ENTER to continue \n"; read 
 } 
 
-function create_requests() { 
+function create_requests() {
+	reInitVars
 	export CN
 	CN_count=0; 
 	# echo -en "--- creating certificate requests from hosts file (func_requests.inc)...\n" 
@@ -144,7 +146,8 @@ function create_requests() {
 			-out $CERTSDIR/$extension/"$CN".req \
 			-config /dev/stdin \
 			-reqexts exts \
-			-subj /"$SUBDN"/CN="$CN""$CERTMAIL" 
+			-subj '/'"$SUBDN"'/CN='"$CN"
+			# $CN must be unique within this PKI
 		else 
 		echo -en "\n---> $CN req exists, nothing todo" 
 		fi 
@@ -154,6 +157,8 @@ function create_requests() {
 
 
 function create_keys_certs() {
+	# signing process
+	reInitVars
 	. $PKIHOME/pkiconf/pkitool.conf # load current passphrase
 	if [ "$HidePassPhrase" -eq "1" ]; then
 	P12FileNamePass="_x_x"
@@ -198,7 +203,7 @@ function create_keys_certs() {
 				-days $CERTDAYS \
 				-out $CERTSDIR/$extension/"$CN".crt \
 				-in $CERTSDIR/$extension/"$CN".req \
-				-extensions exts -preserveDN \
+				-extensions exts -preserveDN  \
 				-config /dev/stdin 
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" 
