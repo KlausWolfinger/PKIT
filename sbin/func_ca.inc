@@ -32,12 +32,23 @@ function rootca() {
 	
 	# ---- new end 
 	[ v3_ca ]
+	policy = policy_PKIT
 	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
 	basicConstraints = CA:true 
-	keyUsage = critical, cRLSign, keyCertSign 
+	keyUsage = critical, cRLSign, keyCertSign
+
+	[ policy_PKIT ]
+	countryName		= match
+	stateOrProvinceName	= optional
+	localityName		= optional
+	organizationName	= supplied
+	organizationalUnitName	= optional
+	commonName		= supplied
+	emailAddress		= optional
+	
 	EOF
 } 
  
