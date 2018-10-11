@@ -193,7 +193,7 @@ function create_SUB_rootCA_Req(){
 			-new \
 			-config /dev/stdin \
 			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/$SUBRootReqFile \
+			-out $ROOTCADIR/$SUBRootReqFile #\
 			/dev/null 2>&1 
 		
 }
