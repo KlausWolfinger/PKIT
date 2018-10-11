@@ -57,7 +57,7 @@ function subrootca() {
 cat <<-EOF
 	# --- new 
 	
-	[ req_subca ]
+	[ req ]
 	oid_section		= new_oids
 	default_md = $ROOTSHA
 	basicConstraints=CA:TRUE,pathlen:0
@@ -165,19 +165,6 @@ function create_rootCA_Req() {
 reInitVars
 if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
 		
-		### old version
-		#echo "gen special root csr for ca .." 
-		# read 
-		# rootca request 
-		rm -f root_$HOSTNAME.csr
-		#rootca $ca_extension "" | openssl req \
-		#	-batch \
-		#	-new \
-		#	-key $ROOTCADIR/root.key \
-		#	-out $ROOTCADIR/root_$HOSTNAME.csr \
-		#	-extensions v3_ca \
-		#	-config /dev/stdin \
-		#	-subj '/'"$BASEDN" >/dev/null 2>&1 
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
 		
 		### new version
@@ -199,18 +186,15 @@ function create_SUB_rootCA_Req(){
 	# BLOCK [ req_subca ] NUTZEN
 	reInitVars
 	. $CONFIGDIR/projectname.inf
-	local SUBRootReqFIle=sub_$PKITprojectName.req
+	local SUBRootReqFile=sub_$PKITprojectName.req
+	# check if rootca exists first !
+	check_rootCA	
 	subrootca $ca_extension "" | openssl req \
-			-batch \
-			-x509 \
-			-set_serial 0x$(openssl rand -hex 19) \
-			-days $ROOTDAYS \
 			-new \
-			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root.crt \
-			-extensions req_subca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"BASEMAIL" >/dev/null 2>&1 
+			-key $ROOTCADIR/root.key \
+			-out $ROOTCADIR/$SUBRootReqFile \
+			/dev/null 2>&1 
 		
 }
 
