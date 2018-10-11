@@ -196,7 +196,7 @@ if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then
 }
 
 function create_SUB_rootCA_Req(){
-	' BLOCK [ req_subca ] NUTZEN
+	# BLOCK [ req_subca ] NUTZEN
 	reInitVars
 	. $CONFIGDIR/projectname.inf
 	local SUBRootReqFIle=sub_$PKITprojectName.req
