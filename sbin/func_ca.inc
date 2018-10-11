@@ -57,7 +57,6 @@ function subrootca() {
 cat <<-EOF
 	# --- new 
 	
-	
 	[ req_subca ]
 	oid_section		= new_oids
 	default_md = $ROOTSHA
@@ -67,12 +66,6 @@ cat <<-EOF
 	attributes = req_attributes	
 	
 	[ new_oids ]
-
-	# We can add new OIDs in here for use by 'ca', 'req' and 'ts'.
-	# Add a simple OID like this:
-	# testoid1=1.2.3.4
-	# Or use config file substitution like this:
-	# testoid2=${testoid1}.5.6
 
 	# Policies used by the TSA examples.
 	tsa_policy1 = 1.2.3.4.1
