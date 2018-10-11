@@ -11,26 +11,97 @@ function rootca() {
 	# --- new 
 	[ req ]
 	default_md = $ROOTSHA
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
 	attributes = req_attributes	
 	
 	[ req_distinguished_name ]
+	commonName	= $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default	= $ROOTCN
+	commonName_max	= 64
+
+	emailAddress = $BASEMAIL
+	emailAddress_default  = $BASEMAIL
+	emailAddress_max = 64
 	
 	[ req_attributes ]
 	challengePassword = $ChallPassWD
 	challengePassword_min = 4
 	challengePassword_max = 20
 	
-	# ---- new end 
+	# ---- new end
+	# nur dieser Block wird zur CA Erstellung verwendet	
 	[ v3_ca ]
+	#policy = policy_PKIT
 	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
-	basicConstraints = CA:true 
-	keyUsage = cRLSign, keyCertSign 
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = critical, cRLSign, keyCertSign
+
+	[ policy_PKIT ]
+	countryName		= match
+	stateOrProvinceName		= optional
+	localityName			= optional
+	organizationName		= supplied
+	organizationalUnitName	= optional
+	commonName				= supplied
+	emailAddress			= optional
+	
 	EOF
 } 
+
+function subrootca() {
+cat <<-EOF
+	
+[ new_oids ]
+tsa_policy1 = 1.2.3.4.1
+tsa_policy2 = 1.2.3.4.5.6
+tsa_policy3 = 1.2.3.4.5.7
+
+####################################################################
+
+
+####################################################################
+[ req ]
+req_extensions = v3_req
+distinguished_name	= req_distinguished_name
+
+[ req_distinguished_name ]
+[ v3_req ]
+# Extensions to add to a certificate request
+basicConstraints=CA:TRUE,pathlen:0
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[bsipol]
+policyIdentifier = 1.3.6.1.4.1.7924.1.2.2.1
+CPS=$CPSPOL
+
+[verisignev]
+policyIdentifier = 2.16.840.1.113733.1.7.23.6
+CPS=$CPSEV
+userNotice.1=@verisignevnotice
+
+[verisignevnotice]
+explicitText="Nur fuer den im ThPol-Netz internen Gebrauch! Von Symantec Class 3 EV SSL CA - G3 uebernommene extended validation OID."
+organization="Landeskriminalamt Thueringen"
+
+
+[tlkatlscrls]
+fullname=URI:http://pthitpki.polizei.thueringen.de/pki/tkca/tkca.crl
+
+
+[tlkatlsaia]
+caIssuers;URI  = http://pthitpki.polizei.thueringen.de/pki/tkca/tkca.cer
+OCSP;URI      = http://pthitocsp.polizei.thueringen.de/tkca
+
+
+
+
+	EOF
+}
  
 function crl() {  
 	reInitVars
@@ -43,7 +114,7 @@ function crl() {
 	certificate = $ROOTCADIR/root.crt 
 	new_certs_dir = $CERTSCACHEDIR 
 	database = $ROOTCADIR/root-index.txt 
-	default_md = $SHA
+	default_md = $CRLSHA
 	policy = policy_anything 
 	serial = $ROOTCADIR/root-serial 
 	certs = $CERTSCACHEDIR 
@@ -71,13 +142,25 @@ mkdir -m 700 -p $ROOTCADIR
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
 		rm -f $ROOTCADIR/*.* 
 		rm -f $CERTSDIR/*.*
-		echo "01" >$ROOTCADIR/root-serial 
+		
+		# must generate a randon as initial serial
+		touch $ROOTCADIR/root-serial
+		#echo "01" >$ROOTCADIR/root-serial
+		openssl rand -hex 16 >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
+		echo -n >$ROOTCADIR/root-index.txt.attr
 		#ln -s $ROOTCADIR/root-index.txt $ROOTCADIR/root-index.txt.attr
 	fi
 	if [ ! -e $ROOTCADIR/root.key ]; then 
+	    # more secure is
+		# genrsa -rand [RAND.BIN] -aes256 -out ....... 
 		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
 	fi 
+	if [ ! -e $ROOTCADIR/.rnd ]; then 
+	# RANDFILE		= $ENV::HOME/.rnd
+	    touch  $ROOTCADIR/.rnd
+	fi
+	
 	
 	
 
@@ -95,37 +178,34 @@ openssl req \
 
 function create_rootCA_Req() {
 reInitVars
-if [ ! -e $ROOTCADIR/root_$HOSTNAME.req ]; then 
+rm -f $ROOTCADIR/root_$HOSTNAME.req  
 		
-		### old version
-		#echo "gen special root csr for ca .." 
-		# read 
-		# rootca request 
-		rm -f root_$HOSTNAME.csr
-		#rootca $ca_extension "" | openssl req \
-		#	-batch \
-		#	-new \
-		#	-key $ROOTCADIR/root.key \
-		#	-out $ROOTCADIR/root_$HOSTNAME.csr \
-		#	-extensions v3_ca \
-		#	-config /dev/stdin \
-		#	-subj '/'"$BASEDN" >/dev/null 2>&1 
 		# so gehts manuell: rootca openssl req -new -key osv500.key -out MYReq.pem 
-		
-		### new version
 		echo "... post creating request from rootCA"
-		openssl x509 \
+		### old version
+		#
+		#openssl x509 \
+		#	-in $ROOTCADIR/root.crt \
+		#	-set_serial 0x$(openssl rand -hex 19) \
+		#	-signkey $ROOTCADIR/root.key \
+		#	-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
+			
+		### new version
+		subrootca | openssl req \
+			-batch  \
+			-new \
+			-config /dev/stdin \
 			-in $ROOTCADIR/root.crt \
 			-set_serial 0x$(openssl rand -hex 19) \
-			-signkey $ROOTCADIR/root.key \
-			-x509toreq -out $ROOTCADIR/root_$HOSTNAME.req
-			
-		else 
-		echo -en "\t---> root req exists, nothing todo\n" 
-		#openssl req -new -key privkey.pem -out cert.csr 
-	fi
-
+			-key $ROOTCADIR/root.key \
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" \
+			-out $ROOTCADIR/root_$HOSTNAME.req
+		echo "created root_$HOSTNAME.req ..."
+		openssl req -text -noout -in $ROOTCADIR/root_$HOSTNAME.req | less
+		
 }
+
+
 
 function create_rootca(){ 
 	reInitVars
@@ -162,9 +242,10 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1 
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>&1 
 		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
-		###
+		########
+		# optional: create_rootCA_Req
 		###
 	fi
 	
@@ -319,7 +400,7 @@ reInitVars
 	base
 	cat <<-EOF
 	[ req ] 
-		default_md = $SHA 
+		default_md = $CERTSHA 
 	[ ca ]
 		default_ca = CA_default
 	[ subca ]	
@@ -327,7 +408,7 @@ reInitVars
 		certificate = $ROOTCADIR/root.crt 
 		new_certs_dir = $PKIHOME/subca
 		database = $DATABASE 
-		default_md = $SHA 
+		default_md = $CERTSHA 
 		policy = policy_anything 
 		serial = $ROOTCADIR/root-serial 
 		certs = $PKIHOME/subca 
@@ -339,7 +420,7 @@ reInitVars
 		certificate = $ROOTCADIR/root.crt 
 		new_certs_dir = $CERTSCACHEDIR
 		database = $DATABASE 
-		default_md = $SHA 
+		default_md = $CERTSHA 
 		policy = policy_anything 
 		serial = $ROOTCADIR/root-serial 
 		certs = $CERTSCACHEDIR 

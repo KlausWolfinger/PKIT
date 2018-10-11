@@ -386,6 +386,7 @@ function menu6 () {
 		[Q] ) # create RootCA Request from RootCA Certificate
 			create_rootCA_Req;
 			;;
+		
 		[I] ) # create RootCA Request interactive
 			create_rootCA_Req_IA;
 			;;

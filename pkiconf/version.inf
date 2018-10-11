@@ -1,7 +1,11 @@
-Version='2.3b'
-Revision='b'
+Version='2.4a'
+Revision='a'
 
 # changelog
 # osv and cmd script included to scp certificates and install key hash
 # osv cmd script for pki provisioning to OSV
 # dev branch
+# lot of improvements
+# serial number 16 byte long
+# rootca request BSI conform
+

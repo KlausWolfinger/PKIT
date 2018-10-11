@@ -663,11 +663,14 @@ function RevokeCRL(){
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:) 
-		echo -en "\n\t Your choice for cert: $certnum: $extension : [Yy]es or [Nn]o ?" 
+		echo -en "\n\t Your choice for cert: $certnum: $CN : [Yy]es or [Nn]o ?" 
 		if (yes_no); then 
-			echo -en "\n\t--> Revoking $extension from Cert store" 
-			echo -en "\n\t--> writing CRL ....." 
-			crl $ca_extension "" | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin 
+			echo -en "\n\t--> Revoking $CN from Cert store" 
+			
+			echo "CN = $CN"
+			crl $CN | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin
+			# crl $ca_extension "" | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin 
+			echo -en "\n\t--> writing CRL ....."
 			echo -en "\n ENTER to continue ..." 
 			read 
 		fi
@@ -772,7 +775,7 @@ function CleanupProject(){
 		#rm -R -f $CANDCERTSDIR/*.crt
 		rm -f $ROOTCADIR/root-index.txt 
 		touch $ROOTCADIR/root-index.txt 
-		echo "01" > $ROOTCADIR/root-serial 
+		openssl rand -hex 6 >$ROOTCADIR/root-serial 
 		echo -en "\tINFO: Removed host certificates and keys, init rootca DB !!\n ";
 }
 
