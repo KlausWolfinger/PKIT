@@ -85,17 +85,17 @@ CPS=$CPSEV
 userNotice.1=@verisignevnotice
 
 [verisignevnotice]
-explicitText="Nur fuer den im ThPol-Netz internen Gebrauch! Von Symantec Class 3 EV SSL CA - G3 uebernommene extended validation OID."
-organization="Landeskriminalamt Thueringen"
+explicitText="Nur fuer den im Kunden-Netz internen Gebrauch! Von Symantec Class 3 EV SSL CA - G3 uebernommene extended validation OID."
+organization="PKI Management Kunde"
 
 
 [tlkatlscrls]
-fullname=URI:http://pthitpki.polizei.thueringen.de/pki/tkca/tkca.crl
+fullname=URI:http://pkit.kunde.de/pki/ca/ca.crl
 
 
 [tlkatlsaia]
-caIssuers;URI  = http://pthitpki.polizei.thueringen.de/pki/tkca/tkca.cer
-OCSP;URI      = http://pthitocsp.polizei.thueringen.de/tkca
+caIssuers;URI  = http://pkit.kunde.de/pki/ca/ca.cer
+OCSP;URI      = http://pkitocsp.kunde.de/ca
 
 
 
@@ -135,6 +135,18 @@ function create_dh(){
 		fi
 	done 
 } 
+
+function recreate_dh(){
+	reInitVars
+	rm -f $DHDIR/*.pem
+	# Diffie-Hellman-Parameter erstellen 
+	for length in $ROOTBITS $CERTBITS; do 
+		if [ ! -e $DHDIR/dh$length.pem ]; then
+			openssl dhparam -out $DHDIR/dh$length.pem $length 
+		fi
+	done 
+} 
+
 function create_rootCA_DB() {
 reInitVars
 mkdir -m 700 -p $ROOTCADIR 
@@ -267,8 +279,16 @@ function create_rootca(){
 	EOL
 	cat > $ROOTCADIR/PKCSREADME.txt <<-EOL
 	*.cer is DER format for publishing 
+	
 	EOL
-
+	echo "################# SECURITY WARNING ##############"
+	echo "#                                               #"
+	echo "#    PKIT comes with predefined DH Keys !       #"
+	echo "#     YOU HAVE TO RECREATE DH KEYS              #"
+	echo "#       PLEASE PERFORM THIS NOW                 #"
+	echo "#   MENU: CA Management --> Create New DH       #"
+	echo "#################################################"
+	read "Yes, I did understand: Continue with any key"
 }
 
 function replace_rootcert() {

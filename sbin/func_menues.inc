@@ -322,6 +322,8 @@ function menu6 () {
 	\tW - Write rootCA empty database 
 	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
+	\t3 - Show X509 ROOT-CA Params"
+	\tCDH - ReCreate DH-File with $ROOTBITS and $CERTBITS
 	\tQ - Create new RootCA-Request from this RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tB - Replace root.crt with certificate from Enterprise PKI
@@ -329,7 +331,8 @@ function menu6 () {
 	\tR - Create SUBCA Request
 	\tS - Sign and create SUBCA
 	\tD - Delete SUBCA
-	\t3 - Show X509 ROOT-CA Params"
+	
+	
 	echo -en " 
 	\t4 - Change this Level to SUB-CA "
 	echo -en "
@@ -389,6 +392,9 @@ function menu6 () {
 		
 		[I] ) # create RootCA Request interactive
 			create_rootCA_Req_IA;
+			;;
+		CDH ) # recreate DH Keys with lenght from config
+			recreate_dh;
 			;;
 		:* )
 			# Cli
