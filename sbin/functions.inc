@@ -702,7 +702,7 @@ function Revoke_extcandCRL(){
 } 
 function deleteDHFiles() { 
 	echo -en "\tWARNING: This will delete DH Files\n 
-	\tNOTE: You must recreate RootCA !\n 
+	\tNOTE: You MUST recreate DH Files !\n 
 	\tAre you sure ? [Yy|Nn]\n 
 	\t--> Press Y for Yes or N for No\n" 
 	if (yes_no); then
@@ -941,7 +941,7 @@ function exportCAND() {
 	echo "You will be asked to enter a strong password for archive encryption ";
 	echo ".. [ENTER] to cont ..";
 	read
-	zip --encrypt -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/keys $PKIHOME/rootca/rootCA.pem
+	zip --encrypt -r $EXPORTDIR/pkiCAND_$ExportName$now.zip $PKIHOME/certs $PKIHOME/dh $PKIHOME/keys $PKIHOME/rootca/rootCA.pem
 	echo -en "\n ---> pkiCAND exported to disk ....\n " 
 	dir -all $EXPORTDIR/*.zip 
 	if [ -d $PKISHARE ]; then 
