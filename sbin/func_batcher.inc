@@ -166,11 +166,11 @@ echo "-----------------------------------------"
 			# change bash option set +x for debugging
 			echo "command list" 
 			echo "------------"
-			echo -e ":listvars \t - List PKIT variables\n"
-			echo -e ":ls [directory] \t - List [directory]\n"
+			echo -e ":listvars \t - List PKIT variables"
+			echo -e ":ls [directory] \t - List [directory]"
 			echo
 			echo "PKIT workshop recommended"
-			echo "Information: www.itconsulting-wolfinger.de!\n"
+			echo "Information: www.itconsulting-wolfinger.de!"
 			
 			read -p "ENTER to cont"	
 			;;	
