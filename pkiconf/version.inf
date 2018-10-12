@@ -1,5 +1,10 @@
+# Name der Git Branch
+# check if this a GIT Repository
+# GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
+
 Version='2.4b BSIkonform Branch'
 Revision='c'
+
 
 # changelog
 # osv and cmd script included to scp certificates and install key hash
