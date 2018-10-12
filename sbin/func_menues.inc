@@ -322,7 +322,7 @@ function menu6 () {
 	\tW - Write rootCA empty database 
 	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
-	\t3 - Show X509 ROOT-CA Params"
+	\t3 - Show X509 ROOT-CA Params
 	\tCDH - ReCreate DH-File with $ROOTBITS and $CERTBITS
 	\tQ - Create new RootCA-Request from this RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
