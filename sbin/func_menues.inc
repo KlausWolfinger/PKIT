@@ -373,7 +373,7 @@ function menu6 () {
 			;;
 		[2] ) # Create CA 
 			read_x509config;
-			create_dh; 
+			#create_dh; 
 			create_rootca;
 			;; 
 		[3] ) # show X509 Parameter 
