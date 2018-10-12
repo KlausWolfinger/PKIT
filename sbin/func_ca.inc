@@ -288,7 +288,9 @@ function create_rootca(){
 	echo "#       PLEASE PERFORM THIS NOW                 #"
 	echo "#   MENU: CA Management --> Create New DH       #"
 	echo "#################################################"
-	read "Yes, I did understand: Continue with any key"
+	echo
+	echo "Yes, I did understand: Continue with any key"
+	read 
 }
 
 function replace_rootcert() {
