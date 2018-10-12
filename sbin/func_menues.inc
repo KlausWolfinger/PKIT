@@ -330,7 +330,7 @@ function menu6 () {
 	\tC - Perform a ROOTCA CHECK
 	\tR - Create SUBCA Request
 	\tS - Sign and create SUBCA
-	\tD - Delete SUBCA
+	\tD - Delete SUBCA"
 	
 	
 	echo -en " 
