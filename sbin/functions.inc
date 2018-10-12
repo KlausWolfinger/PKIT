@@ -1,8 +1,9 @@
 # pki functions 
 # use with care 
-# developed for training only 
+# developed for PKI Training  and rollout
 # K.D.Wolfinger 
-# klaus@itconsulting-wolfinger.de 
+# klaus@itconsulting-wolfinger.de
+# support: pkit@itconsulting-wolfinger.de 
 # 
 #
 # ca, rootca, base and create_keys_certs 
