@@ -323,7 +323,7 @@ function menu6 () {
 	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
 	\t3 - Show X509 ROOT-CA Params
-	\tCDH - ReCreate DH-File with $ROOTBITS and $CERTBITS
+	\tCDH - ReCreate DH-File: root $ROOTBITS, cert $CERTBITS
 	\tQ - Create new RootCA-Request from this RootCA Cert
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tB - Replace root.crt with certificate from Enterprise PKI
