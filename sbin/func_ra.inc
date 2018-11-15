@@ -148,8 +148,8 @@ function create_requests() {
 			-config /dev/stdin \
 			-reqexts exts \
 			-subj '/'"$SUBDN"'/CN='"$CN" >>$LASTLOG
-			echo "--- key and req for $CN created ...")
-		echo $_cmd >>$LASTLOG	
+			echo "--- key and req for $CN created ...") >>$LASTLOG
+		#echo $_cmd >>$LASTLOG	
 			# $CN must be unique within this PKI
 		else 
 		echo -en "\n---> $CN req exists, nothing todo" 
