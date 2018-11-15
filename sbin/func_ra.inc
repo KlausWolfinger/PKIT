@@ -147,9 +147,9 @@ function create_requests() {
 			-out $CERTSDIR/$extension/"$CN".req \
 			-config /dev/stdin \
 			-reqexts exts \
-			-subj '/'"$SUBDN"'/CN='"$CN" 2>&1)
+			-subj '/'"$SUBDN"'/CN='"$CN")
 			echo "--- key and req for $CN created ..." >> $LASTLOG 
-		#echo $_cmd >>$LASTLOG	
+		echo $_cmd ; read	
 			# $CN must be unique within this PKI
 		else 
 		echo -en "\n---> $CN req exists, nothing todo" 
