@@ -1037,4 +1037,21 @@ function ListCertIndex() {
 	
 }
 
+function ShowRootCA() { 
+	clear 
+	if [ -e $ROOTCADIR/rootCA.pem ]; then  
+	openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | less
+	else
+	echo "################# ERROR #################"
+	echo "#                                       #"
+	echo "#        rootCA.pem does not exist      #"
+	echo "#          create the CA first          #"
+	echo "#                                       #"
+	echo "########## ENTER TO CONT ... ############"
+	read
+	fi
+	
+}
+
+
 

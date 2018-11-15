@@ -445,14 +445,20 @@ function menu7 () {
 function menu_header () { # common menu header 
 	if [ $(whoami) != 'srx' ]; then 
 		#echo -en "\t!!!! --- On OSV login as srx --- !!!!" 
-		echo -en "\n\t --- You are user $(whoami) ---" 
+		# echo -en "\n\t --- You are user $(whoami) ---"
+		echo "#####          PKIT CA MANAGEMENT          #####"		
 		#echo -en "\n\t ------- Limited functionality ------" 
 		#echo -en "\n\t --> Toogle OSV MODE with 'OSV'\n" 
 	fi 
 	if [ $DEBUGMODE == 1 ]; then 
 		echo -en " !!!!! Running OSV MODE !!!!!\n" 
 	fi 
-	echo -en " \n$BANNER\n\n" 
+	echo -en " \n$BANNER\n"
+	
+	if [ $BSIMODE == 1 ]; then
+	echo -en " CN: $BASEDN\n\n"	
+	fi
+	
 	#echo -en "------ UNIFY PKI HELPER $Version FOR OPENSCAPE ------\n\n" 
 	# echo -en "\t-----$THISHOST on $osvServerType------\n" 
 	if [ $osvServerType = 'simplex' ]; then 
