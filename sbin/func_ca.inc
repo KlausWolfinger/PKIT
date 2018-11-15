@@ -421,10 +421,8 @@ if [ $rootCACheck -eq 0 ]; then
 echo -en "\nCHECK WAS SUCCESSFUL --- GOOD"
 else
 echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!"
-fi
-echo -en "\nEnter to continue ..."
-read
 
+fi
 
 }
 

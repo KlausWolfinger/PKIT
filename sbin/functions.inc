@@ -139,7 +139,7 @@ function reInitVars() {
     OSVCertsDir=$OSVSSLDIR/certs
 	OSVPrivateDir=$OSVSSLDIR/private
     OSVdhDir=$OSVSSLDIR/dh_keys
-	
+	LASTLOG=$LOGDIR/lastlog.log
 	CRLWEBDIR="/tmp" 
 	# FILES --- LOGFILE=$TMPDIR/pkitool.log
 	SoapLogFile=$LOGDIR/Soaplog.log 

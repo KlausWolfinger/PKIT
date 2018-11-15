@@ -355,6 +355,8 @@ function menu6 () {
 			;;
 		[C] ) # check rootCA
 			check_rootCA;
+			echo -en "\nEnter to continue ..."
+			read
 			;;
 		[R] ) # create SUBCA Request
 			ask_subCAName;

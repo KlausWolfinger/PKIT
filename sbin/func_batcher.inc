@@ -130,7 +130,11 @@ echo "PKIT -- commander"
 echo "-----------------------------------------"
 # CA management 
 	case $keypress in 
-		
+	
+		[:]lastlog )
+			# print lastlog
+			less $LASTLOG
+			;;
 		[:]ip* ) 
 			# Cli
 			echo "command: $CLIcommand"
