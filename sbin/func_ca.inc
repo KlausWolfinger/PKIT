@@ -36,10 +36,20 @@ function rootca() {
 	#policy = policy_PKIT
 	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
+	certificatePolicies=ia5org,@certpol0_sect
+	crlDistributionPoints=crlDistributionPoint0_sect
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
 	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
+	
+	[certpol0_sect]
+	policyIdentifier=$POLICYIDENTIFIER
+	CPS.0=$CERTPOL
+	
+	[crlDistributionPoint0_sect]
+	fullname=URI:$ROOTCRLURI
+
 
 	[ policy_PKIT ]
 	countryName		= match
@@ -75,8 +85,9 @@ distinguished_name	= req_distinguished_name
 basicConstraints=CA:TRUE,pathlen:0
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
+
 [bsipol]
-policyIdentifier = 1.3.6.1.4.1.7924.1.2.2.1
+policyIdentifier=$POLICYIDENTIFIER
 CPS=$CPSPOL
 
 [verisignev]
@@ -158,7 +169,7 @@ mkdir -m 700 -p $ROOTCADIR
 		# must generate a randon as initial serial
 		touch $ROOTCADIR/root-serial
 		#echo "01" >$ROOTCADIR/root-serial
-		openssl rand -hex 16 >$ROOTCADIR/root-serial 
+		openssl rand -hex $SERIALSTART >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
 		echo -n >$ROOTCADIR/root-index.txt.attr
 		#ln -s $ROOTCADIR/root-index.txt $ROOTCADIR/root-index.txt.attr
@@ -425,6 +436,8 @@ reInitVars
 		default_md = $CERTSHA 
 	[ ca ]
 		default_ca = CA_default
+		
+	
 	[ subca ]	
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
@@ -449,6 +462,10 @@ reInitVars
 		RANDFILE = $ROOTCADIR/root-random 
 		#crl_dir = $CRLDIR 
 		crl = $CRLDIR/rootca.crl 
+	
+	
+	
+	
 	[policy_anything ] 
 	EOF
 		echo "[ exts ]"
@@ -470,7 +487,7 @@ reInitVars
 		osvserver|osms|dls) 
 			cat <<-EOF
 			basicConstraints=CA:FALSE
-			extendedKeyUsage=serverAuth 
+			extendedKeyUsage=serverAuth, clientAuth 
 			keyUsage = digitalSignature, keyEncipherment
 			EOF
 			;; 

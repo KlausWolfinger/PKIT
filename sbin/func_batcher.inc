@@ -162,6 +162,17 @@ echo "-----------------------------------------"
 			eval $CLIcommand | less 2>/dev/null
 			read -p "Debugging toggled -> ENTER to cont"	
 			;;
+		[:]show* )
+			# show x509 of this rootca
+			echo "command: $CLIcommand" 
+			if [ $CLIcommand = 'showrootca' ]; then
+			ShowRootCA;
+			else 
+			echo "## $CLIcommand not supported command"
+			echo "## ENTER to cont ..."
+			read
+			fi
+			;;
 		[:][?h] )
 			# change bash option set +x for debugging
 			echo "command list" 

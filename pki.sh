@@ -180,6 +180,7 @@ Param3=$3
 Param4=$4
 Param5=$5
 disclaimer;
+read
 if [ $# -eq 0 ] && [ $USER != "pki" ];then
 	echo     "######################"
 	echo -en "# Enter your PIN: "
