@@ -108,7 +108,7 @@ function importcreq() {
 } 
 
 function create_requests() {
-	exec >> $LASTLOG 2>>&1
+	exec >> $LASTLOG 2>&1
 	reInitVars
 	export CN
 	CN_count=0; 
