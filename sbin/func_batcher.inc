@@ -137,7 +137,8 @@ echo "-----------------------------------------"
 			;;
 		[:]clearlastlog )
 			# clear lastlog.log file
-			echo "file cleared" >$LASTLOG	
+			echo "file cleared" >$LASTLOG
+			;;	
 		[:]ip* ) 
 			# Cli
 			echo "command: $CLIcommand"
