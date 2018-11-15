@@ -111,7 +111,7 @@ function create_requests() {
 	reInitVars
 	export CN
 	CN_count=0; 
-	echo -en "--- creating certificate requests from hosts file\n" >$LASTLOG
+	echo -en "--- creating certificate requests from hosts file\n" >>$LASTLOG
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
