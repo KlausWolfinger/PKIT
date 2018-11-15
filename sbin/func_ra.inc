@@ -141,16 +141,15 @@ function create_requests() {
 		fi 
 		if [ -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".req ]; then 
 		rm -f $CERTSDIR/$extension/"$CN".* 
-		_cmd=$(ca $extension "$SALTN" req | openssl req \
+		ca $extension "$SALTN" req | openssl req \
 			-new -days $CERTDAYS \
 			-nodes -key $KEYSDIR/$extension/"$CN".key \
 			-out $CERTSDIR/$extension/"$CN".req \
 			-config /dev/stdin \
 			-reqexts exts \
-			-subj '/'"$SUBDN"'/CN='"$CN")
-			echo "--- key and req for $CN created ...\n" >> $LASTLOG 
-		echo $_cmd;
-		read	
+			-subj '/'"$SUBDN"'/CN='"$CN"
+			
+			echo "--- key and req for $CN created ..." | tee >>$LASTLOG 
 			# $CN must be unique within this PKI
 		else 
 		echo -en "\n---> $CN req exists, nothing todo" 
