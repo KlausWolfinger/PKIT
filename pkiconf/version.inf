@@ -2,8 +2,8 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.4b BSIkonform Branch'
-Revision='c'
+Version='2.5a BSIkonform Branch'
+Revision='a' 
 
 
 # changelog
