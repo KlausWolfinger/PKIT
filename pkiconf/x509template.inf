@@ -45,7 +45,7 @@ ROOTCRLURI="http://pkit.itconsulting-wolfinger.de/rootca.crl"
 POLICYIDENTIFIER='1.3.6.1.4.1.52823.1.2.2.1'
 #
 ###  START RANDOM VAULE SERIAL NUMBER CA DATABASE ####
-# MIN 6-BYTE RANDOM for BSI conformity
+# MIN 6-BYTE RANDOSERM for BSI conformity
 # SERIALSTART=6 means 6 byte random value
 SERIALSTART=6
 ### ###########################################

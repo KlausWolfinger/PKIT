@@ -158,6 +158,42 @@ function recreate_dh(){
 	done 
 } 
 
+function create_rootCAkeys(){
+	# check rootCA and DB
+	#
+	echo -en "\n--> This will perform a rootCA check ...\n"
+	if [ -e $ROOTCADIR/root.key ] || [ -e $ROOTCADIR/root.crt ]; then
+		hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
+		echo -en "--> $ROOTCADIR/root.crt check OK...\n";
+		echo -en " !!! We don't want to destroy the RootCA !!!\n"
+		echo -en " ... to replace the rootCA keys you have to \n"
+		echo -en "     destroy the project first and create the keys\n"
+		echo -en "ANY KEY to continue ...\n"
+		
+		read
+	else echo -en "there is no rootCA, good, so we can continue\n"
+		echo -en "Are you sure? [Y or N]"
+	 
+		if (yes_no);then
+		echo -en "... this is a beta feature under test ...\n"; 
+		echo 
+		echo -en "--> with the next step PKIT will open the file root.key\n"
+		echo -en "    which is a base64 pem format. After opening with\n"
+		echo -en "     vi editor, paste the new master key from your crypto box\n";
+		echo -en "    into the file and save. Next step is to create the rootCA\n"
+		echo -en "UNDERSTOOD [Y or N]?"
+			if (yes_no); then
+			vi $ROOTCADIR/root.key
+			else return
+			fi
+		else return
+		fi
+	fi
+	
+	
+
+}
+
 function create_rootCA_DB() {
 reInitVars
 mkdir -m 700 -p $ROOTCADIR 
@@ -421,10 +457,8 @@ if [ $rootCACheck -eq 0 ]; then
 echo -en "\nCHECK WAS SUCCESSFUL --- GOOD"
 else
 echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!"
-fi
-echo -en "\nEnter to continue ..."
-read
 
+fi
 
 }
 

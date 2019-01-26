@@ -108,10 +108,11 @@ function importcreq() {
 } 
 
 function create_requests() {
+	#exec 2>> $LASTLOG 
 	reInitVars
 	export CN
 	CN_count=0; 
-	# echo -en "--- creating certificate requests from hosts file (func_requests.inc)...\n" 
+	echo -en "--- creating certificate requests from hosts file\n" >>$LASTLOG
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
@@ -147,18 +148,21 @@ function create_requests() {
 			-config /dev/stdin \
 			-reqexts exts \
 			-subj '/'"$SUBDN"'/CN='"$CN"
+			
+			echo "--- key and req for $CN created ..." | tee >>$LASTLOG 
 			# $CN must be unique within this PKI
 		else 
 		echo -en "\n---> $CN req exists, nothing todo" 
 		fi 
 		done 
-		echo -en "\n\t--> Created all requests from candidates" 
+		echo -en "--- Created all requests from candidates\n" >>$LASTLOG
 }
 
 
 function create_keys_certs() {
 	# signing process
 	reInitVars
+	echo "--- starting signing process ..." >>$LASTLOG
 	. $PKIHOME/pkiconf/pkitool.conf # load current passphrase
 	if [ "$HidePassPhrase" -eq "1" ]; then
 	P12FileNamePass="_x_x"
@@ -193,7 +197,7 @@ function create_keys_certs() {
 		# adaptions for special cases 
 		#
 		# ---------------------------------------------------------
-		
+		echo "--- signing $CN ..." >>$LASTLOG
 		if [ -e $CERTSDIR/$extension/"$CN".req -a ! -e $CERTSDIR/$extension/"$CN".crt ]; then 
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
@@ -204,9 +208,10 @@ function create_keys_certs() {
 				-out $CERTSDIR/$extension/"$CN".crt \
 				-in $CERTSDIR/$extension/"$CN".req \
 				-extensions exts -preserveDN  \
-				-config /dev/stdin 
+				-config /dev/stdin >>$LASTLOG
+			echo "--- crt files for $CN created ..." >>$LASTLOG
 		else 
-			echo -en "\t--->$CN crt exists, nothing todo\n" 
+			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
 		fi 
 		
 	# --------------------------------------------------------- 
@@ -215,7 +220,8 @@ function create_keys_certs() {
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-outform DER \
 				-out $CERTSDIR/$extension/"$CN".cer 
-			else echo -en "\t---> $CN cer exists, nothing todo\n" 
+			echo "--- cer files for $CN created ..." >>$LASTLOG 
+			else echo -en "\t---> $CN cer exists, nothing todo\n" >>$LASTLOG  
 		fi 
 		#--------------------------------------------------------- 
 		if [ -e $CERTSDIR/$extension/"$CN".crt -a ! -e $CERTSDIR/$extension/"$CN".p7b ]; then 
@@ -223,6 +229,7 @@ function create_keys_certs() {
 				-nocrl \
 				-certfile $CERTSDIR/$extension/"$CN".crt \
 				-out $CERTSDIR/$extension/"$CN".p7b 
+			echo "--- p7b files for $CN created ..." >>$LASTLOG
 			else 
 				echo -en "\t---> $CN p7b exists, nothing todo\n" 
 		fi 
@@ -230,7 +237,8 @@ function create_keys_certs() {
 		if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".pem ]; then 
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
-				-out $CERTSDIR/$extension/"$CN".pem; 
+				-out $CERTSDIR/$extension/"$CN".pem 
+			echo "--- pem files for $CN created ..." >>$LASTLOG 
 			
 			if [ $extension = 'osvserver' ]; then
 			cat $KEYSDIR/$extension/"$CN".key >>$CERTSDIR/$extension/"$CN".pem 
@@ -247,7 +255,8 @@ function create_keys_certs() {
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.pem ]; then 
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
-				-out $CERTSDIR/$extension/"$CN".chain.pem.tmp
+				-out $CERTSDIR/$extension/"$CN".chain.pem.tmp 
+			echo "--- *.chain.pem files for $CN created ..." >>$LASTLOG
 			cat $CERTSDIR/$extension/"$CN".chain.pem.tmp $KEYSDIR/$extension/"$CN".key $ROOTCADIR/root.crt >$CERTSDIR/$extension/"$CN".chain.pem 
 			rm $CERTSDIR/$extension/"$CN".chain.pem.tmp 
 			else 
@@ -261,6 +270,8 @@ function create_keys_certs() {
 				openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-out $CERTSDIR/$extension/"$CN".UC.pem.tmp 
+			echo "--- *.UCchain.pem files for $CN created ..." >>$LASTLOG
+			
 				cat $ROOTCADIR/root.crt $CERTSDIR/$extension/"$CN".UC.pem.tmp >$CERTSDIR/$extension/"$CN".UCchain.pem 
 				rm $CERTSDIR/$extension/"$CN".UC.pem.tmp 
 				else 
@@ -277,8 +288,9 @@ function create_keys_certs() {
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
+			echo "--- *.chain.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" >>$LASTLOG
 			fi
 			
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.p12 ]; 
@@ -292,8 +304,9 @@ function create_keys_certs() {
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass: 
+			echo "--- *chain.p12 files without passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.p12 with empty passphrase exists, nothing todo\n" 
+			echo -en "\t---> $CN chain.p12 with empty passphrase exists, nothing todo\n" >>$LASTLOG
 			fi
 			cat >$CERTSDIR/$extension/README_aboutp12.txt <<-EOL 
 			About the p12 friendly name for UC: 
@@ -307,7 +320,8 @@ function create_keys_certs() {
 		
 			
 			# -------------- write standard p12 keybags - name = $CN -----------
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
+			## enhance check [ $extension != 'osvservcer' ] && .....
+			if  [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
 			openssl pkcs12 \
 				-export -inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
@@ -316,8 +330,9 @@ function create_keys_certs() {
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass: 
+			echo "--- *.p12 files without passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN .p12 with empty passphrase exists, nothing todo\n" 
+			echo -en "\t---> $CN .p12 with empty passphrase exists, nothing todo\n"  >>$LASTLOG
 			fi 
 			#--------------------------------------------------------- 
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
@@ -326,9 +341,10 @@ function create_keys_certs() {
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "$CN" -out $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 \
-				-nodes -passout pass:"$PassPhrase"
+				-nodes -passout pass:"$PassPhrase" 
+			echo "--- *.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else
-			echo -en "\t---> $CN XXX.p12 with passphrase XXX exists, nothing todo\n" 
+			echo -en "\t---> $CN XXX.p12 with passphrase XXX exists, nothing todo\n" >>$LASTLOG
 			fi 
 			# --------------------------------------------------------- 
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
@@ -341,8 +357,9 @@ function create_keys_certs() {
 				-certfile $ROOTCADIR/root.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
+			echo "--- *.chain.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" 
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n"  >>$LASTLOG
 			fi
 			# --------- special cases ------------------ 
 			#------------------------------------------ 
@@ -362,10 +379,11 @@ function create_keys_certs() {
 					-inkey $KEYSDIR/$extension/"$CN".key \
 					-in $CERTSDIR/$extension/"$CN".chain.pem \
 					-password pass:$PassPhrase 
+			echo "--- OSMO *chain.p12 with passphrase $CN created ..." >>$LASTLOG
 					cp $CERTSDIR/$extension/"$CN".p12 $CERTSDIR/$extension/"$CN".osmc 
 				# Install .osmc und in Smartphone 
 				else 
-				echo -en "\t---> $CN OSMO.pem exists, nothing todo\n" 
+				echo -en "\t---> $CN OSMO.pem exists, nothing todo\n"  >>$LASTLOG
 			fi 
 		fi 
 	#--------------------------------------------------------- 
@@ -377,7 +395,7 @@ function create_keys_certs() {
 		fi
 	# -------- Assistant 
 		if [ $extension = 'assistant' ]; then 
-			echo "writing README an temp certfile ..." 
+			echo "writing README and temp certfile ..." 
 			# merge files 
 			cat $ROOTCADIR/root.crt $KEYSDIR/$extension/"$CN".key >$CERTSDIR/$extension/"$CN".temp_certfile.pem 
 			cat >$CERTSDIR/$extension/README.txt <<-EOL 
@@ -385,7 +403,8 @@ function create_keys_certs() {
 			1) Copy the file "...temp_certfile.pem" to the backend machine 
 			2) From the directory where you copied the file "temp_certfile.pem", 
 			execute: /opt/siemens/assistant/scripts/generateKeyStore.sh temp_certfile.pem 
-			3) Because the file "temp_certfile.pem" was deleted after the last step, copy it to the backend machine again 4) From the directory where you copied the file "temp_certfile.pem", execute: /opt/siemens/servicetools/bcom/bcomImportCert.sh temp_certfile.pem 
+			3) Because the file "temp_certfile.pem" was deleted after the last step, copy it to the backend machine again 
+			4) From the directory where you copied the file "temp_certfile.pem", execute: /opt/siemens/servicetools/bcom/bcomImportCert.sh temp_certfile.pem 
 			5) Restart Symphonia 
 			6) You are done. 
 			EOL

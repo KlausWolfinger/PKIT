@@ -319,6 +319,7 @@ function menu6 () {
 	echo -en "\n#\tCA Management --->" 
 	echo -en "\n--> \tSelect action:\n 
 	\t1 - Edit X509 ROOT-CA
+	\tK - Create New RootCA Keys or Import
 	\tW - Write rootCA empty database 
 	\tI - Create new RootCA-Request interactively (more options) 
 	\t2 - Create Root-CA 
@@ -355,6 +356,8 @@ function menu6 () {
 			;;
 		[C] ) # check rootCA
 			check_rootCA;
+			echo -en "\nEnter to continue ..."
+			read
 			;;
 		[R] ) # create SUBCA Request
 			ask_subCAName;
@@ -376,6 +379,9 @@ function menu6 () {
 			#create_dh; 
 			create_rootca;
 			;; 
+		[K] ) # create keys or import rootCA keys
+			create_rootCAkeys;
+			;;
 		[3] ) # show X509 Parameter 
 			read_x509config;
 			print_x509config 
