@@ -179,7 +179,7 @@ function create_rootCAkeys(){
 		echo 
 		echo -en "--> with the next step PKIT will open the file root.key\n"
 		echo -en "    which is a base64 pem format. After opening with\n"
-		echo -en "     vi editor, paste the new master key from yout crypto box\n";
+		echo -en "     vi editor, paste the new master key from your crypto box\n";
 		echo -en "    into the file and save. Next step is to create the rootCA\n"
 		echo -en "UNDERSTOOD [Y or N]?"
 			if (yes_no); then
