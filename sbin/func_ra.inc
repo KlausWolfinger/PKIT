@@ -50,7 +50,7 @@ function importcreq() {
 	echo -en "Found $tLen entries in external candidates\n"
 	echo -en "------------------------------------------\n"
 	echo -en " Number\tSystem:Alias----------------------\n"
-	for (( i=0; $i<${tLen}; i++ )); do 
+	for (( i=0; $i<${tLen}; $i++ )); do 
 		echo -en " $i --> \t${extCandsArray[$i]}\n" 
 	done
 	echo -en "\nChoose number from list...\n"

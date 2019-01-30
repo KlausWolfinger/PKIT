@@ -336,7 +336,7 @@ function create_rootca(){
 	echo "#   MENU: CA Management --> Create New DH       #"
 	echo "#################################################"
 	echo
-	echo "Yes, I did understand: Continue with any key"
+	echo "Yes, I did understand: to Continue press [ENTER]"
 	read 
 }
 
@@ -355,17 +355,25 @@ function replace_rootcert() {
 		echo "###########################################"
 		echo "#   root certificate changed ... finish the action [Yy|Nn]"
 			if (yes_no); then 
-				check_rootCA
-				echo "rootCACheck = $rootCACheck"
-				if [ $rootCACheck -eq 0 ]; then
-						rm -f $ROOTCADIR/rootCA.pem
-						rm -f $ROOTCADIR/rootCA.der
-						create_rootca
+				
+				
+				
+					rm -f $ROOTCADIR/rootCA.pem
+					rm -f $ROOTCADIR/rootCA.der
+					SkipRootCACheck=1
+					create_rootca
+					echo "############# Certificate Replaced ##########"
+					
+					read -p "[ENTER] to cont for final RootCA Check...."
+					
+					SkipRootCACheck=0
+					check_rootCA
+					if [ $rootCACheck -eq 0 ]; then
 						echo "###########################################"
-						echo "#   Sucessfully Changed CA to SUBCA"
+						echo "#   Sucessfully RootCA Change to SBCA"
 						echo "###########################################"
-						echo "#   This RootCA is noW a SUB-CA"
-						echo "###########################################";
+						echo "#   This RootCA is now a SUB-CA"
+						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					else
 						echo "###########################################"
@@ -376,7 +384,8 @@ function replace_rootcert() {
 						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					
-				fi	
+					fi	
+				
 					
 				
 				else
@@ -408,58 +417,63 @@ reInitVars
 function check_rootCA() {
 reInitVars
 #
-rootCACheck=0
-echo -en "\n--> This will perform a rootCA check ...\n"
-if [ -e $ROOTCADIR/root.key ]; then
-echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
-echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
-fi
-if [ -e $ROOTCADIR/root.crt ]; then
-hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
-echo -en "--> $ROOTCADIR/root.crt check OK...\n";  else 
-echo -en "--> $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck++)); 
-fi
-if [ -e $ROOTCADIR/rootCA.pem ]; then
-hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
-echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
-RootTestCmd="openssl x509 -fingerprint -noout -in "$ROOTCADIR/root.crt > /dev/null 2>&1
-if ( eval $($RootTestCmd | grep error)  ); then
-	openssl x509 -text -noout -in $ROOTCADIR/root.crt | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'
-	echo -en "--> $ROOTCADIR/root.crt fingerprint OK...\n";
+if [[ $SkipRootCACheck -eq 0 ]]; then
+	rootCACheck=0
+	echo -en "\n--> This will perform a rootCA check ...\n"
+	if [ -e $ROOTCADIR/root.key ]; then
+	echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
+	echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
+	fi
+	if [ -e $ROOTCADIR/root.crt ]; then
+	hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
+	echo -en "--> $ROOTCADIR/root.crt check OK...\n";  else 
+	echo -en "--> $ROOTCADIR/root.crt check NOK...\n"; ((rootCACheck++)); 
+	fi
+	if [ -e $ROOTCADIR/rootCA.pem ]; then
+	hash_rootpem=$(sha1sum $ROOTCADIR/rootCA.pem | awk '{print $1}')
+	echo -en "--> $ROOTCADIR/rootCA.pem check OK...\n";
+	RootTestCmd="openssl x509 -fingerprint -noout -in "$ROOTCADIR/root.crt > /dev/null 2>&1
+	if ( eval $($RootTestCmd | grep error)  ); then
+		openssl x509 -text -noout -in $ROOTCADIR/root.crt | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /'
+		echo -en "--> $ROOTCADIR/root.crt fingerprint OK...\n";
+		else
+		echo -en "--> $ROOTCADIR/root.crt fingerprint NOK...\n"; ((rootCACheck++)); 
+	fi
+	#openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /' # replace spaces and tabs with ==> 
+	if [ $hash_rootcrt = $hash_rootpem ]; then 
+	echo "--> Certificate Files are equal, that's good ..."
 	else
-	echo -en "--> $ROOTCADIR/root.crt fingerprint NOK...\n"; ((rootCACheck++)); 
+	echo "--> Certificate Files are NOT equal, that's bad ..."; ((rootCACheck++))
+	fi
+	else 
+	echo -en "--Y $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck++));
+
+	fi
+	if [ -e $ROOTCADIR/rootCA.der ]; then
+	echo -en "--> $ROOTCADIR/rootCA.der check OK...\n";  
+
+	else 
+	echo -en "--> $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
+	fi
+
+	if [ -e $ROOTCADIR/root-serial ]; then
+	echo -en "--> $ROOTCADIR/root-serial >>$(cat $ROOTCADIR/root-serial)<< check OK...\n";
+
+	else 
+	echo -en "--> $ROOTCADIR/root-serial does not exist NOK...\n"; ((rootCACheck++));
+	fi
+
+	if [ $rootCACheck -eq 0 ]; then
+	echo -en "\nCHECK WAS SUCCESSFUL --- GOOD\n"
+	else
+	echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!\n"
+
+	fi
+	else
+	echo
+	echo "########### RootCA Check skipped this time ...\n"
+	echo
 fi
-#openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | grep 'Issuer:\|Subject:' | sed 's/^[ \t]*/==> /' # replace spaces and tabs with ==> 
-if [ $hash_rootcrt = $hash_rootpem ]; then 
-echo "--> Certificate Files are equal, that's good ..."
-else
-echo "--> Certificate Files are NOT equal, that's bad ..."; ((rootCACheck++))
-fi
-else 
-echo -en "--Y $ROOTCADIR/rootCA.pem check NOK...\n"; ((rootCACheck++));
-
-fi
-if [ -e $ROOTCADIR/rootCA.der ]; then
-echo -en "--> $ROOTCADIR/rootCA.der check OK...\n";  
-
-else 
-echo -en "--> $ROOTCADIR/rootCA.der check NOK...\n"; ((rootCACheck++));
-fi
-
-if [ -e $ROOTCADIR/root-serial ]; then
-echo -en "--> $ROOTCADIR/root-serial >>$(cat $ROOTCADIR/root-serial)<< check OK...\n";
-
-else 
-echo -en "--> $ROOTCADIR/root-serial does not exist NOK...\n"; ((rootCACheck++));
-fi
-
-if [ $rootCACheck -eq 0 ]; then
-echo -en "\nCHECK WAS SUCCESSFUL --- GOOD"
-else
-echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!"
-
-fi
-
 }
 
 function ca() { 
