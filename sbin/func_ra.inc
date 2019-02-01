@@ -89,7 +89,7 @@ function importcreq() {
 	tLen=${#certArray[@]}
 	echo -en "Found $tLen entries in external candidates\n"
 	echo -en "------------------------------------------\n"
-	echo -en " Number\tSystem:Alias----------------------\n"
+	echo -en " Number\tSystem:Alias\n------------------------------\n"
 	for (( i=0; $i<$tLen; i++ )); do 
 		echo -en " $i --> \t${certArray[$i]}\n" 
 	done
@@ -103,7 +103,7 @@ function importcreq() {
 	read CandNum
 	# debugging 
 	echo -en "Candidate: ${certArray[CandNum]}\n";
-	cert=${certArray[1]}
+	cert=${certArray[CandNum]}
 	
 	# debugging  
 	echo -en "Certificate: $cert\n";
