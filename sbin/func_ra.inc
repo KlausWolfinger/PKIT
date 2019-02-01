@@ -2,15 +2,20 @@ function SignRequest(){
 	##echo -en "---------- debug----------\n";read
 	export CN
 	CN_count=0;
-	echo -en "--- Signing external certificates ...\n" 
+	
+	echo -en "--- Reading external certificates ...\n" 
 	cat $HOSTDIR/candreq \
 		| grep -v "^[ ]*#" \
 		| grep -v "^[ ]*$" \
 		| grep -v "^[ ]*!" \
 		| while  read cert; do  
 			extension=$(echo "$cert" | cut -f1 -d:) 
-				   CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,)
-				   SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
+			  CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,)
+			  SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
+			 
+			
+		# CN have to be unique in DB, but external request could come with any CN, so we have to randomize the CN with DateTime
+		
 		
 		# echo  -en "--> HOST: $cert CN: $CN extension: $extension "
 		
@@ -19,24 +24,52 @@ function SignRequest(){
 		mv $CANDCERTSDIR/$extension/"$CN".req $CANDCERTSDIR/$extension/tmp-"$CN".req 
 		rm -f $CANDCERTSDIR/$extension/"$CN".* 
 		mv $CANDCERTSDIR/$extension/tmp-"$CN".req $CANDCERTSDIR/$extension/"$CN".req 
+		echo "Debugging info: "
+		echo "This dir = $(pwd)"
+		echo "Variable CANDCERTSDIR = $CANDCERTSDIR"
+		echo "DIR of $CANDCERTSDIR "
+		echo "Database: $DATABASE"
+		echo "Common Name CN = $CN"
+		dir $CANDCERTSDIR
+		
 		# -create_serial is especially important. Many HOW-TOs will have you echo "01" into the serial file thus starting the serial number at 1, and using 8-bit serial numbers instead of 128-bit serial numbers. This will generate a random 128-bit serial number to start with. The randomness helps to ensure that if you make a mistake and start over, you won't overwrite existing serial numbers out there.
+		### external ca for signing or external requests
+		
+		now=$(date +"%Y-%m-%d-%S")
+		
+		CNOUT=$CN$now
+		echo "### Randomized CN: $CNOUT"
+		read 
+		
+		mv $CANDCERTSDIR/$extension/"$CN".req $CANDCERTSDIR/$extension/$CNOUT.req
+		read 
+		
+		set CN=$CNOUT
+		export CNOUT
+		
 		ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
-				-out $CANDCERTSDIR/$extension/"$CN".crt \
-				-in $CANDCERTSDIR/$extension/"$CN".req \
-				-extensions exts -preserveDN\
-				-config /dev/stdin
+				-out $CANDCERTSDIR/$extension/$CNOUT.crt \
+				-in $CANDCERTSDIR/$extension/$CNOUT.req \
+				-extensions exts -preserveDN \
+				-config /dev/stdin >>$LASTLOG
  
 				#	echo "stop";read
+				echo "--- creating pem from crt ----"
 					
 				openssl x509 \
-				-in $CANDCERTSDIR/$extension/"$CN".crt \
-				-out $CANDCERTSDIR/$extension/"$CN".pem; 
+				-in $CANDCERTSDIR/$extension/$CNOUT.crt \
+				-out $CANDCERTSDIR/$extension/$CNOUT.pem; 
 		echo -en "\t---> $CN crt and pem created\n" 
-		echo -en "=============================================\n"
-		cat $CANDCERTSDIR/$extension/"$CN".pem 
-		echo -en "=============================================\n" 
+		echo -en "==============copy from here ===================\n"
+		cat $CANDCERTSDIR/$extension/$CNOUT.pem
+		echo 		
+		echo -en "=========copy to here============\n"
+		echo "ENTER to continue"; read
+		echo " you find the new certificate in directory:"
+		echo " -->$CANDCERTSDIR/$extension	"
+		echo "ENTER to continue"; read
 	else 
 		echo -en "\t---> $CN Error, no cert written\n"
 			echo -en "\t---> REQ does not exist or CRT already exists\n"
@@ -47,42 +80,49 @@ function SignRequest(){
 } 
 
 function importcreq() {
+	dos2unix $HOSTDIR/candreq
+	certArray=($(cat $HOSTDIR/candreq \
+		| grep -v "^[ ]*#" \
+		| grep -v "^[ ]*$" \
+		| grep -v "^[ ]*!" \
+		)) 
+	tLen=${#certArray[@]}
 	echo -en "Found $tLen entries in external candidates\n"
 	echo -en "------------------------------------------\n"
 	echo -en " Number\tSystem:Alias----------------------\n"
-	for (( i=0; $i<${tLen}; $i++ )); do 
-		echo -en " $i --> \t${extCandsArray[$i]}\n" 
+	for (( i=0; $i<$tLen; i++ )); do 
+		echo -en " $i --> \t${certArray[$i]}\n" 
 	done
 	echo -en "\nChoose number from list...\n"
 	echo -en "------------------------------------------\n"
 	echo -en "Next, the tool will open the vi editor,   \n"
 	echo -en ".. paste the X509 request pem block into ...\n"
+	echo -en " !!!! The CN inside the request MUST NOT exist\n"
+	echo -en " within the local CA Database !!!!!!!!!!!!!!!\n"
 	echo -en "... now the number, please: "
 	read CandNum
 	# debugging 
-	#echo -en "Candidate: ${extCandsArray[$CandNum]}\n";read
-	cert=$(echo ${extCandsArray[$CandNum]} \
-		| grep -v "^[ ]*#" \
-		| grep -v "^[ ]*$" \
-		| grep -v "^[ ]*!")
+	echo -en "Candidate: ${certArray[CandNum]}\n";
+	cert=${certArray[1]}
+	
 	# debugging  
-	#echo -en "Certificate: $cert\n";read
+	echo -en "Certificate: $cert\n";
 	
 	CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 	# debugging  
-	#echo -en "CN: $CN\n";read
+	echo -en "CN: $CN\n";
 	SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,) 
 	extension=$(echo "$cert" | cut -f1 -d:)
 	# debugging  
-	#echo -en "Extension: $extension\n";read	
+	echo -en "Extension: $extension\n";	
 	Alias=$(echo "$CN")
 	# debugging 
-	#echo -en "Alias: $Alias\n";read
+	echo -en "Alias: $Alias\n";
 	Vendor=$(echo "$extension") 	
 	# debugging   
-	#echo -en "Vendor: $Vendor\n";read
+	echo -en "Vendor: $Vendor\n";
 	
-	#echo -en " --> Vendor $Vendor with certname $Alias\n"
+	echo -en " --> Vendor $Vendor with certname $Alias\n"
 	
 	#	echo -en "Choose Vendor from list: \n";read CandNum
 	#	echo -en "-- debugging variable i after while read = $i\n" 
@@ -93,8 +133,8 @@ function importcreq() {
 	#	echo -en "Requestfile = $CANDCERTSDIR/$Vendor/$Alias.req\n"
 		# Requestfile = ./candidates/CandCerts//.req
 		# -- Reuestfilename = .req
-	#	echo -en "-- Requestfilename = $Alias.req\n ENTER ...."
-	#	read
+		echo -en "-- Requestfilename = $Alias.req\n ENTER ...."
+		read
 		if [ ! -d $CANDCERTSDIR/$Vendor ]; then 
 			mkdir -p $CANDCERTSDIR/$Vendor 
 		fi

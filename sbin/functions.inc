@@ -856,10 +856,16 @@ cat $HOSTfile
 }
 function editcandidates() { 
 	echo "filename: $CandFile" 
-	vi $CandFile 
-	echo -en "\t ---- candidate request file ----- \n" 
-	cat $CandFile 
-	echo -e "\n\t--end of file--" 
+	 
+	echo -en "\t ---- change candidate request file ----- \n"
+	echo ".. for external requests only ..."
+	echo "!! ensure that the CN (CommonName) within this level"
+	echo " does NOT collide with entries from candidates or "
+	echo " CNs within the local CA database "
+	echo " [Enter] to open the file with vi -->"
+	read
+	vi $CandFile
+	
 	echo -en "\n\t ENTER to continue \n"; read 
 } 
 function viewcandcert() { 
