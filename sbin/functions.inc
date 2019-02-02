@@ -654,7 +654,8 @@ function RevokeCRL(){
 		| grep -v "^[ ]*!" \
 		)) 
 	tLen=${#certArray[@]}
-	for (( i=0;i<${tLen}; i++ )); do
+	for (( i=0;i<${tLen}; i++ )); do  # display certlist from candidates file
+	## to do, we have to use the indexfile instead and correlate with hosts and external candidates file
 		echo -en "$i --> \t${certArray[$i]}\n" 
 		done 
 		echo
@@ -664,12 +665,36 @@ function RevokeCRL(){
 		CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,) 
 		SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
 		extension=$(echo "$cert" | cut -f1 -d:) 
-		echo -en "\n\t Your choice for cert: $certnum: $CN : [Yy]es or [Nn]o ?" 
+		echo -en "\n\t Your choice for cert: $certnum ($CN) "
+		echo
+		if [ ! -r "$CERTSDIR/$extension/$CN.crt" ]; then
+		echo " !!!!! $CERTSDIR/$extension/"$CN".crt does NOT exist, can't revoke !!!"
+		echo " ---- reason could be an external signed  certificate ----"
+		echo "Any key to continue ..."; read
+		return
+		fi
+		echo -en "\t --> Now choose one of the following reasons, please\n"
+		#crl_reason reason
+		crlReasonCodes=(unspecified keyCompromise CACompromise affiliationChanged superseded cessationOfOperation certificateHold removeFromCRL)
+		#revocation reason, where reason is one of: unspecified, keyCompromise, CACompromise, affiliationChanged, superseded, cessationOfOperation, certificateHold or removeFromCRL. The matching of reason is case insensitive. Setting any revocation reason will make the CRL v2.
+		#In practice removeFromCRL is not particularly useful because it is only used in delta CRLs which are not currently implemented.
+		echo "***************************************"
+		i=0
+		for rCode in ${crlReasonCodes[@]}; do
+		
+		echo -en "* --> $i \t $rCode\n"; ((i++)) 
+		
+		done
+		echo "***************************************"
+		echo "# Enter the number of reason:"
+		read reasonNum
+		echo "OK, your reason is: ${crlReasonCodes[$reasonNum]}"
+		echo " [Y]es or [N]No ?"		
 		if (yes_no); then 
 			echo -en "\n\t--> Revoking $CN from Cert store" 
 			
 			echo "CN = $CN"
-			crl $CN | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin
+			crl $CN | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -crl_reason ${crlReasonCodes[$reasonNum]} -config /dev/stdin
 			# crl $ca_extension "" | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin 
 			echo -en "\n\t--> writing CRL ....."
 			echo -en "\n ENTER to continue ..." 
