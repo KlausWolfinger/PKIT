@@ -329,8 +329,8 @@ function menu6 () {
 	\tA - Create p12 root-Certificate with key (passphrase)
 	\tB - Replace root.crt with certificate from Enterprise PKI
 	\tC - Perform a ROOTCA CHECK
-	\tR - Create SUBCA Request
-	\tS - Sign and create SUBCA
+	\tR - Create SUBCA Request from this Level 
+	\tS - Import and Sign external SUBCA Request
 	\tD - Delete SUBCA"
 	
 	

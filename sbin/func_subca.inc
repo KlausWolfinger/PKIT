@@ -91,8 +91,18 @@ function signsubca(){
 	
 
 	# test for key and request
-	if [ ! -e $SUBCADIRNAME/$SUBCANAME.key -a ! -e $SUBCADIRNAME/$SUBCANAME.req ];then
-		echo "Missing subca request and key ..."
+	
+	## Import cert first
+	echo "You have to paste the request (pem) to the request file"
+	echo "Will open vi $SUBCADIRNAME/$SUBCANAME.req .. [ENTER]"
+	read 
+	if [ ! -e $SUBCADIRNAME  ]; then
+	mkdir $SUBCADIRNAME
+	fi
+	
+	vi $SUBCADIRNAME/$SUBCANAME.req
+	if [ ! -e $SUBCADIRNAME/$SUBCANAME.req ];then
+		echo "Missing subca request ..."
 		exit 1;
 	fi
 	if [ -e $SUBCADIRNAME/$SUBCANAME.crt ];then
