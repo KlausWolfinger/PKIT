@@ -281,7 +281,7 @@ function menu5 () {
 				UpdateCRL 
 				;; 
 		[Ll] ) #list signed candidates 
-			ListCertIndex 
+			ShowCertIndex 
 			;; 
 		[Aa] ) #Add Candidate request
 				#CandAddReq 
@@ -461,7 +461,7 @@ function menu_header () { # common menu header
 	fi 
 	echo -en " \n$BANNER\n"
 	
-	if [ $BSIMODE == 1 ]; then
+	if [[ $BSIMODE == 1 ]]; then
 	echo -en " CN: $BASEDN\n\n"	
 	fi
 	

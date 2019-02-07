@@ -201,6 +201,8 @@ function create_requests() {
 
 function create_keys_certs() {
 	# signing process
+	# NEW OPTION -set_serial n
+	
 	reInitVars
 	echo "--- starting signing process ..." >>$LASTLOG
 	. $PKIHOME/pkiconf/pkitool.conf # load current passphrase
@@ -220,6 +222,15 @@ function create_keys_certs() {
 		export CN 
 	CN_count=0;
 	#read -p "break1"
+	# ask for root key passphrase if set
+	# test if root.key is encrypted
+	_encrypted=$(grep ENCRYPTED $ROOTCADIR/root.key)
+	if [ "$_encrypted" != '' ]; then
+	echo "The rootCA key is encrypted, enter the passphrase, please:"
+	echo
+	read _passphrase
+	
+	fi
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
@@ -248,6 +259,7 @@ function create_keys_certs() {
 				-out $CERTSDIR/$extension/"$CN".crt \
 				-in $CERTSDIR/$extension/"$CN".req \
 				-extensions exts -preserveDN  \
+				-passin pass:$_passphrase \
 				-config /dev/stdin >>$LASTLOG
 			echo "--- crt files for $CN created ..." >>$LASTLOG
 		else 

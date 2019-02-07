@@ -7,37 +7,37 @@ echo
 case "$Param1" in
 	-x)
 	#-------------------------
-	echo "Execute $Param1 $Param2  ..."
+	echo "# Execute $Param1 $Param2  ..."
 	case "$Param2" in
 		# ================
 		-request)
-		echo "Requesting ..."
+		echo "# Requesting ..."
 		#
 		;;
 		# ================
 		-read)
-		echo "Reading ..."
+		echo "# Reading ..."
 		#
 		;;
 		# ================
 		-clean)
-		echo "Cleaning $Param3 ..."
+		echo "# Cleaning $Param3 ..."
 		CleanupProject;
 		;;
 		# ================
 		-signall)
-		echo "Signing all Candidates ..."
+		echo "# Signing all Candidates ..."
 		create_keys_certs;
 		;;
 		# ================
 		-addcand)
-		echo "Adding Candidate to candidates file ..."
+		echo "# Adding Candidate to candidates file ..."
 		newcand=$Param3
 		addcand;
 		;;
 		# ================
 		-revoke)
-		echo "Revoking Candidate with Name $Param3 ..."
+		echo "# Revoking Candidate with Name $Param3 ..."
 		extension=$Param3
 		CN=$Param4
 		FastRevoke;
@@ -46,41 +46,41 @@ case "$Param1" in
 		;;
 		# ================
 		-dbout)
-		echo "Printing Database ..."
+		echo "# Printing Database ..."
 		ListCertIndex;
 		#
 		;;
 		# ================
 		-printhosts)
-		echo "Printing Candidates ..."
+		echo "# Printing Candidates ..."
 		PrintActiveHosts
 		;;	
 		# ================
 		-reqsubca)
-		echo "Generating SUB-CA Request and DB...";
+		echo "# Generating SUB-CA Request and DB...";
 		SUBCANAME=$Param3
 		reqsubca;
 		;;	
 		# ================
 		-signsubca)
-		echo "Signing SUB-CA by Root CA ...";
+		echo "# Signing SUB-CA by Root CA ...";
 		SUBCANAME=$Param3
 		signsubca;
 		;;	
 		# ================
 		-delsubca)
-		echo "Removing SUB-CA ...";
+		echo "# Removing SUB-CA ...";
 		SUBCANAME=$Param3
 		delsubca;
 		;;	
 		# ================
 		-revokesubca)
-		echo "Removing SUB-CA ...";
+		echo "# Removing SUB-CA ...";
 		SUBCANAME=$Param3
 		SubCARevoke;
 		;;			
 		*)
-		echo "bad command ($Param2) ..."
+		echo "# bad command ($Param2) ..."
 		esac
 		
 	
@@ -164,6 +164,14 @@ echo "-----------------------------------------"
 			# list all variables
 			ListVars
 			;;
+		[:]removeRootkeyPass )
+		    #  remove_rootcaKey_passphrase
+			remove_rootcaKey_passphrase
+			;;
+		[:]setRootkeyPass )
+			# sets a passphrase for root key
+			set_rootcaKey_passphrase
+			;;
 		[:]set* )
 			# change bash option set +x for debugging
 			echo "command: $CLIcommand" 
@@ -190,6 +198,9 @@ echo "-----------------------------------------"
 			echo -e ":showrootca - Shows Root Certificate"
 			echo -e ":restore - Open Restore Dialog"
 			echo -e ":lastlog - Show logfile"
+			echo -e ":removeRootkeyPass - DANGEROUS passphrase remover"
+			echo -e ":setRootkeyPass - DANGEROUS sets new passphrase"
+			
 			echo
 			echo "PKIT workshop recommended"
 			echo "Information: www.itconsulting-wolfinger.de!"

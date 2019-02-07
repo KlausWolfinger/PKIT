@@ -475,8 +475,12 @@ function osvscripter () {
 THISSCRIPT=Installer_$CN.sh
 
 echo "#!/bin/bash" >$CERTSDIR/$extension/$THISSCRIPT
+echo "#  Version 0.9" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "# change user with su - srx" >>$CERTSDIR/$extension/$THISSCRIPT
 echo "echo \"This tool is not released, no warranty !\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "echo \"Understood? If not, do not continue !!!\"" >>$CERTSDIR/$extension/$THISSCRIPT
+echo "read" >>$CERTSDIR/$extension/$THISSCRIPT
+
 
 
 ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
@@ -533,20 +537,23 @@ ThisScriptFile=$CERTSDIR/$extension/$CN.local.sh
 # -------------
 
 echo "#!/bin/bash" >$ThisScriptFile
-echo "echo \"Enter P12PassPhrase\"" >>$ThisScriptFile
-echo "read P12PassPhrase" >>$ThisScriptFile
+echo "#  Version 0.9" >>$ThisScriptFile
 #
 echo "echo \"--- CMP local Certs Installer and Hashreplacer\"" >>$ThisScriptFile
 echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
+echo "echo \"Do not use the Tool untested in production\"" >>$ThisScriptFile
 echo "echo \" What you need:\"" >>$ThisScriptFile
 
 echo "echo \" 1. Root Access on this CMP [$USER:$HOSTNAME] \"" >>$ThisScriptFile
 echo "echo \" 2. p12 certificate from PKIT\"" >>$ThisScriptFile
-echo "echo \" 3. /tmp/cmpcert_new.p12\"" >>$ThisScriptFile
+echo "echo \" 3. p12 passphrase\"" >>$ThisScriptFile
+echo "echo \" 4. /tmp/cmpcert_new.p12\"" >>$ThisScriptFile
 echo "echo" >>$ThisScriptFile
 
 echo "echo \" ... are you ready ? If not -> [CRTL-c]\"" >>$ThisScriptFile
 echo "read" >>$ThisScriptFile
+echo "echo \"Now enter PassPhrase of your new p12 file\"" >>$ThisScriptFile
+echo "read P12PassPhrase" >>$ThisScriptFile
 
 
 echo "CMPserverXMLFile=/opt/siemens/share/tomcat/conf/server.xml " >>$ThisScriptFile
@@ -596,17 +603,20 @@ ROOTCADIR1=$(echo $ROOTCADIR | awk '{print substr($0,2)}')
 CERTSDIR1=$(echo $CERTSDIR | awk '{print substr($0,2)}')
 
 echo "#!/bin/bash" >$ThisScriptFile
+echo "#  Version 0.9" >>$ThisScriptFile
 echo "P12PassPhrase=$PassPhrase" >>$ThisScriptFile
 echo "# ToolIP = $ToolIP" >>$ThisScriptFile
 #
 echo "echo \"--- CMP remote Certs Installer and Hashreplacer\"" >>$ThisScriptFile
 echo "echo \"This tool is not released, no warranty !\"" >>$ThisScriptFile
+echo "echo \"Do not use the Tool untested in production\"" >>$ThisScriptFile
 echo "echo \" What you need:\"" >>$ThisScriptFile
 echo "echo \" 1. IP Address of PKIT\"" >>$ThisScriptFile
 echo "echo \" 2. Password of pkishare user account on PKIT\"" >>$ThisScriptFile
 echo "echo \" 3. IP Address of PKIT Server [$ToolIP]\"" >>$ThisScriptFile
 echo "echo \" 4. Root Access on this CMP [$USER:$HOSTNAME] \"" >>$ThisScriptFile
 echo "echo \" 5. p12 certificate from PKIT\"" >>$ThisScriptFile
+echo "echo \" 6. p12 passphrase\"" >>$ThisScriptFile
 echo "echo" >>$ThisScriptFile
 echo "echo \"Enter PKIT username [pki|pkishare]: \"" >>$ThisScriptFile
 echo "read PKITUsername" >>$ThisScriptFile 

@@ -147,6 +147,91 @@ function create_dh(){
 	done 
 } 
 
+function remove_rootcaKey_passphrase(){
+# passphrase remover
+if [ -e $ROOTCADIR/root.key ]; then
+echo
+	echo -en "--> $ROOTCADIR/root.key found...\n";
+	echo -en " !!! You want to remove the passphrase ? !!!\n"
+	echo -en "Sure ? [Y]es or [N]o  ...\n"
+	if (yes_no);then
+	
+		_encrypted=$(grep ENCRYPTED $ROOTCADIR/root.key)
+		if [ "$_encrypted" != '' ]; then
+			echo "The rootCA key is encrypted, enter the passphrase, please:"
+			echo
+			cp -p $ROOTCADIR/root.key $ROOTCADIR/root.key.save.encrypted
+			openssl rsa -in $ROOTCADIR/root.key.save.encrypted -out $ROOTCADIR/root.key.unencrypted
+			echo "removed the passphrase from root keyfile sucessfully .."
+			echo "Enter any key to continue ...."
+			read
+			cat $ROOTCADIR/root.key.unencrypted >$ROOTCADIR/root.key
+			else
+			echo "the rootca keyfile is NOT encryted ..."
+			echo "nothing to do ...."
+			echo "Any key to continue ..."
+			read
+			return
+		fi
+	else
+		return
+	fi
+	
+else
+	echo
+	echo -en "--> $ROOTCADIR/root.key check failed...\n";
+	echo -en " !!! There is no keyfile !!!\n"
+	echo -en " ... create or import the keys first \n"
+	echo -en "ANY KEY to continue ...\n"
+	read
+fi
+
+}
+
+function set_rootcaKey_passphrase(){
+# add a passphrase 
+if [ -e $ROOTCADIR/root.key ]; then
+echo
+	echo -en "--> $ROOTCADIR/root.key found...\n";
+	echo -en " !!! You want to create a passphrase? !!!\n"
+	echo -en "Sure ? [Y]es or [N]o  ...\n"
+	if (yes_no);then
+	
+		_encrypted=$(grep ENCRYPTED $ROOTCADIR/root.key)
+		if [ "$_encrypted" = '' ]; then
+			echo "The rootCA key is cleartext, enter the passphrase, please:"
+			echo
+			cp -p $ROOTCADIR/root.key $ROOTCADIR/root.key.save.unencrypted
+			openssl rsa -aes128 -in $ROOTCADIR/root.key.save.unencrypted -out $ROOTCADIR/root.key.encrypted
+			echo "added passphrase to root keyfile sucessfully .."
+			echo "Enter any key to continue ...."
+			read
+			cat $ROOTCADIR/root.key.encrypted >$ROOTCADIR/root.key
+			else
+			echo "the rootca keyfile was ALREADY encryted ..."
+			echo "nothing to do ...."
+			echo "Any key to continue ..."
+			read
+			return
+		fi
+	else
+		return
+	fi
+	
+else
+	echo
+	echo -en "--> $ROOTCADIR/root.key check failed...\n";
+	echo -en " !!! There is no keyfile !!!\n"
+	echo -en " ... create or import the keys first \n"
+	echo -en "ANY KEY to continue ...\n"
+	read
+fi
+
+}
+
+
+
+
 function recreate_dh(){
 	reInitVars
 	rm -f $DHDIR/*.pem
@@ -164,34 +249,33 @@ function create_rootCAkeys(){
 	echo -en "\n--> This will perform a rootCA check ...\n"
 	if [ -e $ROOTCADIR/root.key ] || [ -e $ROOTCADIR/root.crt ]; then
 		hash_rootcrt=$(sha1sum $ROOTCADIR/root.crt | awk '{print $1}')
-		echo -en "--> $ROOTCADIR/root.crt check OK...\n";
+		echo -en "--> $ROOTCADIR/root.crt check OK...\n"
 		echo -en " !!! We don't want to destroy the RootCA !!!\n"
 		echo -en " ... to replace the rootCA keys you have to \n"
 		echo -en "     destroy the project first and create the keys\n"
 		echo -en "ANY KEY to continue ...\n"
-		
 		read
-	else echo -en "there is no rootCA, good, so we can continue\n"
+		return
+	else 
+		echo -en "there is no rootCA, good, so we can continue\n"
 		echo -en "Are you sure? [Y or N]"
-	 
-		if (yes_no);then
-		echo -en "... this is a beta feature under test ...\n"; 
-		echo 
-		echo -en "--> with the next step PKIT will open the file root.key\n"
-		echo -en "    which is a base64 pem format. After opening with\n"
-		echo -en "     vi editor, paste the new master key from your crypto box\n";
-		echo -en "    into the file and save. Next step is to create the rootCA\n"
-		echo -en "UNDERSTOOD [Y or N]?"
-			if (yes_no); then
-			vi $ROOTCADIR/root.key
-			else return
-			fi
-		else return
+	 	if (yes_no); then
+			echo -en "... this is a beta feature under test ...\n"; 
+			echo 
+			echo -en "--> with the next step PKIT will open the file root.key\n"
+			echo -en "    which is a base64 pem format. After opening with\n"
+			echo -en "    vi editor, paste the new master key from your crypto box\n";
+			echo -en "    into the file and save. Next step is to create the rootCA\n"
+			echo -en "UNDERSTOOD [Y or N]?"
+				if (yes_no); then
+					vi $ROOTCADIR/root.key
+				else 
+					return
+				fi
+		else 
+			return
 		fi
 	fi
-	
-	
-
 }
 
 function create_rootCA_DB() {
@@ -213,7 +297,20 @@ mkdir -m 700 -p $ROOTCADIR
 	if [ ! -e $ROOTCADIR/root.key ]; then 
 	    # more secure is
 		# genrsa -rand [RAND.BIN] -aes256 -out ....... 
-		openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1 
+		echo "Do you want to secure the rootkey with a passphrase ?"
+		echo " [y]es or [N]o  ?"
+		if (yes_no); then 
+			echo "...Enter the rootCA password"
+			echo "!!!! NEVER FORGET THIS PASSWORD !!!!"
+			echo "ENTER the password now :"
+			read ROOTCAPASSWORD
+			echo "Creating RootKeys ....."
+			openssl genrsa -aes128 -passout pass:$ROOTCAPASSWORD -out  $ROOTCADIR/root.key $ROOTBITS 
+		else
+			openssl genrsa -out $ROOTCADIR/root.key $ROOTBITS >/dev/null 2>&1
+		fi
+		
+		 
 	fi 
 	if [ ! -e $ROOTCADIR/.rnd ]; then 
 	# RANDFILE		= $ENV::HOME/.rnd
@@ -525,6 +622,7 @@ reInitVars
 		if [ "$3" = sign ]; then
 			echo "authorityKeyIdentifier=keyid:always" 
 		fi 
+		# todo webcollaboration server 
 		case $1 in hg35|xpr|osb|ossbc|ucbackend|ucfrontend|ucfacade|openfire|mediatrix|osv)
 			cat <<-EOF
 			basicConstraints=CA:FALSE 

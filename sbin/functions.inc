@@ -78,12 +78,13 @@ function changePKILevel() {
 }
 
 function getMyIP() {
-    my_ip=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+    my_ip=$( ip a s|sed -ne '/127.0.0.1/!{s/^[ \t]*inet[ \t]*\([0-9.]\+\)\/.*$/\1/p}'
+)
 	echo $my_ip
 }
 
 function reInitVars() { 
-    PKIUSERHOME=$(basename $(pwd))
+    PKIUSERHOME=$(dirs)
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
 	PKINAME="RootCA Level 0" 
@@ -133,7 +134,7 @@ function reInitVars() {
 	PKISHAREFOLDER=exports
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
-	ToolIP=$(getMyIP)
+	ToolIP=$(getMyIP >/dev/null)
     pkiAccount="$pkiUser@$ToolIP:$PKIFOLDER"
 	pkiShareAccount="$PKISHAREUSER@$ToolIP:$PKISHAREFOLDER"
     OSVCertsDir=$OSVSSLDIR/certs
@@ -158,6 +159,8 @@ function reInitVars() {
 function ListVars() {
 
 VarsArray=(PKIUSERHOME \
+PKIHOME_START \
+PKIHOME \
 PKINAME \
 PKITprojectName \
 BANNER \
@@ -204,11 +207,18 @@ SubCATemplate \
 THISSCRIPT \
 database \
 DATABASE )
+
 rm -f $PKIHOME_START/log/vars.log
+if [ ! -e $PKIHOME_START/log ];then
+mkdir $PKIHOME_START/log
+fi
+
 for i in ${VarsArray[@]}; do
  cmd="echo \$$i"
  echo "$i = $(eval $cmd)" >>$PKIHOME_START/log/vars.log 
 done
+
+
 less $PKIHOME_START/log/vars.log
 
 }
@@ -577,6 +587,13 @@ rm -f $LOGDIR/lastcrlupdate.log
 	# re-read config 
 	. $PKIconfig
 	# echo -en "--- Updating CRL ...\n" 
+	_encrypted=$(grep ENCRYPTED $ROOTCADIR/root.key)
+	if [ "$_encrypted" != '' ]; then
+	echo "The rootCA key is encrypted, enter the passphrase, please:"
+	echo
+	read _passphrase
+	
+	fi
 	cat $HOSTDIR/hosts \
 	| grep -v "^[ ]*#" \
 	| grep -v "^[ ]*$" \
@@ -588,10 +605,8 @@ rm -f $LOGDIR/lastcrlupdate.log
 	#echo -en "\n--> Extension: $extension\n\n" 
 	# perl script not needed ???
 	
-	#perl $SBINdir/update_index.pl $CERTSDIR/$extension/"$CN".crt $ROOTCADIR/root-index.txt | tee >>$LOGDIR/lastcrlupdate.log
-	# write crl 
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
-	crl $ca_extension "" | openssl ca -gencrl -out $CRLDIR/$crlFileName -config /dev/stdin &> /dev/null 
+	crl $ca_extension "" | openssl ca -gencrl -passin:$_passphrase -out $CRLDIR/$crlFileName -config /dev/stdin &> /dev/null 
 	echo "Wrote CRL for $ca_extension/$CN in $CRLDIR/$crlFileName" >>$LOGDIR/lastcrlupdate.log
 	done 
 		if [ ! -d $CRLWEBDIR ]; then 
@@ -646,6 +661,13 @@ function UnrevokeCRL() {
 
 function RevokeCRL(){ 
 	# update and revoke crl 
+	_encrypted=$(grep ENCRYPTED $ROOTCADIR/root.key)
+	if [ "$_encrypted" != '' ]; then
+	echo "The rootCA key is encrypted, enter the passphrase, please:"
+	echo
+	read _passphrase
+	
+	fi
 	echo -en "--- revoking certificates and keys from hosts file...\n" 
 	echo -en "\t ------- choose one from the list --------\n"
 	certArray=($(cat $HOSTDIR/hosts \
@@ -694,7 +716,8 @@ function RevokeCRL(){
 			echo -en "\n\t--> Revoking $CN from Cert store" 
 			
 			echo "CN = $CN"
-			crl $CN | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -crl_reason ${crlReasonCodes[$reasonNum]} -config /dev/stdin
+			# -passin:$_passphrase ??
+			crl $CN | openssl ca  -revoke  $CERTSDIR/$extension/"$CN".crt -crl_reason ${crlReasonCodes[$reasonNum]} -passin pass:$_passphrase -config /dev/stdin
 			# crl $ca_extension "" | openssl ca -revoke $CERTSDIR/$extension/"$CN".crt -config /dev/stdin 
 			echo -en "\n\t--> writing CRL ....."
 			echo -en "\n ENTER to continue ..." 
@@ -1063,6 +1086,14 @@ function CandAddReq() {
 function ListCertIndex() { 
 	clear 
 	echo "# --- Signed Certificates from local PKI Database:" 
+	cat $ROOTCADIR/root-index.txt 
+	echo
+	
+}
+
+function ShowCertIndex() { 
+	clear 
+	
 	less $ROOTCADIR/root-index.txt 
 	echo
 	

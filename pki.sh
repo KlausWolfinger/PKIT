@@ -22,7 +22,10 @@
 function init(){
 PKIHOME="$(echo $0 | sed 's,/[^/]\+$,,')"
 PKIHOME_START="$(echo $0 | sed 's,/[^/]\+$,,')"
-PKINAME=$(basename $(pwd))
+
+# PKIHOME verbessern !!
+## PKIHOME_START=$(dirs)
+
 # DIRS and Vars ---
 PKINAME="RootCA"
 BANNER="--- Project: $PKINAME V$Version --- \n \
@@ -179,9 +182,11 @@ Param2=$2
 Param3=$3
 Param4=$4
 Param5=$5
+
+
+if [ $# -eq 0 ] && [ $USER != "pki" ];then
 disclaimer;
 read
-if [ $# -eq 0 ] && [ $USER != "pki" ];then
 	echo     "######################"
 	echo -en "# Enter your PIN: "
 	read -s PIN
@@ -191,7 +196,7 @@ if [ $# -eq 0 ] && [ $USER != "pki" ];then
 		exit 1
 	fi
 	else
-	echo "enabled user $USER"
+	echo "# ##### enabled user $USER"
 fi
 # test for batch mode parameters
 #
