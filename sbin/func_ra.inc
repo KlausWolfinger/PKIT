@@ -47,6 +47,21 @@ function SignRequest(){
 		set CN=$CNOUT
 		export CNOUT
 		
+		# extrem variante serialn number randomize
+		# -------------------------
+		
+		if [ "$BSIMODE" -eq "1" ]; then
+		declare -i key 
+			  key=$(cat $ROOTCADIR/ra-count)
+			  echo $(($key + 1)) >$ROOTCADIR/ra-count
+			  openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+			  echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
+			  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
+			  #  eventuell den serial noch "hashen"
+			  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
+			  rm -f $ROOTCADIR/root-serial.sha1
+		fi
+		# ---------------------------------------------
 		ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -253,6 +268,25 @@ function create_keys_certs() {
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
 			mv $CERTSDIR/$extension/tmp-"$CN".req $CERTSDIR/$extension/"$CN".req 
+			# here randomize serial number
+			# increment 2 byte counter
+			# create random hex number with length
+			# merge counter with random >$ROOTCADIR/root-serial
+			# openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+			# ------------------------
+			if [ "$BSIMODE" -eq "1" ]; then
+				declare -i key 
+				key=$(cat $ROOTCADIR/ra-count)
+				echo $(($key + 1)) >$ROOTCADIR/ra-count
+				openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+				echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
+				sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
+				#  eventuell den serial noch "hashen"
+				awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
+				rm -f $ROOTCADIR/root-serial.sha1
+			fi
+			# ------------------------
+			
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \

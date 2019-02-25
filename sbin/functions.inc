@@ -772,6 +772,7 @@ function destroypki() {
 		rm -f $ROOTCADIR/* 
 		find $ROOTCADIR -type l -exec test ! -e {} \; -delete 
 		rm -R -f $SUBCADIR/* 
+		rm -R -f $CERTSCACHEDIR/*
 		
 		
 		rm -R -f $CERTSDIR/* 

@@ -280,15 +280,23 @@ function create_rootCAkeys(){
 
 function create_rootCA_DB() {
 reInitVars
+
 mkdir -m 700 -p $ROOTCADIR 
 	export CN 
+	
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
 		rm -f $ROOTCADIR/*.* 
 		rm -f $CERTSDIR/*.*
+		touch $ROOTCADIR/rootca.conf
+		echo "## CA CONFIG " >>$ROOTCADIR/rootca.conf
+		echo "## DO NOT CHANGE !!" >>$ROOTCADIR/rootca.conf
+		echo "## CREATED AUTOMATED " >>$ROOTCADIR/rootca.conf
+		echo "BSIMODE=$BSIMODE" >>$ROOTCADIR/rootca.conf
 		
 		# must generate a randon as initial serial
 		touch $ROOTCADIR/root-serial
-		#echo "01" >$ROOTCADIR/root-serial
+		# count for incremental sn at msb (left aligned)
+		echo "100001" >$ROOTCADIR/ra-count
 		openssl rand -hex $SERIALSTART >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
 		echo -n >$ROOTCADIR/root-index.txt.attr
