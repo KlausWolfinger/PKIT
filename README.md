@@ -5,6 +5,10 @@
 
 1. apt-get install git
 
+Dependencies:
+- dos2unix, zip/unzip, tree, openssl
+- all packets and distro up-to-date 
+
 ### Clone the PKIT master branch
 2. clone the master
 ```shell
