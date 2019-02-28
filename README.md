@@ -36,6 +36,6 @@ cd PKIT
                 q - Quit or <CTRL>-c
 ```                
 # Professional PKIT Training avaliable
-Please send you request via: www.itconsulting-wolfinger.de
+Please send your request via: www.itconsulting-wolfinger.de
 
 
