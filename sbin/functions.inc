@@ -210,6 +210,7 @@ BSIMODE \
 SubCATemplate \
 THISSCRIPT \
 database \
+SERIALSTART \
 DATABASE )
 
 rm -f $PKIHOME_START/log/vars.log
