@@ -112,7 +112,8 @@ function menu3 () {
 	\tip - Show System IPs 
 	\tC - Clone PKI to new project
 	\tS - Switch to PKI project 
-	\tD - Destroy entire project (this level) 
+	\tD - Destroy entire project (this level)
+	\tR - Reinitialize RootCA with current config	
 	\tK - Delete DiffiHellman Files
 	\t7 - Remove&Revoke all external candidates certificates	
 	\t8 - Delete all Backups (ssl and project) 
@@ -148,6 +149,9 @@ function menu3 () {
 		[D] ) # destroy simple pki 
 			destroypki 
 			;; 
+		[R] ) # reinitalize RootCA with current config and delete Candidates
+			reinitRootCA
+			;;
 		[K] ) # delete diffihelman 
 			deleteDHFiles 
 			;; 

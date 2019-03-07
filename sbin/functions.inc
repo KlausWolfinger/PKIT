@@ -152,8 +152,11 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
+	BSIMODE=0
+	SERIALHASH='md5'
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
+	. $PKIconfig
 }
 
 function ListVars() {
@@ -203,6 +206,7 @@ SRXconfig \
 HOSTfile \
 X509file \
 PKIconfig \
+BSIMODE \
 SubCATemplate \
 THISSCRIPT \
 database \
@@ -796,6 +800,43 @@ function destroypki() {
 			echo -en "\t ENTER to continue \n"; read 
 	fi
 } 
+function reinitRootCA() {
+# reinit rootca and delete all candiates
+echo 
+echo "THIS FEATURE IS UNDER DEVELOPEMENT"
+echo "ONLY FOR LAB TEST ....."
+echo " IT WILL DESTROY YOUR PKI !!!"
+echo " [Yy]es or [Nn]o ? "
+
+if (yes_no); then 
+		# mkdir -m 700 -p $ROOTCADIR 
+		rm -f $ROOTCADIR/* 
+		find $ROOTCADIR -type l -exec test ! -e {} \; -delete 
+		rm -R -f $SUBCADIR/* 
+		rm -R -f $CERTSCACHEDIR/*
+		rm -R -f $CERTSDIR/* 
+		rm -R -f $KEYSDIR/* 
+		rm -f $PKIHOME/*.pem
+		rm -f $PKIHOME/tmp/* 
+		rm -f $PKIHOME/params/* 
+		rm -f $PKIHOME/crl/*
+		rm -R -f $CANDCERTSDIR/*
+		rm -R -f $PKIHOME_START/restore/
+		rm -R -f $PKIHOME_START/log/
+		# rm -f $PKIHOME/dh/*.pem 
+		rm -R -f $WWWCADIR/$RootFileName 
+		# rm -R -f $WWWCERTSDIR/*
+		#mkdir -m 700 -p $KEYSDIR 
+		#mkdir -m 700 -p $PKIHOME/certs 
+		echo -en "\t !!! All pki files deleted !!!\n" 
+		echo -en "\t ENTER to continue\n"; read
+		else 
+			echo -en "\t +++ nothing deleted or changed +++\n" 
+			echo -en "\t ENTER to continue \n"; read 
+	fi
+
+}
+
 function remove_archives() { 
 	echo -en "\tWARNING: This will remove ALL backups\n 
 	\tAre you sure ? [Yy|Nn]\n

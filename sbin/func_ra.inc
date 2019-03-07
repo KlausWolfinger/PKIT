@@ -56,10 +56,18 @@ function SignRequest(){
 			  echo $(($key + 1)) >$ROOTCADIR/ra-count
 			  openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
 			  echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
-			  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
-			  #  eventuell den serial noch "hashen"
-			  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
-			  rm -f $ROOTCADIR/root-serial.sha1
+			  if [ "$SERIALHASH" -eq 'md5' ]; then
+				  md5sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.md5
+				  awk '{print $1}' $ROOTCADIR/root-serial.md5 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.md5
+			  fi
+				  if [ "$SERIALHASH" -eq 'sha1' ]; then
+				  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
+				  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.sha1
+			  fi
+			 
+			  
 		fi
 		# ---------------------------------------------
 		ca $extension "$SALTN" sign | openssl ca \
