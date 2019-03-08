@@ -152,6 +152,7 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
+	TopLevelCAFile=$ROOTCADIR/TopLevelCA.pem
 	
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
@@ -576,6 +577,25 @@ function editConfig() {
 function changeto_subca() {
 echo -en "!!!! This will change this CA level !!!!\n"
 echo -en "!!!! Database MUST BE initially empty \n"
+echo -en "--------------------------------------\n"
+echo -en "Next step is to import the TopLevel RootCA\n"
+echo -en "--> copy the rootCA pem to PKIT ....\n"
+echo -en " .... will open vi now to drop the lines ....\n"
+echo -en " READY to GO?  [y]es or [n]o "
+if (yes_no); then
+vi $TopLevelCAFile
+# verify ca file
+openssl x509 -text -noout -in $TopLevelCAFile
+echo -en " Is this certificate OK ? [y]es or [n]o"
+	if (yes_no); then
+	echo "1" >/$ROOTCADIR/isSuBCA.cnf
+	else
+	echo "0" >/$ROOTCADIR/isSuBCA.cnf
+	fi
+else
+return
+fi
+ 
 # ask_subCAName;
 	
 sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
