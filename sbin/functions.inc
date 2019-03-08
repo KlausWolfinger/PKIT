@@ -87,7 +87,12 @@ function reInitVars() {
     PKIUSERHOME=$(dirs)
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
+	if [ $(cat $ROOTCADIR/isSuBCA.cnf) eq "1" ]; then
+	CAlevel = $(cat $ROOTCADIR/isSuBCA.cnf)
+	PKINAME="SubCA Level $CAlevel"
+	else
 	PKINAME="RootCA Level 0" 
+	fi
 	PKITprojectName='root'
 	else 
 	# echo "not equal"
