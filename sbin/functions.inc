@@ -152,8 +152,7 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
-	BSIMODE=0
-	SERIALHASH='md5'
+	
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
 	. $PKIconfig
