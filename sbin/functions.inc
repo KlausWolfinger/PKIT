@@ -642,7 +642,7 @@ rm -f $LOGDIR/lastcrlupdate.log
 	# perl script not needed ???
 	
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
-	crl $ca_extension "" | openssl ca -gencrl -passin:$_passphrase -out $CRLDIR/$crlFileName -config /dev/stdin &> /dev/null 
+	crl $ca_extension "" | openssl ca -gencrl -passin:$_passphrase -out $CRLDIR/$crlFileName -config /dev/stdin  
 	echo "Wrote CRL for $ca_extension/$CN in $CRLDIR/$crlFileName" >>$LOGDIR/lastcrlupdate.log
 	done 
 		if [ ! -d $CRLWEBDIR ]; then 
