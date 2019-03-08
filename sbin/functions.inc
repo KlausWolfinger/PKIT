@@ -88,7 +88,7 @@ function reInitVars() {
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
 	if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
-	CAlevel = $(cat $ROOTCADIR/isSuBCA.cnf)
+	CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
 	PKINAME="SubCA Level $CAlevel"
 	else
 	PKINAME="RootCA Level 0" 
