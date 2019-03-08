@@ -455,19 +455,19 @@ function create_keys_certs() {
 			echo -en "\t---> $CN XXX.p12 with passphrase XXX exists, nothing todo\n" >>$LASTLOG
 			fi 
 			# --------------------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a -e $ROOTCADIR/trustchain.crt  -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "$CN" \
 				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
-				-certfile $ROOTCADIR/root.crt \
+				-certfile $ROOTCADIR/trustchain.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
 			echo "--- *.chain.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n"  >>$LASTLOG
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists or no subca, nothing todo\n"  >>$LASTLOG
 			fi
 			# --------- special cases ------------------ 
 			#------------------------------------------ 
