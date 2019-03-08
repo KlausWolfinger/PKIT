@@ -594,9 +594,11 @@ openssl x509 -text -noout -in $TopLevelCAFile
 echo -en " Is this certificate OK ? [y]es or [n]o"
 	if (yes_no); then
 	echo "1" >$ROOTCADIR/isSuBCA.cnf
+	cat $ROOTCADIR/root.crt $TopLevelCAFile >$ROOTCADIR/trustchain.crt
 	reInitVars
 	else
 	echo "0" >$ROOTCADIR/isSuBCA.cnf
+	rm -f $ROOTCADIR/trustchain.crt
 	reInitVars
 	fi
 else
