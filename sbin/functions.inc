@@ -643,9 +643,9 @@ rm -f $LOGDIR/lastcrlupdate.log
 	
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
 	if [ "$_encrypted" != '' ]; then
-	crl $ca_extension "" | openssl ca -gencrl -passin "$_passphrase" -out $CRLDIR/$crlFileName -config /dev/stdin 
+	crl $ca_extension "" | openssl ca -gencrl -passin "$_passphrase" -out $CRLDIR/$crlFileName -config /dev/stdin &>/dev/null 
 		else
-		crl $ca_extension "" | openssl ca -gencrl  -out $CRLDIR/$crlFileName -config /dev/stdin
+		crl $ca_extension "" | openssl ca -gencrl  -out $CRLDIR/$crlFileName -config /dev/stdin &>/dev/null
 	fi	
 	echo "Wrote CRL for $ca_extension/$CN in $CRLDIR/$crlFileName" >>$LOGDIR/lastcrlupdate.log
 	done 
