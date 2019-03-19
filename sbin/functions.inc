@@ -1041,6 +1041,7 @@ function ziptool() {
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkiProject_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";read
+	if [ "$ZIPOPT" != 'all' ]; then
 	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
 		-x "./*.zip" \
 		-x "./sslbackups/*.*" \
@@ -1059,6 +1060,27 @@ function ziptool() {
 		-x "./.git/*"\
 		-x "./.gitignore" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+	else	
+		zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
+		-x "./*.zip" \
+		-x "./sslbackups/*.*" \
+		
+		-x "./archives/*" \
+		-x "$ARCHIVEDIR/*.*"\
+		-x "./tmp*"\
+		
+		
+		-x "./sslbackups/*"\
+		-x "./exports/*"\
+		-x "./www-public/*"\
+		-x "./www/*"\
+		
+		-x "./log/*"\
+		
+		
+		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+	
+	fi	
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
 	dir -all $ARCHIVEDIR/pki*.zip 
