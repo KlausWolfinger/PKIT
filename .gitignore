@@ -2,6 +2,8 @@
 todo\.txt
 
 *.zip
+*.PNG
+*.png
 
 TeilnehmerDoku-PKI-Tool\.txt
 README.txt
