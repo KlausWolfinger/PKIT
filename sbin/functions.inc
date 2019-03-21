@@ -164,7 +164,9 @@ function reInitVars() {
 	
 	. $PKIHOME_START/pkiconf/version.inf
 	. $CONFIGDIR/projectname.inf
+	if [ -e $PKIconfig ];then
 	. $PKIconfig
+	fi
 }
 
 function ListVars() {

@@ -78,7 +78,7 @@ function menu2 () {
 	menu_header 
 	echo -en "\n--> \tSelect action:\n 
 	\tv - Configure PKI-Tool 
-	\t Remote FTP Archive and Passphrase for pkcs12 
+	 
 	\t99 - Return\n\n" 
 	read -p "--> $MenuLevel$PROMPT_2" userchoice
 	keypress=$(echo $userchoice | tr -d "\n") 
