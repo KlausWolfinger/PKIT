@@ -1239,11 +1239,11 @@ function showlastlog() {
 
 if [[ $COLOR -eq "1" ]];then
 	echo "--- COLORMODE = $COLOR, ENTER to cont ..."
-	read;
+	read
 	less -R $LASTLOG
 else	
 	echo "--- COLORMODE = $COLOR, ENTER to cont ..."
-	read;
+	read
 	less $LASTLOG
 fi	
 }
