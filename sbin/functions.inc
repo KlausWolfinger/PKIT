@@ -44,6 +44,15 @@ yellow="\e[33m"
 green="\e[32m"
 transparent="\e[0m"
 
+# Default parameter before loaded from config or if not found in paramfiles
+# important for update
+COLOR=1
+ZIPOPT='all'
+BSIMODE=0
+SERIALSTART=6
+RootKeyPPhraseVisibility=0
+
+
 function changePKILevel() { 
 	# change PKIHOME clear 
 	#echo -en "" 
