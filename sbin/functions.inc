@@ -37,11 +37,11 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 }
 
 # Colors
-red='\e[31m'
-blue='\e[34m'
-yellow='\e[33m'
-green='\e[32m'
-transparent='\e[0m'
+red="\e[31m"
+blue="\e[34m"
+yellow="\e[33m"
+green="\e[32m"
+transparent="\e[0m"
 
 function changePKILevel() { 
 	# change PKIHOME clear 
