@@ -236,6 +236,7 @@ SubCATemplate \
 THISSCRIPT \
 database \
 SERIALSTART \
+COLOR \
 DATABASE )
 
 rm -f $PKIHOME_START/log/vars.log
