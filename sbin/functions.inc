@@ -40,6 +40,7 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 red='\e[1;31m'
 blue='\e[1;34m'
 yellow='\e[1;33m'
+green='\e[1;32m'
 transparent='\e[0m'
 
 function changePKILevel() { 

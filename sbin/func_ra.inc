@@ -322,7 +322,10 @@ function create_keys_certs() {
 				-passin pass:$_passphrase \
 				-config /dev/stdin >>$LASTLOG
 			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
-			echo "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." >>$LASTLOG
+			echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." >>$LASTLOG
+			if [ $_crtFileSize lt 500 ]; then
+				echo -e $red "--- we have a problem with $CN !! (returncode=$?) (crt filesize=$_crtFileSize ..." >>$LASTLOG
+			fi
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
 		fi 
