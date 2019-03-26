@@ -276,7 +276,7 @@ function create_keys_certs() {
 		# adaptions for special cases 
 		#
 		# ---------------------------------------------------------
-		echo "--- signing $CN ..." >>$LASTLOG
+		
 		if [ -e $CERTSDIR/$extension/"$CN".req -a ! -e $CERTSDIR/$extension/"$CN".crt ]; then 
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
@@ -303,12 +303,16 @@ function create_keys_certs() {
 				  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
 				  rm -f $ROOTCADIR/root-serial.sha1
 			  fi
+			  echo "--- signing process for $CN started | serial ($SERIALHASH)# = $(cat $ROOTCADIR/root-serial) ..." >>$LASTLOG
 			  
 			 
 			  
 		fi
-			# ------------------------
+	# ------------------------  create the initial cert from request (all cases) 
 			
+			# first optional check if request is ok
+			# openssl req -text -noout -verify -in $CERTSDIR/$extension/"$CN".req 
+			# check $? if 0 ?
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -317,7 +321,8 @@ function create_keys_certs() {
 				-extensions exts -preserveDN  \
 				-passin pass:$_passphrase \
 				-config /dev/stdin >>$LASTLOG
-			echo "--- crt files for $CN created ..." >>$LASTLOG
+			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
+			echo "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." >>$LASTLOG
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
 		fi 

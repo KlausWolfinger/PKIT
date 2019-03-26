@@ -40,9 +40,13 @@ function rootca() {
 	crlDistributionPoints=crlDistributionPoint0_sect
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
+	# -------------------
+	# hier ein Problem mit OSV ??
+	# cert policy full ??
+	# test OSV default cert: no critical, no length, failed also for full
 	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
-	
+	# -------------------
 	[certpol0_sect]
 	policyIdentifier=$POLICYIDENTIFIER
 	CPS.0=$CERTPOL
