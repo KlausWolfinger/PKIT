@@ -1239,7 +1239,7 @@ function showlastlog() {
 
 if [[ $COLOR -eq 1 ]];then
 	echo "--- COLORMODE = $COLOR"
-	less _R $LASTLOG
+	less -R $LASTLOG
 else	
 	echo "--- COLORMODE = $COLOR"
 	less $LASTLOG
