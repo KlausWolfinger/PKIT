@@ -52,6 +52,10 @@ BSIMODE=0
 SERIALSTART=6
 RootKeyPPhraseVisibility=0
 
+# Check if new params are in config
+# put params to config if missing
+
+
 
 function changePKILevel() { 
 	# change PKIHOME clear 
@@ -1232,7 +1236,7 @@ function ShowRootCA() {
 
 function showlastlog() {
 
-if [ $COLOR eq 1 ];then
+if [[ $COLOR -eq 1 ]];then
 	less _R $LASTLOG
 else	
 	less $LASTLOG
