@@ -1238,12 +1238,10 @@ function ShowRootCA() {
 function showlastlog() {
 
 if [[ $COLOR -eq "1" ]];then
-	echo "--- COLORMODE = $COLOR, ENTER to cont ..."
-	read
+	
 	less -R $LASTLOG
 else	
-	echo "--- COLORMODE = $COLOR, ENTER to cont ..."
-	read
+	
 	less $LASTLOG
 fi	
 }
