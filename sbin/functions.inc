@@ -159,6 +159,7 @@ function reInitVars() {
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
 	PKISHAREFOLDER=exports
+	RESTOREDIR=$PKIHOME_START/restore
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	ToolIP=$(getMyIP >/dev/null)
@@ -342,6 +343,9 @@ function InitDirs() {
 	fi
 	if [ ! -d $CERTSCACHEDIR ]; then
 		mkdir -p $CERTSCACHEDIR
+	fi
+	if [ ! -d $RESTOREDIR ]; then
+		mkdir -p $RESTOREDIR
 	fi
 	reInitVars;
 	
