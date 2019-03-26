@@ -52,8 +52,12 @@ BSIMODE=0
 SERIALSTART=6
 RootKeyPPhraseVisibility=0
 
-# Check if new params are in config
+# TODO: Check if new params are in config
 # put params to config if missing
+#
+#
+#
+# #######
 
 
 
