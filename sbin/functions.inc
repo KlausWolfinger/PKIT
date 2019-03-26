@@ -159,7 +159,13 @@ function reInitVars() {
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
 	PKISHAREFOLDER=exports
+	
 	RESTOREDIR=$PKIHOME_START/restore
+	if [ ! -d $RESTOREDIR ] 
+	then 
+	mkdir -p $RESTOREDIR
+	fi
+	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	ToolIP=$(getMyIP >/dev/null)
@@ -831,17 +837,19 @@ function deleteDHFiles() {
 	fi
 }
 function destroypki() { 
-	echo -en "\tWARNING: This will destroy the entire PKI\n
-	\tNOTE: DiffiHellman will NOT be deleted !\n 
-	\tAre you sure ? [Yy|Nn]\n 
-	\t--> Press Y for Yes or N for No\n" 
+	echo -en "\t!!!!!!WARNING: This will destroy the entire PKI
+	with all projects !!!!!\n
+	NOTE: DiffiHellman will NOT be deleted !\n 
+	Are you really sure ? [Yy|Nn]\n 
+	--> Press Y for Yes or N for No\n" 
 	if (yes_no); then 
 		# mkdir -m 700 -p $ROOTCADIR 
 		rm -f $ROOTCADIR/* 
 		find $ROOTCADIR -type l -exec test ! -e {} \; -delete 
 		rm -R -f $SUBCADIR/* 
 		rm -R -f $CERTSCACHEDIR/*
-		
+		rm -R -f $CERTSCACHEDIR/*
+		rm -R -f $PKIHOME/PKIclone*
 		
 		rm -R -f $CERTSDIR/* 
 		rm -R -f $KEYSDIR/* 
@@ -850,8 +858,9 @@ function destroypki() {
 		rm -f $PKIHOME/params/* 
 		rm -f $PKIHOME/crl/*
 		rm -R -f $CANDCERTSDIR/*
-		rm -R -f $PKIHOME_START/restore/
-		rm -R -f $PKIHOME_START/log/
+		rm -R -f $PKIHOME/log/
+		mkdir $PKIHOME/log/
+		echo "--- pkitool destroyed --- $(date)" >$PKIHOME/log/lastlog.log
 		# rm -f $PKIHOME/dh/*.pem 
 		rm -R -f $WWWCADIR/$RootFileName 
 		# rm -R -f $WWWCERTSDIR/*
@@ -886,6 +895,7 @@ if (yes_no); then
 		rm -f $PKIHOME/crl/*
 		rm -R -f $CANDCERTSDIR/*
 		rm -R -f $PKIHOME_START/restore/
+		mkdir $PKIHOME_START/restore/
 		rm -R -f $PKIHOME_START/log/
 		# rm -f $PKIHOME/dh/*.pem 
 		rm -R -f $WWWCADIR/$RootFileName 

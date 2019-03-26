@@ -417,7 +417,7 @@ function menu6 () {
 } 
 
 function menu7 () { 
-	# CA management 
+	# RESTORE 
 	MenuLevel=7
 	MenuName="RESTORE"
 	PROMPT_2="@$HOSTNAME[$MenuName] : "
@@ -438,7 +438,7 @@ function menu7 () {
 			echo "Restore Config"
 			pki_restore_conf
 			;;
-		[R] ) # Create a p12 keybag with passphrase
+		[R] ) # Restore from old versions
 			pki_restore			
 			;; 
 		
