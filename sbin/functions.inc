@@ -37,6 +37,7 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 }
 
 # Colors
+black="\e[30m"
 red="\e[31m"
 blue="\e[34m"
 yellow="\e[33m"
@@ -234,9 +235,11 @@ for i in ${VarsArray[@]}; do
  echo "$i = $(eval $cmd)" >>$PKIHOME_START/log/vars.log 
 done
 
-
-less $PKIHOME_START/log/vars.log
-
+if [ $COLOR eq 1];then
+less -R $PKIHOME_START/log/vars.log
+else 
+less -R $PKIHOME_START/log/vars.log
+fi
 }
  
 function readIP () { 
@@ -1218,5 +1221,12 @@ function ShowRootCA() {
 	
 }
 
+function showlastlog() {
 
+if [ $COLOR eq 1 ];then
+	less _R $LASTLOG
+else	
+	less $LASTLOG
+fi	
+}
 
