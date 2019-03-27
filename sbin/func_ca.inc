@@ -400,6 +400,7 @@ function create_rootca(){
 		###
 		### works without challengePassword
 		
+		
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
@@ -455,6 +456,10 @@ function replace_rootcert() {
 	reInitVars
 
 	if [ -e $ROOTCADIR/root.crt ]; then
+		echo " *********** be prepared ******************"
+		echo " * you need the new root pem block        *"
+		echo " *            AND                         *"
+		echo " *   the pem block of your TOP Level CA   *"
 		echo "###########################################"
 		echo "#   vi will now open the existing root.crt"
 		echo "###########################################"
@@ -464,7 +469,10 @@ function replace_rootcert() {
 		cp -p $ROOTCADIR/root.crt $ROOTCADIR/root.crt.save
 		vi $ROOTCADIR/root.crt
 		echo "###########################################"
-		echo "#   root certificate changed ... finish the action [Yy|Nn]"
+		echo "#  now we put the TOPLevel Root CA pem    #"
+		echo "[ENTER] for opening the TOP ROOTCA file ..";read
+		vi $ROOTCADIR/trustchain.crt
+		echo "#   system changed to SUBCA... finish the action [Yy|Nn]"
 			if (yes_no); then 
 				
 				
@@ -503,6 +511,10 @@ function replace_rootcert() {
 				
 				else
 				echo "###########################################"
+				cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
+						echo "# restored to the last version "
+						echo "0" >$ROOTCADIR/isSuBCA.cnf
+				rm -f $ROOTCADIR/trustchain.crt		
 				echo "#  Skipped all actions, no change"
 				echo "###########################################"
 				read -p "[ENTER] to cont ...."
@@ -538,9 +550,19 @@ if [[ $SkipRootCACheck -eq 0 ]]; then
 	
 	if [ $(cat $ROOTCADIR/isSuBCA.cnf) == "1" ];then
 		echo -e $red "This is a Intermediate CA !"$transparent
+		# check for $ROOTCADIR/trustchain.crt
+			if [ -e $ROOTCADIR/trustchain.crt ]; then
+			echo -en "--> $ROOTCADIR/trustchain.crt check OK...\n"; rootCACheck=0;else
+			echo -en $red"--> $ROOTCADIR/trustchain.crt check NOK...\n"$transparent; ((rootCACheck=++));
+			fi
 		else
 		echo -e $red "This is a Top Level CA !"$transparent
 	fi	
+	
+	if [ ! -e $ROOTCADIR/ra-count ]; then
+	echo -en $red"--> $ROOTCADIR/ra-count check NOK...\n"; ((rootCACheck++));
+	echo -en "## reason could be imported backup from old versions ##"$transparent
+	fi
 	
 	if [ -e $ROOTCADIR/root.key ]; then
 	echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 

@@ -2,6 +2,8 @@
 todo\.txt
 
 *.zip
+*.PNG
+*.png
 
 TeilnehmerDoku-PKI-Tool\.txt
 README.txt
@@ -12,6 +14,9 @@ todo.txt
 
 Developement/
 dev/
+<<<<<<< HEAD
 faq/
 vendors/
+=======
+>>>>>>> master
 www/

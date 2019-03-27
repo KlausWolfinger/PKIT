@@ -5,6 +5,10 @@
 
 1. apt-get install git
 
+Dependencies:
+- dos2unix, zip/unzip, tree, openssl
+- all packets and distro up-to-date 
+
 ### Clone the PKIT master branch
 2. clone the master
 ```shell
@@ -31,8 +35,7 @@ cd PKIT
         h  - Help
                 q - Quit or <CTRL>-c
 ```                
-# PKIT Training
-You want to learn professional PKIT management? Subscribe and enroll to this expert 3-day workshop:
+# Professional PKIT Training avaliable
+Please send your request via: www.itconsulting-wolfinger.de
 
-https://www.ptm.de/de/training/d/t/public-key-infrastructure-pki-tool-intensiv-worksh/
 

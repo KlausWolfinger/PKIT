@@ -286,21 +286,18 @@ function create_keys_certs() {
 			  echo $(($key + 1)) >$ROOTCADIR/ra-count
 			  openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
 			  echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
-			  if [ "$SERIALHASH" = 'md5' ]; then
+				if [ "$SERIALHASH" = 'md5' ]; then
 				  md5sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.md5
 				  awk '{print $1}' $ROOTCADIR/root-serial.md5 >$ROOTCADIR/root-serial
 				  rm -f $ROOTCADIR/root-serial.md5
-			  fi
-				  if [ "$SERIALHASH" = 'sha1' ]; then
+				fi
+				if [ "$SERIALHASH" = 'sha1' ]; then
 				  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
 				  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
 				  rm -f $ROOTCADIR/root-serial.sha1
-			  fi
+				fi
 			  echo "--- signing process for $CN started | serial ($SERIALHASH)# = $(cat $ROOTCADIR/root-serial) ..." >>$LASTLOG
-			  
-			 
-			  
-		fi
+			fi
 	# ------------------------  create the initial cert from request (all cases) 
 			
 			# first optional check if request is ok
@@ -315,9 +312,13 @@ function create_keys_certs() {
 				-passin pass:$_passphrase \
 				-config /dev/stdin >>$LASTLOG
 			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
-			echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
-			if [ $_crtFileSize lt 500 ]; then
-				echo -e $red "--- we have a problem with $CN !! (returncode=$?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
+						
+			# if [[ -s diff.txt ]]; then echo "file has something"; else echo "file is empty"; fi
+			if [[ -s $CERTSDIR/$extension/"$CN".crt ]]; then
+				echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
+				
+			else
+				echo -e $red "--- we have a problem with $CN or root-serial or ra-count !! (returncode=$?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
 			fi
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
