@@ -369,7 +369,7 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" \
 			-out $ROOTCADIR/root_$HOSTNAME.req
 		echo "created root_$HOSTNAME.req ..."
-		openssl req -text -noout -in $ROOTCADIR/root_$HOSTNAME.req | less
+		openssl req -text -in $ROOTCADIR/root_$HOSTNAME.req | less
 		
 }
 

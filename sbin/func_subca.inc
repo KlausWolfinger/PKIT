@@ -124,7 +124,11 @@ function signsubca(){
 		openssl x509 -in $SUBCADIRNAME/$SUBCANAME.crt -outform DER -out $SUBCADIRNAME/$SUBCANAME.cer 
 		cp -p $SUBCADIRNAME/$SUBCANAME.crt $SUBCADIRNAME/$SUBCANAME.pem 
 		# cp -p $SUBCADIRNAME/subca_$SUBCANAME.cer $SUBCADIRNAME/subCA_$SUBCANAME.der 
+		
 	fi
+	echo "printing pem to screen .. ENTER .."
+	read
+	less $SUBCADIRNAME/$SUBCANAME.pem
 
 }
 
