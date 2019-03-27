@@ -198,11 +198,12 @@ read
 	else
 	echo "# ##### enabled user $USER"
 fi
-# test for batch mode parameters
-#
+
+startlastproject;
 
 # jump into menu loop if no ext params are given
 	while [ $# -eq 0 ]; do
+	#echo "test3"
 	menu$MenuLevel
 	done;
 batcher;

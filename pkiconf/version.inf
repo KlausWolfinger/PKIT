@@ -2,7 +2,7 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.6a'
+Version='2.7a'
 Revision='a' 
 
 
@@ -13,4 +13,5 @@ Revision='a'
 # lot of improvements
 # serial number 16 byte long
 # rootca request BSI conform
+#
 

@@ -37,10 +37,60 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 }
 
 # Colors
-red='\e[1;31m'
-blue='\e[1;34m'
-yellow='\e[1;33m'
-transparent='\e[0m'
+black="\e[30m"
+red="\e[31m"
+blue="\e[34m"
+yellow="\e[33m"
+green="\e[32m"
+transparent="\e[0m"
+
+# Default parameter before loaded from config or if not found in paramfiles
+# important for update
+COLOR=1
+ZIPOPT='all'
+BSIMODE=0
+SERIALSTART=6
+RootKeyPPhraseVisibility=0
+
+# TODO: Check if new params are in config
+# put params to config if missing
+#
+#
+#
+# #######
+
+function startlastproject() {
+#
+# read last project
+# from $PKIHOME_START/$lastProjectFile
+
+if [ $jumpToLastProject == "yes" ];then
+
+	if [ -e $lastProjectFile ] && [ -d $(cat $lastProjectFile) ]; then
+		
+	PKIHOME=$(cat $lastProjectFile)
+	echo "loading last project:  $lastProjectFile"
+	BANNER="--- Project: $PKINAME $Version ---"
+	reInitVars;
+			BANNER="--- Project: $PKINAME $Version ---" 
+			#echo -e $BANNER; 
+			#echo $CONFIGDIR 
+			echo " PKINAME: $PKINAME" 
+			
+	else
+	echo $PKIHOME_START >$lastProjectFile
+	PKIHOME=$PKIHOME_START
+	reInitVars;
+			BANNER="--- Project: $PKINAME $Version ---" 
+			#echo -e $BANNER; 
+			#echo $CONFIGDIR 
+			echo " PKINAME: $PKINAME" 
+	fi
+else
+echo "starting with rootCA at level 0..."
+fi
+
+}
 
 function changePKILevel() { 
 	# change PKIHOME clear 
@@ -50,7 +100,7 @@ function changePKILevel() {
 	echo -en $transparent" Switch to any project, with '99' back to root \n" 
 	DirArray=($(find $PKIHOME_START -name \PKIclone\* -type d)) tLen=${#DirArray[@]} 
 	echo -e "----> Found $tLen project(s) ...\n" 
-	echo -en "| 99 --> \tBack to RootCA Level\n" 
+	echo -en $red"| 99 --> \tBack to RootCA Level\n"$transparent 
 	#echo -en "1 --> \t${DirArray[0]}\n" 
 	DirArray[99]=$PKIHOME_START 
 	for (( i=0; i<${tLen}; i++ )); do 
@@ -64,15 +114,20 @@ function changePKILevel() {
 	echo -en "\n\t Your choice :$dirnum: $pkidir : [Yy]es or [Nn]o ?\n" 
 	if (yes_no); then 
 		#cd $pkidir; 
-		PKIHOME=$pkidir; 
+		PKIHOME=$pkidir;
+			
 		#echo $PKIHOME 
 		reInitVars;
-		BANNER="--- Project: $PKINAME $Version --- \n--- $custbanner ---" 
+		BANNER="--- Project: $PKINAME $Version ---" 
 		#echo -e $BANNER; 
 		#echo $CONFIGDIR 
 		echo " PKINAME: $PKINAME" 
 		echo -e "\nChanged PKI to $pkidir \n" 
-		echo $PKINAME >$PKIHOME/project 
+		
+			# save the project for next startup
+			# create projectconfig, overwrite it with number and name
+		echo $PKINAME >$lastProjectFile
+		# for startup read the file content into $PKIHOME
 	fi
 	read 
 }
@@ -85,9 +140,20 @@ function getMyIP() {
 
 function reInitVars() { 
     PKIUSERHOME=$(dirs)
+	
+	jumpToLastProject="yes"
+		
+	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
+	echo "0" >$ROOTCADIR/isSuBCA.cnf
+	fi
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
-	PKINAME="RootCA Level 0" 
+		if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
+		CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
+		PKINAME="SubCA Level $CAlevel"
+		else
+		PKINAME="RootCA Level 0" 
+		fi
 	PKITprojectName='root'
 	else 
 	# echo "not equal"
@@ -132,6 +198,13 @@ function reInitVars() {
 	PKISHAREUSER=pkishare
 	PKISHAREGROUP=pkishare
 	PKISHAREFOLDER=exports
+	
+	RESTOREDIR=$PKIHOME_START/restore
+	if [ ! -d $RESTOREDIR ] 
+	then 
+	mkdir -p $RESTOREDIR
+	fi
+	
 	PKIFOLDER=$(echo $PKIUSERHOME | awk '{print substr($0,1)}') 
 	
 	ToolIP=$(getMyIP >/dev/null)
@@ -152,8 +225,20 @@ function reInitVars() {
 	SubCATemplate=$CONFIGDIR/subcatemplate.inf
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
+	TopLevelCAFile=$ROOTCADIR/TopLevelCA.pem
+	lastProjectFile=$PKIHOME_START/lastproject.inf
+	PKIStartupconfig=$PKIHOME_START/pkiconf/startup.inf
+	
 	. $PKIHOME_START/pkiconf/version.inf
+	if [ -e $CONFIGDIR/projectname.inf ];then
 	. $CONFIGDIR/projectname.inf
+	fi
+	if [ -e $PKIconfig ];then
+	. $PKIconfig
+	fi
+	if [ -e $PKIStartupconfig ];then
+	. $PKIStartupconfig
+	fi
 }
 
 function ListVars() {
@@ -203,9 +288,12 @@ SRXconfig \
 HOSTfile \
 X509file \
 PKIconfig \
+BSIMODE \
 SubCATemplate \
 THISSCRIPT \
 database \
+SERIALSTART \
+COLOR \
 DATABASE )
 
 rm -f $PKIHOME_START/log/vars.log
@@ -218,9 +306,11 @@ for i in ${VarsArray[@]}; do
  echo "$i = $(eval $cmd)" >>$PKIHOME_START/log/vars.log 
 done
 
-
-less $PKIHOME_START/log/vars.log
-
+if [ $COLOR eq 1];then
+less -R $PKIHOME_START/log/vars.log
+else 
+less -R $PKIHOME_START/log/vars.log
+fi
 }
  
 function readIP () { 
@@ -305,6 +395,9 @@ function InitDirs() {
 	fi
 	if [ ! -d $CERTSCACHEDIR ]; then
 		mkdir -p $CERTSCACHEDIR
+	fi
+	if [ ! -d $RESTOREDIR ]; then
+		mkdir -p $RESTOREDIR
 	fi
 	reInitVars;
 	
@@ -568,10 +661,44 @@ function editConfig() {
 		vi $PKIconfig 
 	fi
 } 
+
+function editStartUpConf() {
+	if [ ! -e $PKIStartupconfig ]; then 
+		echo "PKI Startup Config file $PKIStartupconfig does not exist !" 
+		exit 1 
+		else 
+		vi $PKIStartupconfig 
+		. $PKIStartupconfig 
+	fi
+
+}
  
 function changeto_subca() {
 echo -en "!!!! This will change this CA level !!!!\n"
 echo -en "!!!! Database MUST BE initially empty \n"
+echo -en "--------------------------------------\n"
+echo -en "Next step is to import the TopLevel RootCA\n"
+echo -en "--> copy the rootCA pem to PKIT ....\n"
+echo -en " .... will open vi now to drop the lines ....\n"
+echo -en " READY to GO?  [y]es or [n]o "
+if (yes_no); then
+vi $TopLevelCAFile
+# verify ca file
+openssl x509 -text -noout -in $TopLevelCAFile
+echo -en " Is this certificate OK ? [y]es or [n]o"
+	if (yes_no); then
+	echo "1" >$ROOTCADIR/isSuBCA.cnf
+	cat $ROOTCADIR/root.crt $TopLevelCAFile >$ROOTCADIR/trustchain.crt
+	reInitVars
+	else
+	echo "0" >$ROOTCADIR/isSuBCA.cnf
+	rm -f $ROOTCADIR/trustchain.crt
+	reInitVars
+	fi
+else
+return
+fi
+ 
 # ask_subCAName;
 	
 sed -i 's/CALevel.*$/CALevel=$subCAName/' $X509file
@@ -606,7 +733,11 @@ rm -f $LOGDIR/lastcrlupdate.log
 	# perl script not needed ???
 	
 	#ca | openssl -gencrl -out $CRLDIR/rootca.crl -config /dev/stdin 
-	crl $ca_extension "" | openssl ca -gencrl -passin:$_passphrase -out $CRLDIR/$crlFileName -config /dev/stdin &> /dev/null 
+	if [ "$_encrypted" != '' ]; then
+	crl $ca_extension "" | openssl ca -gencrl -passin "$_passphrase" -out $CRLDIR/$crlFileName -config /dev/stdin &>/dev/null 
+		else
+		crl $ca_extension "" | openssl ca -gencrl  -out $CRLDIR/$crlFileName -config /dev/stdin &>/dev/null
+	fi	
 	echo "Wrote CRL for $ca_extension/$CN in $CRLDIR/$crlFileName" >>$LOGDIR/lastcrlupdate.log
 	done 
 		if [ ! -d $CRLWEBDIR ]; then 
@@ -763,16 +894,19 @@ function deleteDHFiles() {
 	fi
 }
 function destroypki() { 
-	echo -en "\tWARNING: This will destroy the entire PKI\n
-	\tNOTE: DiffiHellman will NOT be deleted !\n 
-	\tAre you sure ? [Yy|Nn]\n 
-	\t--> Press Y for Yes or N for No\n" 
+	echo -en "\t!!!!!!WARNING: This will destroy the entire PKI
+	with all projects !!!!!\n
+	NOTE: DiffiHellman will NOT be deleted !\n 
+	Are you really sure ? [Yy|Nn]\n 
+	--> Press Y for Yes or N for No\n" 
 	if (yes_no); then 
 		# mkdir -m 700 -p $ROOTCADIR 
 		rm -f $ROOTCADIR/* 
 		find $ROOTCADIR -type l -exec test ! -e {} \; -delete 
 		rm -R -f $SUBCADIR/* 
-		
+		rm -R -f $CERTSCACHEDIR/*
+		rm -R -f $CERTSCACHEDIR/*
+		rm -R -f $PKIHOME/PKIclone*
 		
 		rm -R -f $CERTSDIR/* 
 		rm -R -f $KEYSDIR/* 
@@ -781,8 +915,9 @@ function destroypki() {
 		rm -f $PKIHOME/params/* 
 		rm -f $PKIHOME/crl/*
 		rm -R -f $CANDCERTSDIR/*
-		rm -R -f $PKIHOME_START/restore/
-		rm -R -f $PKIHOME_START/log/
+		rm -R -f $PKIHOME/log/
+		mkdir $PKIHOME/log/
+		echo "--- pkitool destroyed --- $(date)" >$PKIHOME/log/lastlog.log
 		# rm -f $PKIHOME/dh/*.pem 
 		rm -R -f $WWWCADIR/$RootFileName 
 		# rm -R -f $WWWCERTSDIR/*
@@ -795,6 +930,44 @@ function destroypki() {
 			echo -en "\t ENTER to continue \n"; read 
 	fi
 } 
+function reinitRootCA() {
+# reinit rootca and delete all candiates
+echo 
+echo "THIS FEATURE IS UNDER DEVELOPEMENT"
+echo "ONLY FOR LAB TEST ....."
+echo " IT WILL DESTROY YOUR PKI !!!"
+echo " [Yy]es or [Nn]o ? "
+
+if (yes_no); then 
+		# mkdir -m 700 -p $ROOTCADIR 
+		rm -f $ROOTCADIR/* 
+		find $ROOTCADIR -type l -exec test ! -e {} \; -delete 
+		rm -R -f $SUBCADIR/* 
+		rm -R -f $CERTSCACHEDIR/*
+		rm -R -f $CERTSDIR/* 
+		rm -R -f $KEYSDIR/* 
+		rm -f $PKIHOME/*.pem
+		rm -f $PKIHOME/tmp/* 
+		rm -f $PKIHOME/params/* 
+		rm -f $PKIHOME/crl/*
+		rm -R -f $CANDCERTSDIR/*
+		rm -R -f $PKIHOME_START/restore/
+		mkdir $PKIHOME_START/restore/
+		rm -R -f $PKIHOME_START/log/
+		# rm -f $PKIHOME/dh/*.pem 
+		rm -R -f $WWWCADIR/$RootFileName 
+		# rm -R -f $WWWCERTSDIR/*
+		#mkdir -m 700 -p $KEYSDIR 
+		#mkdir -m 700 -p $PKIHOME/certs 
+		echo -en "\t !!! All pki files deleted !!!\n" 
+		echo -en "\t ENTER to continue\n"; read
+		else 
+			echo -en "\t +++ nothing deleted or changed +++\n" 
+			echo -en "\t ENTER to continue \n"; read 
+	fi
+
+}
+
 function remove_archives() { 
 	echo -en "\tWARNING: This will remove ALL backups\n 
 	\tAre you sure ? [Yy|Nn]\n
@@ -963,6 +1136,7 @@ function ziptool() {
 	echo -en "\nEnter a new archivename, please:"; read ArchiveName 
 	echo "$ARCHIVEDIR/pkiProject_$ArchiveName$now.zip";
 	echo ".. [ENTER] to cont ..";read
+	if [ "$ZIPOPT" != 'all' ]; then
 	zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
 		-x "./*.zip" \
 		-x "./sslbackups/*.*" \
@@ -981,6 +1155,27 @@ function ziptool() {
 		-x "./.git/*"\
 		-x "./.gitignore" \
 		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+	else	
+		zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
+		-x "./*.zip" \
+		-x "./sslbackups/*.*" \
+		
+		-x "./archives/*" \
+		-x "$ARCHIVEDIR/*.*"\
+		-x "./tmp*"\
+		
+		
+		-x "./sslbackups/*"\
+		-x "./exports/*"\
+		-x "./www-public/*"\
+		-x "./www/*"\
+		
+		-x "./log/*"\
+		
+		
+		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+	
+	fi	
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
 	dir -all $ARCHIVEDIR/pki*.zip 
@@ -1115,5 +1310,14 @@ function ShowRootCA() {
 	
 }
 
+function showlastlog() {
 
+if [[ $COLOR -eq "1" ]];then
+	
+	less -R $LASTLOG
+else	
+	
+	less $LASTLOG
+fi	
+}
 

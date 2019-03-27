@@ -133,7 +133,8 @@ echo "-----------------------------------------"
 	
 		[:]lastlog )
 			# print lastlog
-			less $LASTLOG
+			showlastlog
+			# less $LASTLOG
 			;;
 		[:]clearlastlog )
 			# clear lastlog.log file

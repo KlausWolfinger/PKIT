@@ -78,7 +78,8 @@ function menu2 () {
 	menu_header 
 	echo -en "\n--> \tSelect action:\n 
 	\tv - Configure PKI-Tool 
-	\t Remote FTP Archive and Passphrase for pkcs12 
+	\ts - Configure PKI-Tool Startup Options
+	 
 	\t99 - Return\n\n" 
 	read -p "--> $MenuLevel$PROMPT_2" userchoice
 	keypress=$(echo $userchoice | tr -d "\n") 
@@ -88,6 +89,9 @@ function menu2 () {
 				editConfig;
 				checkConfig; 
 				;; 
+			[Ss] ) # edit startup config
+				editStartUpConf;
+				;;
 			:* ) 
 				# Cli
 				pkitcli	
@@ -112,7 +116,8 @@ function menu3 () {
 	\tip - Show System IPs 
 	\tC - Clone PKI to new project
 	\tS - Switch to PKI project 
-	\tD - Destroy entire project (this level) 
+	\tD - Destroy entire project (this level)
+	\tR - Reinitialize RootCA with current config	
 	\tK - Delete DiffiHellman Files
 	\t7 - Remove&Revoke all external candidates certificates	
 	\t8 - Delete all Backups (ssl and project) 
@@ -148,6 +153,9 @@ function menu3 () {
 		[D] ) # destroy simple pki 
 			destroypki 
 			;; 
+		[R] ) # reinitalize RootCA with current config and delete Candidates
+			reinitRootCA
+			;;
 		[K] ) # delete diffihelman 
 			deleteDHFiles 
 			;; 
@@ -413,7 +421,7 @@ function menu6 () {
 } 
 
 function menu7 () { 
-	# CA management 
+	# RESTORE 
 	MenuLevel=7
 	MenuName="RESTORE"
 	PROMPT_2="@$HOSTNAME[$MenuName] : "
@@ -434,7 +442,7 @@ function menu7 () {
 			echo "Restore Config"
 			pki_restore_conf
 			;;
-		[R] ) # Create a p12 keybag with passphrase
+		[R] ) # Restore from old versions
 			pki_restore			
 			;; 
 		

@@ -12,13 +12,6 @@ function SignRequest(){
 			extension=$(echo "$cert" | cut -f1 -d:) 
 			  CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,)
 			  SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
-			 
-			
-		# CN have to be unique in DB, but external request could come with any CN, so we have to randomize the CN with DateTime
-		
-		
-		# echo  -en "--> HOST: $cert CN: $CN extension: $extension "
-		
 	
 	if [ -e $CANDCERTSDIR/$extension/"$CN".req -a ! -e $CANDCERTSDIR/$extension/"$CN".crt ]; then 
 		mv $CANDCERTSDIR/$extension/"$CN".req $CANDCERTSDIR/$extension/tmp-"$CN".req 
@@ -47,6 +40,30 @@ function SignRequest(){
 		set CN=$CNOUT
 		export CNOUT
 		
+		# extrem variante serial number randomize
+		# -------------------------
+		
+		if [ "$BSIMODE" -eq "1" ]; then
+		declare -i key 
+			  key=$(cat $ROOTCADIR/ra-count)
+			  echo $(($key + 1)) >$ROOTCADIR/ra-count
+			  openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+			  echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
+			  if [ "$SERIALHASH" = 'md5' ]; then
+				  md5sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.md5
+				  awk '{print $1}' $ROOTCADIR/root-serial.md5 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.md5
+			  fi
+				  if [ "$SERIALHASH" = 'sha1' ]; then
+				  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
+				  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.sha1
+			  fi
+			  
+			 
+			  
+		fi
+		# ---------------------------------------------
 		ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -202,6 +219,10 @@ function create_requests() {
 function create_keys_certs() {
 	# signing process
 	# NEW OPTION -set_serial n
+	# p12 with intermediate CA if SUBCA
+	# $ROOTCADIR/isSuBCA.cnf
+	# $TopLevelCAFile
+	# if $ROOTCADIR/isSuBCA.cnf == 1 then create p12 chains with TopCA
 	
 	reInitVars
 	echo "--- starting signing process ..." >>$LASTLOG
@@ -248,11 +269,43 @@ function create_keys_certs() {
 		# adaptions for special cases 
 		#
 		# ---------------------------------------------------------
-		echo "--- signing $CN ..." >>$LASTLOG
+		
 		if [ -e $CERTSDIR/$extension/"$CN".req -a ! -e $CERTSDIR/$extension/"$CN".crt ]; then 
 			mv $CERTSDIR/$extension/"$CN".req $CERTSDIR/$extension/tmp-"$CN".req 
 			rm -f $CERTSDIR/$extension/"$CN".* 
 			mv $CERTSDIR/$extension/tmp-"$CN".req $CERTSDIR/$extension/"$CN".req 
+			# here randomize serial number
+			# increment 2 byte counter
+			# create random hex number with length
+			# merge counter with random >$ROOTCADIR/root-serial
+			# openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+			# ------------------------
+			if [ "$BSIMODE" -eq "1" ]; then
+			declare -i key 
+			  key=$(cat $ROOTCADIR/ra-count)
+			  echo $(($key + 1)) >$ROOTCADIR/ra-count
+			  openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
+			  echo $(cat $ROOTCADIR/ra-count)$(cat $ROOTCADIR/newRandom) >$ROOTCADIR/root-serial
+			  if [ "$SERIALHASH" = 'md5' ]; then
+				  md5sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.md5
+				  awk '{print $1}' $ROOTCADIR/root-serial.md5 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.md5
+			  fi
+				  if [ "$SERIALHASH" = 'sha1' ]; then
+				  sha1sum $ROOTCADIR/root-serial >$ROOTCADIR/root-serial.sha1
+				  awk '{print $1}' $ROOTCADIR/root-serial.sha1 >$ROOTCADIR/root-serial
+				  rm -f $ROOTCADIR/root-serial.sha1
+			  fi
+			  echo "--- signing process for $CN started | serial ($SERIALHASH)# = $(cat $ROOTCADIR/root-serial) ..." >>$LASTLOG
+			  
+			 
+			  
+		fi
+	# ------------------------  create the initial cert from request (all cases) 
+			
+			# first optional check if request is ok
+			# openssl req -text -noout -verify -in $CERTSDIR/$extension/"$CN".req 
+			# check $? if 0 ?
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -261,7 +314,11 @@ function create_keys_certs() {
 				-extensions exts -preserveDN  \
 				-passin pass:$_passphrase \
 				-config /dev/stdin >>$LASTLOG
-			echo "--- crt files for $CN created ..." >>$LASTLOG
+			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
+			echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
+			if [ $_crtFileSize lt 500 ]; then
+				echo -e $red "--- we have a problem with $CN !! (returncode=$?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
+			fi
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
 		fi 
@@ -329,23 +386,23 @@ function create_keys_certs() {
 				else 
 				echo -en "\t---> $CN UC.pem exists, nothing todo\n" 
 			fi 
-			
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
+			# ------------------ P12 CHAIN with pass-----------------------
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a -e $ROOTCADIR/trustchain.crt -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "tomcat" \
 				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
-				-certfile $ROOTCADIR/root.crt \
+				-certfile $ROOTCADIR/trustchain.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
 			echo "--- *.chain.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n" >>$LASTLOG
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists or no subca, nothing todo\n" >>$LASTLOG
 			fi
-			
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.p12 ]; 
+			# ------------------- P12 CHAIN without pass
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a -e $ROOTCADIR/trustchain.crt -a ! -e $CERTSDIR/$extension/"$CN".chain.p12 ]; 
 			then 
 				openssl pkcs12 \
 				-export \
@@ -353,12 +410,12 @@ function create_keys_certs() {
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "tomcat" \
 				-out $CERTSDIR/$extension/"$CN".chain.p12 \
-				-certfile $ROOTCADIR/root.crt \
+				-certfile $ROOTCADIR/trustchain.crt \
 				-nodes \
 				-passout pass: 
 			echo "--- *chain.p12 files without passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.p12 with empty passphrase exists, nothing todo\n" >>$LASTLOG
+			echo -en "\t---> $CN chain.p12 with empty passphrase exists or no subca, nothing todo\n" >>$LASTLOG
 			fi
 			cat >$CERTSDIR/$extension/README_aboutp12.txt <<-EOL 
 			About the p12 friendly name for UC: 
@@ -371,7 +428,7 @@ function create_keys_certs() {
 			
 		
 			
-			# -------------- write standard p12 keybags - name = $CN -----------
+			# -------------- write standard p12 keybags without pass - name = $CN -----------
 			## enhance check [ $extension != 'osvservcer' ] && .....
 			if  [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".p12 ]; then 
 			openssl pkcs12 \
@@ -386,7 +443,7 @@ function create_keys_certs() {
 			else 
 			echo -en "\t---> $CN .p12 with empty passphrase exists, nothing todo\n"  >>$LASTLOG
 			fi 
-			#--------------------------------------------------------- 
+			# -------------- write standard p12 keybags with pass - name = $CN -----------
 			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN"."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
@@ -399,19 +456,19 @@ function create_keys_certs() {
 			echo -en "\t---> $CN XXX.p12 with passphrase XXX exists, nothing todo\n" >>$LASTLOG
 			fi 
 			# --------------------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a -e $ROOTCADIR/trustchain.crt  -a ! -e $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 ]; then 
 				openssl pkcs12 \
 				-export \
 				-inkey $KEYSDIR/$extension/"$CN".key \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-name "$CN" \
 				-out $CERTSDIR/$extension/"$CN".chain."$P12FileNamePass".p12 \
-				-certfile $ROOTCADIR/root.crt \
+				-certfile $ROOTCADIR/trustchain.crt \
 				-nodes \
 				-passout pass:"$PassPhrase" 
 			echo "--- *.chain.p12 files with passphrase for $CN created ..." >>$LASTLOG
 			else 
-			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists, nothing todo\n"  >>$LASTLOG
+			echo -en "\t---> $CN chain.xxx.p12 with passphrase XXX exists or no subca, nothing todo\n"  >>$LASTLOG
 			fi
 			# --------- special cases ------------------ 
 			#------------------------------------------ 

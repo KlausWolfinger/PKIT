@@ -40,9 +40,13 @@ function rootca() {
 	crlDistributionPoints=crlDistributionPoint0_sect
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
+	# -------------------
+	# hier ein Problem mit OSV ??
+	# cert policy full ??
+	# test OSV default cert: no critical, no length, failed also for full
 	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
-	
+	# -------------------
 	[certpol0_sect]
 	policyIdentifier=$POLICYIDENTIFIER
 	CPS.0=$CERTPOL
@@ -280,15 +284,23 @@ function create_rootCAkeys(){
 
 function create_rootCA_DB() {
 reInitVars
+
 mkdir -m 700 -p $ROOTCADIR 
 	export CN 
+	
 	if [ ! -e $ROOTCADIR/root-serial -o ! -e $ROOTCADIR/root-index.txt -o ! -e $ROOTCADIR/root.key ]; then 
 		rm -f $ROOTCADIR/*.* 
 		rm -f $CERTSDIR/*.*
+		touch $ROOTCADIR/rootca.conf
+		echo "## CA CONFIG " >>$ROOTCADIR/rootca.conf
+		echo "## DO NOT CHANGE !!" >>$ROOTCADIR/rootca.conf
+		echo "## CREATED AUTOMATED " >>$ROOTCADIR/rootca.conf
+		echo "BSIMODE=$BSIMODE" >>$ROOTCADIR/rootca.conf
 		
 		# must generate a randon as initial serial
 		touch $ROOTCADIR/root-serial
-		#echo "01" >$ROOTCADIR/root-serial
+		# count for incremental sn at msb (left aligned)
+		echo "100001" >$ROOTCADIR/ra-count
 		openssl rand -hex $SERIALSTART >$ROOTCADIR/root-serial 
 		echo -n >$ROOTCADIR/root-index.txt 
 		echo -n >$ROOTCADIR/root-index.txt.attr
@@ -357,7 +369,7 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" \
 			-out $ROOTCADIR/root_$HOSTNAME.req
 		echo "created root_$HOSTNAME.req ..."
-		openssl req -text -noout -in $ROOTCADIR/root_$HOSTNAME.req | less
+		openssl req -text -in $ROOTCADIR/root_$HOSTNAME.req | less
 		
 }
 
@@ -403,6 +415,8 @@ function create_rootca(){
 		########
 		# optional: create_rootCA_Req
 		###
+		touch $ROOTCADIR/isSuBCA.cnf
+		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
 	
 	
@@ -470,6 +484,7 @@ function replace_rootcert() {
 						echo "#   Sucessfully RootCA Change to SBCA"
 						echo "###########################################"
 						echo "#   This RootCA is now a SUB-CA"
+						echo "1" >$ROOTCADIR/isSuBCA.cnf
 						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					else
@@ -478,6 +493,7 @@ function replace_rootcert() {
 						echo "###########################################"
 						cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
 						echo "# restored to the last version "
+						echo "0" >$ROOTCADIR/isSuBCA.cnf
 						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					
@@ -507,7 +523,9 @@ reInitVars
 	openssl pkcs12 -export -out $ROOTCADIR/rootCA.p12 -inkey $ROOTCADIR/root.key -in 	$ROOTCADIR/rootCA.pem
 	echo "###### RootCA is now exported to file $ROOTCADIR/rootCA.p12"
 	else
-	echo "!!!!! There is no Root CA found. Create first, please !!!"
+	echo -e $red"!!!!! There is no Root CA found. Create first, please !!!"$transparent
+	echo "OK ? ENTER to continue ..."
+	read
 	fi
 }
 
@@ -517,6 +535,13 @@ reInitVars
 if [[ $SkipRootCACheck -eq 0 ]]; then
 	rootCACheck=0
 	echo -en "\n--> This will perform a rootCA check ...\n"
+	
+	if [ $(cat $ROOTCADIR/isSuBCA.cnf) == "1" ];then
+		echo -e $red "This is a Intermediate CA !"$transparent
+		else
+		echo -e $red "This is a Top Level CA !"$transparent
+	fi	
+	
 	if [ -e $ROOTCADIR/root.key ]; then
 	echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
 	echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
@@ -563,7 +588,7 @@ if [[ $SkipRootCACheck -eq 0 ]]; then
 	if [ $rootCACheck -eq 0 ]; then
 	echo -en "\nCHECK WAS SUCCESSFUL --- GOOD\n"
 	else
-	echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!\n"
+	echo -en $red"\nCHECK FAILED !!!! Repair the RootCA first !!!\n"$transparent
 
 	fi
 	else

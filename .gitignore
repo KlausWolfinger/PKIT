@@ -6,7 +6,12 @@ todo\.txt
 TeilnehmerDoku-PKI-Tool\.txt
 README.txt
 todo.txt
+*.png
+
 
 
 Developement/
 dev/
+faq/
+vendors/
+www/
