@@ -78,6 +78,7 @@ function menu2 () {
 	menu_header 
 	echo -en "\n--> \tSelect action:\n 
 	\tv - Configure PKI-Tool 
+	\ts - Configure PKI-Tool Startup Options
 	 
 	\t99 - Return\n\n" 
 	read -p "--> $MenuLevel$PROMPT_2" userchoice
@@ -88,6 +89,9 @@ function menu2 () {
 				editConfig;
 				checkConfig; 
 				;; 
+			[Ss] ) # edit startup config
+				editStartUpConf;
+				;;
 			:* ) 
 				# Cli
 				pkitcli	

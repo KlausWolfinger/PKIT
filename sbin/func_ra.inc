@@ -12,13 +12,6 @@ function SignRequest(){
 			extension=$(echo "$cert" | cut -f1 -d:) 
 			  CN=$(echo "$cert" | cut -f2- -d: | cut -f1 -d,)
 			  SALTN=$(echo "$cert" | cut -f2- -d: | grep , | cut -f2- -d,)
-			 
-			
-		# CN have to be unique in DB, but external request could come with any CN, so we have to randomize the CN with DateTime
-		
-		
-		# echo  -en "--> HOST: $cert CN: $CN extension: $extension "
-		
 	
 	if [ -e $CANDCERTSDIR/$extension/"$CN".req -a ! -e $CANDCERTSDIR/$extension/"$CN".crt ]; then 
 		mv $CANDCERTSDIR/$extension/"$CN".req $CANDCERTSDIR/$extension/tmp-"$CN".req 
@@ -47,7 +40,7 @@ function SignRequest(){
 		set CN=$CNOUT
 		export CNOUT
 		
-		# extrem variante serialn number randomize
+		# extrem variante serial number randomize
 		# -------------------------
 		
 		if [ "$BSIMODE" -eq "1" ]; then

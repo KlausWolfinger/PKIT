@@ -415,6 +415,8 @@ function create_rootca(){
 		########
 		# optional: create_rootCA_Req
 		###
+		touch $ROOTCADIR/isSuBCA.cnf
+		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
 	
 	
@@ -482,6 +484,7 @@ function replace_rootcert() {
 						echo "#   Sucessfully RootCA Change to SBCA"
 						echo "###########################################"
 						echo "#   This RootCA is now a SUB-CA"
+						echo "1" >$ROOTCADIR/isSuBCA.cnf
 						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					else
@@ -490,6 +493,7 @@ function replace_rootcert() {
 						echo "###########################################"
 						cp -p $ROOTCADIR/root.crt.save $ROOTCADIR/root.crt
 						echo "# restored to the last version "
+						echo "0" >$ROOTCADIR/isSuBCA.cnf
 						echo "###########################################"
 						read -p "[ENTER] to cont ...."
 					
@@ -519,7 +523,9 @@ reInitVars
 	openssl pkcs12 -export -out $ROOTCADIR/rootCA.p12 -inkey $ROOTCADIR/root.key -in 	$ROOTCADIR/rootCA.pem
 	echo "###### RootCA is now exported to file $ROOTCADIR/rootCA.p12"
 	else
-	echo "!!!!! There is no Root CA found. Create first, please !!!"
+	echo -e $red"!!!!! There is no Root CA found. Create first, please !!!"$transparent
+	echo "OK ? ENTER to continue ..."
+	read
 	fi
 }
 
@@ -529,6 +535,13 @@ reInitVars
 if [[ $SkipRootCACheck -eq 0 ]]; then
 	rootCACheck=0
 	echo -en "\n--> This will perform a rootCA check ...\n"
+	
+	if [ $(cat $ROOTCADIR/isSuBCA.cnf) == "1" ];then
+		echo -e $red "This is a Intermediate CA !"$transparent
+		else
+		echo -e $red "This is a Top Level CA !"$transparent
+	fi	
+	
 	if [ -e $ROOTCADIR/root.key ]; then
 	echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
 	echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
@@ -575,7 +588,7 @@ if [[ $SkipRootCACheck -eq 0 ]]; then
 	if [ $rootCACheck -eq 0 ]; then
 	echo -en "\nCHECK WAS SUCCESSFUL --- GOOD\n"
 	else
-	echo -en "\nCHECK FAILED !!!! Repair the RootCA first !!!\n"
+	echo -en $red"\nCHECK FAILED !!!! Repair the RootCA first !!!\n"$transparent
 
 	fi
 	else

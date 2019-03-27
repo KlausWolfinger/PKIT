@@ -59,7 +59,38 @@ RootKeyPPhraseVisibility=0
 #
 # #######
 
+function startlastproject() {
+#
+# read last project
+# from $PKIHOME_START/$lastProjectFile
 
+if [ $jumpToLastProject == "yes" ];then
+
+	if [ -e $lastProjectFile ] && [ -d $(cat $lastProjectFile) ]; then
+		
+	PKIHOME=$(cat $lastProjectFile)
+	echo "loading last project:  $lastProjectFile"
+	BANNER="--- Project: $PKINAME $Version ---"
+	reInitVars;
+			BANNER="--- Project: $PKINAME $Version ---" 
+			#echo -e $BANNER; 
+			#echo $CONFIGDIR 
+			echo " PKINAME: $PKINAME" 
+			
+	else
+	echo $PKIHOME_START >$lastProjectFile
+	PKIHOME=$PKIHOME_START
+	reInitVars;
+			BANNER="--- Project: $PKINAME $Version ---" 
+			#echo -e $BANNER; 
+			#echo $CONFIGDIR 
+			echo " PKINAME: $PKINAME" 
+	fi
+else
+echo "starting with rootCA at level 0..."
+fi
+
+}
 
 function changePKILevel() { 
 	# change PKIHOME clear 
@@ -69,7 +100,7 @@ function changePKILevel() {
 	echo -en $transparent" Switch to any project, with '99' back to root \n" 
 	DirArray=($(find $PKIHOME_START -name \PKIclone\* -type d)) tLen=${#DirArray[@]} 
 	echo -e "----> Found $tLen project(s) ...\n" 
-	echo -en "| 99 --> \tBack to RootCA Level\n" 
+	echo -en $red"| 99 --> \tBack to RootCA Level\n"$transparent 
 	#echo -en "1 --> \t${DirArray[0]}\n" 
 	DirArray[99]=$PKIHOME_START 
 	for (( i=0; i<${tLen}; i++ )); do 
@@ -83,15 +114,20 @@ function changePKILevel() {
 	echo -en "\n\t Your choice :$dirnum: $pkidir : [Yy]es or [Nn]o ?\n" 
 	if (yes_no); then 
 		#cd $pkidir; 
-		PKIHOME=$pkidir; 
+		PKIHOME=$pkidir;
+			
 		#echo $PKIHOME 
 		reInitVars;
-		BANNER="--- Project: $PKINAME $Version --- \n--- $custbanner ---" 
+		BANNER="--- Project: $PKINAME $Version ---" 
 		#echo -e $BANNER; 
 		#echo $CONFIGDIR 
 		echo " PKINAME: $PKINAME" 
 		echo -e "\nChanged PKI to $pkidir \n" 
-		echo $PKINAME >$PKIHOME/project 
+		
+			# save the project for next startup
+			# create projectconfig, overwrite it with number and name
+		echo $PKINAME >$lastProjectFile
+		# for startup read the file content into $PKIHOME
 	fi
 	read 
 }
@@ -104,17 +140,20 @@ function getMyIP() {
 
 function reInitVars() { 
     PKIUSERHOME=$(dirs)
+	
+	jumpToLastProject="yes"
+		
 	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
 	echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
 	if [ $PKIHOME == $PKIHOME_START ]; then 
 	# echo "Debugging -- $PKIHOME" 
-	if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
-	CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
-	PKINAME="SubCA Level $CAlevel"
-	else
-	PKINAME="RootCA Level 0" 
-	fi
+		if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
+		CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
+		PKINAME="SubCA Level $CAlevel"
+		else
+		PKINAME="RootCA Level 0" 
+		fi
 	PKITprojectName='root'
 	else 
 	# echo "not equal"
@@ -187,11 +226,18 @@ function reInitVars() {
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
 	TopLevelCAFile=$ROOTCADIR/TopLevelCA.pem
+	lastProjectFile=$PKIHOME_START/lastproject.inf
+	PKIStartupconfig=$PKIHOME_START/pkiconf/startup.inf
 	
 	. $PKIHOME_START/pkiconf/version.inf
+	if [ -e $CONFIGDIR/projectname.inf ];then
 	. $CONFIGDIR/projectname.inf
+	fi
 	if [ -e $PKIconfig ];then
 	. $PKIconfig
+	fi
+	if [ -e $PKIStartupconfig ];then
+	. $PKIStartupconfig
 	fi
 }
 
@@ -615,6 +661,17 @@ function editConfig() {
 		vi $PKIconfig 
 	fi
 } 
+
+function editStartUpConf() {
+	if [ ! -e $PKIStartupconfig ]; then 
+		echo "PKI Startup Config file $PKIStartupconfig does not exist !" 
+		exit 1 
+		else 
+		vi $PKIStartupconfig 
+		. $PKIStartupconfig 
+	fi
+
+}
  
 function changeto_subca() {
 echo -en "!!!! This will change this CA level !!!!\n"
