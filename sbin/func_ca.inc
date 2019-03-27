@@ -552,7 +552,7 @@ if [[ $SkipRootCACheck -eq 0 ]]; then
 		echo -e $red "This is a Intermediate CA !"$transparent
 		# check for $ROOTCADIR/trustchain.crt
 			if [ -e $ROOTCADIR/trustchain.crt ]; then
-			echo -en "--> $ROOTCADIR/trustchain.crt check OK...\n"; rootCACheck=0;else
+			echo -en "--> $ROOTCADIR/trustchain.crt check OK...\n"; else
 			echo -en $red"--> $ROOTCADIR/trustchain.crt check NOK...\n"$transparent; ((rootCACheck=++));
 			fi
 		else
@@ -561,11 +561,11 @@ if [[ $SkipRootCACheck -eq 0 ]]; then
 	
 	if [ ! -e $ROOTCADIR/ra-count ]; then
 	echo -en $red"--> $ROOTCADIR/ra-count check NOK...\n"; ((rootCACheck++));
-	echo -en "## reason could be imported backup from old versions ##"$transparent
+	echo -en "## reason could be imported backup from old versions ##\n"$transparent
 	fi
 	
 	if [ -e $ROOTCADIR/root.key ]; then
-	echo -en "--> $ROOTCADIR/root.key check OK...\n"; rootCACheck=0; else 
+	echo -en "--> $ROOTCADIR/root.key check OK...\n";  else 
 	echo -en "--> $ROOTCADIR/root.key check NOK...\n"; ((rootCACheck++));
 	fi
 	if [ -e $ROOTCADIR/root.crt ]; then
