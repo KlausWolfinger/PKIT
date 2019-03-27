@@ -105,6 +105,7 @@ function signsubca(){
 		echo "Missing subca request ..."
 		exit 1;
 	fi
+	
 	if [ -e $SUBCADIRNAME/$SUBCANAME.crt ];then
 		echo -en "SubCA certificate already exists\n"
 		dir $SUBCADIRNAME;
@@ -127,6 +128,7 @@ function signsubca(){
 		
 	fi
 	echo "printing pem to screen .. ENTER .."
+	echo
 	read
 	less $SUBCADIRNAME/$SUBCANAME.pem
 
