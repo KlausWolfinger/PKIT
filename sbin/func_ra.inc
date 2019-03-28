@@ -1,3 +1,10 @@
+# PKIT (c) 2019 IT Consulting Wolfinger
+# dont't change the file
+# master functions for signing processes
+#
+# todo# cleanup cert directories from unneccessary files
+
+
 function SignRequest(){ 
 	##echo -en "---------- debug----------\n";read
 	export CN
@@ -217,7 +224,7 @@ function create_requests() {
 
 
 function create_keys_certs() {
-	# signing process
+	# general signing process
 	# NEW OPTION -set_serial n
 	# p12 with intermediate CA if SUBCA
 	# $ROOTCADIR/isSuBCA.cnf
@@ -281,6 +288,8 @@ function create_keys_certs() {
 			# openssl rand -hex $SERIALSTART >$ROOTCADIR/newRandom
 			# ------------------------
 			if [ "$BSIMODE" -eq "1" ]; then
+			# here we declare the new serial start value
+			# ra-count means the database incremental unique index
 			declare -i key 
 			  key=$(cat $ROOTCADIR/ra-count)
 			  echo $(($key + 1)) >$ROOTCADIR/ra-count

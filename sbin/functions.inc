@@ -1297,7 +1297,7 @@ function ShowCertIndex() {
 function ShowRootCA() { 
 	clear 
 	if [ -e $ROOTCADIR/rootCA.pem ]; then  
-	openssl x509 -text -noout -in $ROOTCADIR/rootCA.pem | less
+	openssl x509 -text -in $ROOTCADIR/rootCA.pem | less
 	else
 	echo "################# ERROR #################"
 	echo "#                                       #"

@@ -475,7 +475,7 @@ function replace_rootcert() {
 		echo "#   system changed to SUBCA... finish the action [Yy|Nn]"
 			if (yes_no); then 
 				
-				
+					cat $ROOTCADIR/root.crt >>$ROOTCADIR/trustchain.crt
 				
 					rm -f $ROOTCADIR/rootCA.pem
 					rm -f $ROOTCADIR/rootCA.der
