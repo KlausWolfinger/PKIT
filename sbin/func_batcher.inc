@@ -194,6 +194,7 @@ echo "-----------------------------------------"
 			# change bash option set +x for debugging
 			echo "command list" 
 			echo "------------"
+			echo -e ":tree - shows directory tree"
 			echo -e ":listvars - List PKIT variables"
 			echo -e ":ls [directory]  - List [directory]"
 			echo -e ":showrootca - Shows Root Certificate"
