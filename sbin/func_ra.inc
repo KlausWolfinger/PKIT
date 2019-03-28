@@ -370,13 +370,14 @@ function create_keys_certs() {
 			else 
 			echo -en "\t---> $CN pem exists, nothing todo\n" 
 			fi 
-			# ----------TLS Chain for Duplex----------------------------------------------- 
-			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.pem ]; then 
+			# ----------TLS Chain if subca----------------------------------------------- 
+			
+			if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".chain.pem  -a -e $ROOTCADIR/trustchain.crt ]; then 
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-out $CERTSDIR/$extension/"$CN".chain.pem.tmp 
 			echo "--- *.chain.pem files for $CN created ..." >>$LASTLOG
-			cat $CERTSDIR/$extension/"$CN".chain.pem.tmp $KEYSDIR/$extension/"$CN".key $ROOTCADIR/root.crt >$CERTSDIR/$extension/"$CN".chain.pem 
+			cat $CERTSDIR/$extension/"$CN".chain.pem.tmp  $ROOTCADIR/trustchain.crt $KEYSDIR/$extension/"$CN".key >$CERTSDIR/$extension/"$CN".chain.pem 
 			rm $CERTSDIR/$extension/"$CN".chain.pem.tmp 
 			else 
 			echo -en "\t---> $CN chain.pem exists, nothing todo\n" 
