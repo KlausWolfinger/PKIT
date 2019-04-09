@@ -787,9 +787,7 @@ reInitVars
 		
 		fi
 		# new check ...
-		if [ -n "$POLICYIDENTIFIER" ]; then
-            echo "policyIdentifier = $POLICYIDENTIFIER"
-        fi
+		
 		
 		if [ -n "$ROOTOCSPURI" -a -n "$ROOTCERTURI" ]; then
 			echo "authorityInfoAccess = OCSP;URI:$ROOTOCSPURI, caIssuers;URI:$ROOTCERTURI" 
