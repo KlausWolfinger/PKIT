@@ -72,11 +72,11 @@ function rootca() {
 	keyUsage = critical, cRLSign, keyCertSign
 	# -------------------
 	[certpol0_sect]
-	policyIdentifier=$POLICYIDENTIFIER
-	CPS.0=$CERTPOL
+	policyIdentifier = $POLICYIDENTIFIER
+	CPS.0 = $CERTPOL
 	
 	[crlDistributionPoint0_sect]
-	fullname=URI:$ROOTCRLURI
+	fullname = URI:$ROOTCRLURI
 
 
 	[ policy_PKIT ]
