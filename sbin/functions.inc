@@ -663,7 +663,9 @@ function editConfig() {
 		exit 1 
 		else 
 		vi $PKIconfig 
+		reInitVars
 	fi
+
 } 
 
 function editStartUpConf() {
@@ -1125,7 +1127,7 @@ function editx509() {
 	# echo -en "\t ---- hosts file ----- \n" 
 	#cat $X509file 
 	#echo -en "\n\t ENTER to continue \n" ;read
-	. $X509file
+	reInitVars
 	
 } 
 
