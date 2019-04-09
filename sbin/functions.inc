@@ -930,7 +930,9 @@ function destroypki() {
 		#mkdir -m 700 -p $KEYSDIR 
 		#mkdir -m 700 -p $PKIHOME/certs 
 		echo -en "\t !!! All pki files deleted !!!\n" 
-		echo -en "\t ENTER to continue\n"; read
+		echo -en "\t PKIT will now terminate ...."
+		echo -en "ENTER to continue and start pkitool again\n"; read
+		exit 
 		else 
 			echo -en "\t +++ nothing deleted or changed +++\n" 
 			echo -en "\t ENTER to continue \n"; read 
