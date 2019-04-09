@@ -8,15 +8,12 @@ todo\.txt
 TeilnehmerDoku-PKI-Tool\.txt
 README.txt
 todo.txt
-*.png
+vendors\*
 
 
 
-Developement/
-dev/
-<<<<<<< HEAD
-faq/
-vendors/
-=======
->>>>>>> master
-www/
+Developement\
+dev\*
+faq\*
+
+www\*
