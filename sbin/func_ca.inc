@@ -7,6 +7,8 @@ function base() {
 	EOF
 } 
 function rootca() { 
+	echo "--- initializing x509 config file ...">>$LASTLOG
+	reInitVars
 	echo "--- creating rootca -- $(date)" >>$LASTLOG
 	echo " commonName = $ROOTCN" >>$LASTLOG
 	echo " emailAddress = $BASEMAIL" >>$LASTLOG
