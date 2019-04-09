@@ -2,7 +2,7 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.7b'
+Version='2.7e'
 Revision='a' 
  
 
@@ -11,7 +11,7 @@ Revision='a'
 # osv cmd script for pki provisioning to OSV
 # dev branch
 # lot of improvements
-# serial number 16 byte long
+# serial number min 6 byte long, hash options
 # rootca request BSI conform
 #
 

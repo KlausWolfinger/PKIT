@@ -7,6 +7,12 @@ function base() {
 	EOF
 } 
 function rootca() { 
+	echo "--- creating rootca -- $(date)" >>$LASTLOG
+	echo " commonName = $ROOTCN" >>$LASTLOG
+	echo " emailAddress = $BASEMAIL" >>$LASTLOG
+	echo " POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$LASTLOG
+	echo " ROOTCRLURI = $ROOTCRLURI " >>$LASTLOG
+	
     cat <<-EOF
 	# --- new 
 	[ req ]
@@ -36,8 +42,26 @@ function rootca() {
 	#policy = policy_PKIT
 	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
+	EOF
+	
+	if [ ! -z $POLICYIDENTIFIER ]; then
+	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER found ..." >>$LASTLOG 
+	cat <<-EOF
+	
 	certificatePolicies=ia5org,@certpol0_sect
+	
+	EOF
+	fi
+	
+	if [ ! -z $ROOTCRLURI ]; then
+	echo "ROOTCRLURI = $ROOTCRLURI found ..." >>$LASTLOG 
+	cat <<-EOF
 	crlDistributionPoints=crlDistributionPoint0_sect
+	EOF
+	fi
+	
+	
+	cat <<-EOF
 	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
 	# -------------------
@@ -95,7 +119,7 @@ policyIdentifier=$POLICYIDENTIFIER
 CPS=$CPSPOL
 
 [verisignev]
-policyIdentifier = 2.16.840.1.113733.1.7.23.6
+policyIdentifier='2.16.840.1.113733.1.7.23.6'
 CPS=$CPSEV
 userNotice.1=@verisignevnotice
 
@@ -426,10 +450,13 @@ function create_rootca(){
 		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
 		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
 		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
+		
+		if [ -d $WWWDIR ]; then 
 		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName
 		echo "## lastlog ##" >$WWWDIR/lastlog.log
-		echo "## RootFileName=$RootFileName ##" >>$WWWDIR/lastlog.log
+		echo "## RootFileName=$RootFileName ##" >>$LASTLOG
 		chmod 644 $WWWDIR/$RootFileName
+		fi
 		 
 	fi
 	
@@ -758,7 +785,12 @@ reInitVars
 		if [ -n "$ROOTCRLURI" ]; then 
 			echo "crlDistributionPoints = URI:$ROOTCRLURI" 
 		
-		fi 
+		fi
+		# new check ...
+		if [ -n "$POLICYIDENTIFIER" ]; then
+            echo "policyIdentifier = $POLICYIDENTIFIER"
+        fi
+		
 		if [ -n "$ROOTOCSPURI" -a -n "$ROOTCERTURI" ]; then
 			echo "authorityInfoAccess = OCSP;URI:$ROOTOCSPURI, caIssuers;URI:$ROOTCERTURI" 
 			elif [ -n "$ROOTOCSPURI" ]; then 

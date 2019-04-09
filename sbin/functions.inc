@@ -239,6 +239,7 @@ function reInitVars() {
 	if [ -e $PKIStartupconfig ];then
 	. $PKIStartupconfig
 	fi
+	. $X509file
 }
 
 function ListVars() {
@@ -1118,9 +1119,10 @@ function viewcandcert() {
 
 function editx509() { 
 	vi $X509file 
-	echo -en "\t ---- hosts file ----- \n" 
+	# echo -en "\t ---- hosts file ----- \n" 
 	#cat $X509file 
-	#echo -en "\n\t ENTER to continue \n" ;read 
+	#echo -en "\n\t ENTER to continue \n" ;read
+	. $X509file
 	
 } 
 

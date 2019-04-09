@@ -13,6 +13,7 @@
 # apache
 # tomcat
 # ciscorouter
+# audiocodes:voip.company.biz,IP:1.2.3.4,DNS:*.voip.company.biz
 # IMPORTANT! :: alias have to be unique within this pki project ::
 # ----------------------------------------------------------------
 # examples:
