@@ -239,7 +239,7 @@ function reInitVars() {
 	if [ -e $PKIStartupconfig ];then
 	. $PKIStartupconfig
 	fi
-	if [ -e X509file ];then
+	if [ -e $X509file ];then
 	. $X509file
 	fi
 	
