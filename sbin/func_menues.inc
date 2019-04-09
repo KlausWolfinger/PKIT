@@ -151,7 +151,8 @@ function menu3 () {
 			clonepki;
 			;; 
 		[D] ) # destroy simple pki 
-			destroypki 
+			destroypki
+			
 			;; 
 		[R] ) # reinitalize RootCA with current config and delete Candidates
 			reinitRootCA
@@ -316,7 +317,8 @@ function menu5 () {
 			;; 
 		esac 
 }   
-function menu6 () { 
+function menu6 () {
+	reInitVars 
 	# CA management 
 	MenuLevel=6
 	MenuName="CA"
