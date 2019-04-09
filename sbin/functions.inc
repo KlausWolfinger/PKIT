@@ -1124,10 +1124,11 @@ function viewcandcert() {
 
 function editx509() { 
 	vi $X509file 
-	# echo -en "\t ---- hosts file ----- \n" 
+	 echo -en "\t ---- x509 file : $X509file----- \n" 
 	#cat $X509file 
-	#echo -en "\n\t ENTER to continue \n" ;read
+	echo -en "\n\t Config saved, ENTER to continue \n" ;read
 	reInitVars
+	. $X509file
 	
 } 
 
