@@ -13,11 +13,13 @@
 # apache
 # tomcat
 # ciscorouter
+# email
 # audiocodes:voip.company.biz,IP:1.2.3.4,DNS:*.voip.company.biz
 # IMPORTANT! :: alias have to be unique within this pki project ::
 # ----------------------------------------------------------------
 # examples:
 # apache:apache,IP:2.3.4.5
+# email:ca@pkitool.de,email:ca@pkitool.de
 # osvserver:cluster1100_s,IP:1.20.111.120,IP:1.20.111.121,IP:1.20.111.101,IP:1.20.111.111
 # osvclient:cluster1100_c,IP:1.20.111.120,IP:1.20.111.121,IP:1.20.111.101,IP:1.20.111.111
 # osb:osbG1-01

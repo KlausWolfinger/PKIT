@@ -244,7 +244,35 @@ function reInitVars() {
 	fi
 	
 }
+function SysCheck() {
+#
+# test openssl version
+echo -en "openssl version \t $(openssl version)\n"
+echo -en "current user \t $(id)\n"
+echo -en "system \t $(uname -a)\n"
+echo -en "editor vi \t$(file $(which vi))\n"
+# test packets
+#
+_packetsArray=(openssl \
+tree \
+dos2unix \
+zip \
+_test_packet_test )
 
+
+for _packet in ${_packetsArray[@]}; do
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $_packet|grep "... ok installed")
+#echo Checking for $_packet: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo -en "No $_packet installed. Install first, please.\n">>$LASTLOG
+fi 
+done
+
+echo  -en $blue "\nResults written to lastlog, show with :lastlog\n" $transparent
+echo "ENTER any key to continue ..."
+read
+
+}
 function ListVars() {
 
 VarsArray=(PKIUSERHOME \
@@ -1139,7 +1167,12 @@ function LessHelp() {
 	less $CONFIGDIR/help.txt 
 } 
 function ziptool() {
+# if this is in project, do not perform
+if  [ $PKIHOME == $PKIHOME_START ]; then 
 	InitDirs 
+	if [ ! -d $LOGDIR ]; then 
+	mkdir $LOGDIR
+	fi
 	now=$(date +"%Y-%m-%d-%S")
 	cd $PKIHOME
 	echo -en "\nTool will write a full archive from current project level!" 
@@ -1152,44 +1185,45 @@ function ziptool() {
 		-x "./sslbackups/*.*" \
 		-x "./PKIclone*" \
 		-x "./archives/*" \
-		-x "$ARCHIVEDIR/*.*"\
-		-x "./tmp*"\
-		-x "./sbin*"\
-		-x "./pkiconf/*"\
-		-x "./sslbackups/*"\
-		-x "./exports/*"\
-		-x "./www-public/*"\
-		-x "./www/*"\
-		-x "./*.sh"\
-		-x "./log/*"\
-		-x "./.git/*"\
+		-x "$ARCHIVEDIR/*.*" \
+		-x "./tmp*" \
+		-x "./sbin*" \
+		-x "./pkiconf/*" \
+		-x "./sslbackups/*" \
+		-x "./exports/*" \
+		-x "./www-public/*" \
+		-x "./www/*" \
+		-x "./*.sh" \
+		-x "./log/*" \
+		-x "./.git/*" \
 		-x "./.gitignore" \
-		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+		-x "$EXPORTDIR/*.*" 
 	else	
 		zip --encrypt -r $ARCHIVEDIR/pkiProject_$ArchiveName$now.zip . \
 		-x "./*.zip" \
 		-x "./sslbackups/*.*" \
-		
 		-x "./archives/*" \
-		-x "$ARCHIVEDIR/*.*"\
-		-x "./tmp*"\
-		
-		
-		-x "./sslbackups/*"\
-		-x "./exports/*"\
-		-x "./www-public/*"\
-		-x "./www/*"\
-		
-		-x "./log/*"\
-		
-		
-		-x "$EXPORTDIR/*.*" >$LOGDIR/lastfullexport.log
+		-x "$ARCHIVEDIR/*.*" \
+		-x "./tmp*" \
+		-x "./sslbackups/*" \
+		-x "./exports/*" \
+		-x "./www-public/*" \
+		-x "./www/*" \
+		-x "./log/*" \
+		-x "$EXPORTDIR/*.*" 
 	
 	fi	
 		
 	echo -en "\n ---> pkiProject archives on disk ....\n " 
 	dir -all $ARCHIVEDIR/pki*.zip 
 	echo -en "\ncont ... with any key ";read 
+	
+else
+echo -en $red "no archive function from project level allowed ...\n" $transparent;
+echo "--- ENTER any key ---";read
+return	
+
+fi
 } 
 function exportCAND() {
 	InitDirs

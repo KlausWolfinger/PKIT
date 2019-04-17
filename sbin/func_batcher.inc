@@ -165,6 +165,11 @@ echo "-----------------------------------------"
 			# list all variables
 			ListVars
 			;;
+		[:]syscheck )
+			# Cli
+			echo "command: $CLIcommand"
+			SysCheck
+			;;
 		[:]removeRootkeyPass )
 		    #  remove_rootcaKey_passphrase
 			remove_rootcaKey_passphrase
@@ -197,6 +202,7 @@ echo "-----------------------------------------"
 			echo -e ":tree - shows directory tree"
 			echo -e ":listvars - List PKIT variables"
 			echo -e ":ls [directory]  - List [directory]"
+			echo -e ":syscheck - Check dependencies and settings"
 			echo -e ":showrootca - Shows Root Certificate"
 			echo -e ":restore - Open Restore Dialog"
 			echo -e ":lastlog - Show logfile"

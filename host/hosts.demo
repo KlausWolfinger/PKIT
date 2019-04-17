@@ -15,6 +15,7 @@
 # ciscorouter
 
 #ca:ServerCA
+# email:ca@pkitool.de,email:ca@pkitool.de
 hg35:hg3500,DNS:HG3500,IP:1.2.3.4
 xpr:xpressions,DNS:xpr.node1.domain,IP:1.2.3.4
 acmesbc:acmesdsd,DNS:sdsd1.domain.com,IP:172.29.0.11

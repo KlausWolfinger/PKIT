@@ -2,7 +2,7 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.7f'
+Version='2.7g'
 Revision='a' 
  
 

@@ -76,6 +76,10 @@ function rootca() {
 	[certpol0_sect]
 	policyIdentifier = $POLICYIDENTIFIER
 	CPS.0 = $CERTPOL
+	userNotice.1=@certpol0_sect_notice1_sect
+	[certpol0_sect_notice1_sect]
+	explicitText=Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt. 
+	
 	
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
@@ -768,6 +772,14 @@ reInitVars
 			keyUsage = digitalSignature, nonRepudiation, keyEncipherment 
 			EOF
 			;; 
+		email) 
+			cat <<-EOF
+			basicConstraints = CA:FALSE
+			extendedKeyUsage=emailProtection 
+			keyUsage = critical, digitalSignature, keyEncipherment
+			nsCertType=email
+			EOF
+			;; 	
 		subca) 
 			cat <<-EOF
 			basicConstraints = CA:true 
