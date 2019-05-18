@@ -662,7 +662,6 @@ reInitVars
 	[ ca ]
 		default_ca = CA_default
 		
-	
 	[ subca ]	
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
@@ -687,10 +686,27 @@ reInitVars
 		RANDFILE = $ROOTCADIR/root-random 
 		#crl_dir = $CRLDIR 
 		crl = $CRLDIR/rootca.crl 
-	
-	
-	
-	
+	[ ca4ext ]
+		private_key = $ROOTCADIR/root.key
+		certificate = $ROOTCADIR/root.crt 
+		new_certs_dir = $CERTSCACHEDIR
+		database = $DATABASE 
+		default_md = $CERTSHA 
+		policy = policy_4ext 
+		serial = $ROOTCADIR/root-serial 
+		certs = $CERTSCACHEDIR 
+		RANDFILE = $ROOTCADIR/root-random 
+		#crl_dir = $CRLDIR 
+		crl = $CRLDIR/rootca.crl
+		copy_extensions = copy
+		
+	[policy_4ext]
+		
+	[ exts4exts ]	
+		basicConstraints=CA:FALSE
+		#extendedKeyUsage=serverAuth, clientAuth
+		keyUsage = digitalSignature, keyEncipherment
+		#copy_extensions = copy
 	[policy_anything ] 
 	EOF
 		echo "[ exts ]"
@@ -790,7 +806,8 @@ reInitVars
 			#echo -en "WARNING: Type $1 is will be created with default X509 attributes !\n" 
 				cat <<-EOF
 			basicConstraints=CA:FALSE 
-			extendedKeyUsage=serverAuth 
+			extendedKeyUsage=serverAuth
+			 
 			keyUsage = digitalSignature, keyEncipherment 
 			EOF
 			;; 

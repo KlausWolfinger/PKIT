@@ -71,13 +71,18 @@ function SignRequest(){
 			  
 		fi
 		# ---------------------------------------------
+		# -extensions exts -preserveDN \
+		#
 		ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
 				-out $CANDCERTSDIR/$extension/$CNOUT.crt \
 				-in $CANDCERTSDIR/$extension/$CNOUT.req \
-				-extensions exts -preserveDN \
-				-config /dev/stdin >>$LASTLOG
+				-name ca4ext \
+				-extensions exts4exts \
+				-preserveDN \
+				-config /dev/stdin \
+				>>$LASTLOG
  
 				#	echo "stop";read
 				echo "--- creating pem from crt ----"
