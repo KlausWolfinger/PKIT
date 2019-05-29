@@ -20,7 +20,7 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 ---------------------------------------------------------------------
 !!! Usage on OpenScape Voice Servers may lead to an outage !!! !!! This
 tool is not supported or released by Unify !!! \n" 
-
+ 
 	echo -en "\tN - Draw IP Configuration 
 	\tS - Check SRX PARAMS SSL/TLS Config 
 	\tb - Backup OpenScape SSL/TLS Config 

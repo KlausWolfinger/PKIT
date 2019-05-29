@@ -1,7 +1,7 @@
 # PKIT (c) 2019 IT Consulting Wolfinger
 # dont't change the file
 # master functions for signing processes
-#
+# 
 # todo# cleanup cert directories from unneccessary files
 
 
