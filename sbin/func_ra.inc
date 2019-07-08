@@ -2,7 +2,7 @@
 # dont't change the file
 # master functions for signing processes
 # 
-# todo# cleanup cert directories from unneccessary files
+# todo# cleanup cert directories from unneccessary files 
 
 
 function SignRequest(){ 
