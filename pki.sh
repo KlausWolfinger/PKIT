@@ -83,6 +83,13 @@ init;
 
 function libloader(){
 
+if [ ! -e $PKIHOME/sbin/functions.inc ]; then
+echo "PKI include file functions.inc does not exist !"
+exit 1
+else
+source $PKIHOME/sbin/functions.inc
+fi
+
 if [ ! -e $PKIHOME/sbin/func_batcher.inc ]; then
 echo "PKI include file func_batcher.inc does not exist !"
 exit 1
@@ -97,12 +104,7 @@ else
 source $PKIHOME/sbin/func_stuptest.inc
 fi
 
-if [ ! -e $PKIHOME/sbin/functions.inc ]; then
-echo "PKI include file functions.inc does not exist !"
-exit 1
-else
-source $PKIHOME/sbin/functions.inc
-fi
+
 
 if [ ! -e $PKIHOME/sbin/func_menues.inc ]; then
 	echo "PKI include file func_menues.inc does not exist !"
