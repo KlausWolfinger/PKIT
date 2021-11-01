@@ -4,7 +4,7 @@ function menu0 () {
 	let LOOPCNT++ 
 	MenuLevel=0
 	MenuName="MAIN"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	clear
 	menu_header 
 	#\t5 - Show current canditates file 
@@ -72,7 +72,7 @@ function menu2 () {
 	# config menu 
 	MenuLevel=2
 	MenuName="CONFIG"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear 
 	menu_header 
@@ -106,7 +106,7 @@ function menu3 () {
 	# maintenance menu 
 	MenuLevel=3
 	MenuName="MAINT"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear
 	menu_header
@@ -195,7 +195,7 @@ function menu4 () {
 	# tls/openssl menu
 	MenuLevel=4
 	MenuName="TLS"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear 
 	menu_header 
@@ -229,7 +229,7 @@ function menu5 () {
 	# candidate management 
 	MenuLevel=5 
 	MenuName="CAND"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear 
 	menu_header 
@@ -322,7 +322,7 @@ function menu6 () {
 	# CA management 
 	MenuLevel=6
 	MenuName="CA"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear 
 	menu_header 
@@ -426,7 +426,7 @@ function menu7 () {
 	# RESTORE 
 	MenuLevel=7
 	MenuName="RESTORE"
-	PROMPT_2="@$HOSTNAME[$MenuName] : "
+	PROMPT_2="@$HOSTNAME[$MenuName] "
 	let LOOPCNT++ 
 	clear 
 	menu_header 
