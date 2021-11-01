@@ -70,9 +70,9 @@ if [ $jumpToLastProject == "yes" ];then
 		
 	PKIHOME=$(cat $lastProjectFile)
 	echo "loading last project:  $lastProjectFile"
-	BANNER="--- Project: $PKINAME $Version ---"
+	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---"
 	reInitVars;
-			BANNER="--- Project: $PKINAME $Version ---" 
+			BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 			#echo -e $BANNER; 
 			#echo $CONFIGDIR 
 			echo " PKINAME: $PKINAME" 
@@ -81,7 +81,7 @@ if [ $jumpToLastProject == "yes" ];then
 	echo $PKIHOME_START >$lastProjectFile
 	PKIHOME=$PKIHOME_START
 	reInitVars;
-			BANNER="--- Project: $PKINAME $Version ---" 
+			BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 			#echo -e $BANNER; 
 			#echo $CONFIGDIR 
 			echo " PKINAME: $PKINAME" 
@@ -118,7 +118,7 @@ function changePKILevel() {
 			
 		#echo $PKIHOME 
 		reInitVars;
-		BANNER="--- Project: $PKINAME $Version ---" 
+		BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 		#echo -e $BANNER; 
 		#echo $CONFIGDIR 
 		echo " PKINAME: $PKINAME" 
@@ -159,7 +159,7 @@ function reInitVars() {
 	# echo "not equal"
 	PKINAME=$(basename $PKIHOME) 
 	fi
-	BANNER="--- $PKINAME Management $Version on $HOSTNAME ---" 
+	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 	ARCHIVEDIR=$PKIHOME_START/archives 
 	EXPORTDIR=$PKIHOME_START/exports
 	LOGDIR=$PKIHOME/log 
@@ -326,7 +326,8 @@ THISSCRIPT \
 database \
 SERIALSTART \
 COLOR \
-DATABASE )
+DATABASE\
+PKITlevel )
 
 rm -f $PKIHOME_START/log/vars.log
 if [ ! -e $PKIHOME_START/log ];then
@@ -1275,7 +1276,9 @@ function clonepki() {
 	cp -R -p $PKIHOME/certscache $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/dh $PKIHOME/PKIclone-$NewPkiName
 	cp -R -p $PKIHOME/pkiconf $PKIHOME/PKIclone-$NewPkiName
+	PKITlevel=$((PKITlevel+1))
 	echo "PKITprojectName=$NewPkiName" >$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
+	echo "PKITlevel=$PKITlevel" >>$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
 	mkdir -p $PKIHOME/PKIclone-$NewPkiName/rootca
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
 		if [ ! -e $PKIHOME/PKIclone-$NewPkiName/log ];then
