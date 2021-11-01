@@ -226,7 +226,10 @@ function reInitVars() {
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
 	TopLevelCAFile=$ROOTCADIR/TopLevelCA.pem
+	
 	lastProjectFile=$PKIHOME_START/lastproject.inf
+	touch $PKIHOME_START/lastproject.inf
+	
 	PKIStartupconfig=$PKIHOME_START/pkiconf/startup.inf
 	
 	. $PKIHOME_START/pkiconf/version.inf
