@@ -36,6 +36,7 @@ THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
 }
 
+version="1.7h"
 # Colors
 black="\e[30m"
 red="\e[31m"
@@ -1281,6 +1282,7 @@ function clonepki() {
 	echo "--> sucessfully created a new project $NewPkiName ..."
     	echo "ENTER to continue ..."
 		read
+		
 	
 }
 
