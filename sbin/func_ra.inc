@@ -317,9 +317,7 @@ function create_keys_certs() {
 			# first optional check if request is ok
 			# openssl req -text -noout -verify -in $CERTSDIR/$extension/"$CN".req 
 			# check $? if 0 ?
-			echo "------------------------------------- openssl gging ------------------------"
-			echo "ca $extension $SALTN sign | openssl ca -batch -days %CERTDAYS -out $CERTSDIR/$extension/$CN.crt -in $CERTSDIR/$extensions/$CN.req -extensions exts -preserverDN -passin pass:$_passphrase -config /dev/stdin >>$LASTLOG"
-			echo "-------------------------------------------------------------------------------------------"
+			
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -331,6 +329,9 @@ function create_keys_certs() {
 			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
 						
 			#################### error check ##############################################
+			echo "------------------------------------- openssl debugging ------------------------"
+			echo "ca $extension $SALTN sign | openssl ca -batch -days %CERTDAYS -out $CERTSDIR/$extension/$CN.crt -in $CERTSDIR/$extensions/$CN.req -extensions exts -preserverDN -passin pass:$_passphrase -config /dev/stdin >>$LASTLOG"
+			echo "-------------------------------------------------------------------------------------------"
 			###############################################################################
 			# if [[ -s diff.txt ]]; then echo "file has something"; else echo "file is empty"; fi
 			if [[ -s $CERTSDIR/$extension/"$CN".crt ]]; then  # -s test file greater than zero
