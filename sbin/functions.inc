@@ -1370,13 +1370,16 @@ function ShowRootCA() {
 }
 
 function showlastlog() {
-
-if [[ $COLOR -eq "1" ]];then
-	
-	less -R $LASTLOG
-else	
-	
-	less $LASTLOG
-fi	
+	if [ -e $LASTLOG ];then 
+		if [[ $COLOR -eq "1" ]];then
+		less -R $LASTLOG
+			else	
+			less $LASTLOG
+		fi	
+	else 
+		echo "!there is no logfile at the moment ..."
+		echo "ENTER to continue ..."
+		read
+		
 }
 
