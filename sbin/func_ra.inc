@@ -328,11 +328,13 @@ function create_keys_certs() {
 			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
 						
 			# if [[ -s diff.txt ]]; then echo "file has something"; else echo "file is empty"; fi
-			if [[ -s $CERTSDIR/$extension/"$CN".crt ]]; then
+			if [[ -s $CERTSDIR/$extension/"$CN".crt ]]; then  # -s test file greater than zero
 				echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
 				
 			else
 				echo -e $red "--- we have a problem with $CN or root-serial or ra-count !! (returncode=$?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
+				echo -e $red "--- nothing created !!! " $black >>$LASTLOG
+				return
 			fi
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
