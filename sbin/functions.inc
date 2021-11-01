@@ -1386,3 +1386,7 @@ function showlastlog() {
     fi
 }
 
+function SUBCAwizard() {
+echo
+}
+
