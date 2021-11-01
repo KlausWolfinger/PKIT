@@ -159,11 +159,11 @@ function reInitVars() {
 	else 
 	# echo "not equal"
 	# basename -z ends with NUL not newline
-	echo "debug"
-	echo "PKIHOME = $PKIHOME"
+	#echo "debug"
+	#echo "PKIHOME = $PKIHOME"
 	basename $PKIHOME
-	echo "ENTER to cont..."
-	read
+	#echo "ENTER to cont..."
+	#read
 	
 	PKINAME=$(basename  $PKIHOME) 
 	fi
