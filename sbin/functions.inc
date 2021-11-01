@@ -226,7 +226,10 @@ function reInitVars() {
 	DATABASE=$ROOTCADIR/root-index.txt
 	ROOTRANDFILE=$ROOTCADIR/root-random
 	TopLevelCAFile=$ROOTCADIR/TopLevelCA.pem
+	
 	lastProjectFile=$PKIHOME_START/lastproject.inf
+	touch $PKIHOME_START/lastproject.inf
+	
 	PKIStartupconfig=$PKIHOME_START/pkiconf/startup.inf
 	
 	. $PKIHOME_START/pkiconf/version.inf
@@ -299,6 +302,7 @@ SBINdir \
 SSLbackupdir \
 WWWCADIR \
 WWWCERTSDIR \
+CANDCERTSDIR \
 WWWDIR \
 OSVSSLDIR \
 pkiUser \
@@ -327,7 +331,7 @@ database \
 SERIALSTART \
 COLOR \
 DATABASE \
-PKITlevel )
+PKITlevel  )
 
 rm -f $PKIHOME_START/log/vars.log
 if [ ! -e $PKIHOME_START/log ];then
@@ -1384,5 +1388,9 @@ function showlastlog() {
 		echo "ENTER to continue ..."
 		read
     fi
+}
+
+function SUBCAwizard() {
+echo
 }
 
