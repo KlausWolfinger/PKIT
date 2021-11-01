@@ -326,7 +326,7 @@ THISSCRIPT \
 database \
 SERIALSTART \
 COLOR \
-DATABASE\
+DATABASE \
 PKITlevel )
 
 rm -f $PKIHOME_START/log/vars.log
