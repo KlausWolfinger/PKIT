@@ -299,6 +299,7 @@ SBINdir \
 SSLbackupdir \
 WWWCADIR \
 WWWCERTSDIR \
+CANDCERTSDIR \
 WWWDIR \
 OSVSSLDIR \
 pkiUser \
@@ -327,7 +328,7 @@ database \
 SERIALSTART \
 COLOR \
 DATABASE \
-PKITlevel )
+PKITlevel  )
 
 rm -f $PKIHOME_START/log/vars.log
 if [ ! -e $PKIHOME_START/log ];then
