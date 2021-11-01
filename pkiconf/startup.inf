@@ -2,6 +2,6 @@
 
 # jump into the last project level ("yes" or "no")
 # yes is default
-jumpToLastProject="yes"
-# jumpToLastProject="no"
+#jumpToLastProject="yes"
+jumpToLastProject="no"
 
