@@ -18,7 +18,7 @@
 # PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, 
 # REPAIR OR CORRECTION. 
 
-PKIHOME=$(pwd | head -c -1)
+echo "PKIHOME = $PKIHOME aus include"
 
 function disclaimer() {
 
