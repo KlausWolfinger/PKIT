@@ -18,9 +18,7 @@
 #PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
 #REPAIR OR CORRECTION.
 
-# version 2.7h
-
-
+Version='2.7h'
 function init(){
 PKIHOME="$(echo $0 | sed 's,/[^/]\+$,,')"
 PKIHOME_START="$(echo $0 | sed 's,/[^/]\+$,,')"
