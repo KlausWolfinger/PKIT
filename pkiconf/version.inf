@@ -2,8 +2,8 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.7 dev'
-Revision='c' 
+Version='2.8'
+Revision='a' 
  
 
 # changelog
