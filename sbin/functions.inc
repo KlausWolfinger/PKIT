@@ -74,7 +74,7 @@ if [ $jumpToLastProject == "yes" ];then
 	reInitVars;
 			BANNER="--- Project: $PKINAME $Version ---" 
 			#echo -e $BANNER; 
-			#echo $CONFIGDIR 
+			#echo $CONFIGDIR pki
 			echo " PKINAME: $PKINAME" 
 			
 	else
@@ -127,9 +127,7 @@ function changePKILevel() {
 			# save the project for next startup
 			# create projectconfig, overwrite it with number and name
 		echo $PKINAME >$lastProjectFile
-		# for startup read the file content into $PKIHOME
-	fi
-	read 
+		# for startup read the file content into $PKIHOME	read 
 }
 
 function getMyIP() {
@@ -1257,9 +1255,9 @@ function clonepki() {
 	echo -e "--- PKI Tool Clone Utility ---\n" 
 	echo -e "This will clone the entite pki to a new project" 
 	echo -e "After cloning, switch to the new project...\n"
-	echo -en "\nEnter an new pkiname, please: ";read NewPkiName
+	echo -en "\nEnter an new unique projectname, please: ";read NewPkiName
 	if [ -d "$PKIHOME/PKIclone-$NewPkiName" ]; then
-		echo "This clone name exists already, delete manually or creata a new one"
+		echo "This projectname exists already, delete manually or creata a new one"
 		echo "ENTER to continue ..."
 		read
 		return
@@ -1278,6 +1276,11 @@ function clonepki() {
 	echo "PKITprojectName=$NewPkiName" >$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
 	mkdir -p $PKIHOME/PKIclone-$NewPkiName/rootca
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
+	# create an initial logfile for this project
+	echo "## PKIclone-$NewPkiName created at $(date)" >$PKIHOME/PKIclone-$NewPkiName/log/lastlog.log
+	echo "--> sucessfully created a new project $NewPkiName ..."
+    	echo "ENTER to continue ..."
+		read
 	
 }
 
