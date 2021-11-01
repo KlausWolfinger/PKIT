@@ -18,10 +18,12 @@
 #PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
 #REPAIR OR CORRECTION.
 
-Version='2.7h'
+Version='2.8'
 function init(){
-PKIHOME="$(echo $0 | sed 's,/[^/]\+$,,')"
-PKIHOME_START="$(echo $0 | sed 's,/[^/]\+$,,')"
+PKIHOME="$(pwd)"
+PKIHOME_START="$(pwd)"
+#PKIHOME="$(echo $0 | sed 's,/[^/]\+$,,')"
+#PKIHOME_START="$(echo $0 | sed 's,/[^/]\+$,,')"
 
 # PKIHOME verbessern !!
 ## PKIHOME_START=$(dirs)
@@ -66,7 +68,7 @@ PKIconfig=$CONFIGDIR/pkitool.conf
 SubCATemplate=$CONFIGDIR/subcatemplate.inf
 DATABASE=$ROOTCADIR/root-index.txt
 lastProjectFile=$PKIHOME/lastproject.inf
-	touch $PKIHOME/lastproject.inf
+	touch $lastProjectFile
 
 PROMPT_1="--> $USER@$HOSTNAME "
 PROMPT_2="@$HOSTNAME[$MenuName] "
