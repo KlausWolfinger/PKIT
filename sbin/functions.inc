@@ -1380,6 +1380,6 @@ function showlastlog() {
 		echo "!there is no logfile at the moment ..."
 		echo "ENTER to continue ..."
 		read
-		
+    fi
 }
 
