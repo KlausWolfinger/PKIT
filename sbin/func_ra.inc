@@ -317,6 +317,9 @@ function create_keys_certs() {
 			# first optional check if request is ok
 			# openssl req -text -noout -verify -in $CERTSDIR/$extension/"$CN".req 
 			# check $? if 0 ?
+			echo "------------------------------------- openssl gging ------------------------"
+			echo "ca $extension $SALTN sign | openssl ca -batch -days %CERTDAYS -out $CERTSDIR/$extension/$CN.crt -in $CERTSDIR/$extensions/$CN.req -extensions exts -preserverDN -passin pass:$_passphrase -config /dev/stdin >>$LASTLOG"
+			echo "-------------------------------------------------------------------------------------------"
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -327,6 +330,8 @@ function create_keys_certs() {
 				-config /dev/stdin >>$LASTLOG
 			_crtFileSize=$(stat -c %s $CERTSDIR/$extension/"$CN".crt)
 						
+			#################### error check ##############################################
+			###############################################################################
 			# if [[ -s diff.txt ]]; then echo "file has something"; else echo "file is empty"; fi
 			if [[ -s $CERTSDIR/$extension/"$CN".crt ]]; then  # -s test file greater than zero
 				echo -e $green "--- crt files for $CN created (returncode = $?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
@@ -334,7 +339,6 @@ function create_keys_certs() {
 			else
 				echo -e $red "--- we have a problem with $CN or root-serial or ra-count !! (returncode=$?) (crt filesize=$_crtFileSize ..." $black >>$LASTLOG
 				echo -e $red "--- nothing created !!! " $black >>$LASTLOG
-				return
 			fi
 		else 
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
