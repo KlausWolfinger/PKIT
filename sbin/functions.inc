@@ -1286,6 +1286,7 @@ function clonepki() {
 		echo "### created this project $NewPkiName at $(date) " 
 		echo "### created new project  $NewPkiName at $(date) " >> $PKIHOME/log/lastlog.log
 		echo "### directory for this new project is: $PKIHOME/PKIclone-$NewPkiName" >> $PKIHOME/log/lastlog.log
+		touch $PKIHOME/PKIclone-$NewPkiName/log/lastlog.log
 		echo "### created this project $NewPkiName at $(date) " > $PKIHOME/PKIclone-$NewPkiName/log/lastlog.log
 
 }
