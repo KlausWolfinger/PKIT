@@ -65,8 +65,8 @@ X509file=$$CONFIGDIR/x509.inf
 PKIconfig=$CONFIGDIR/pkitool.conf
 SubCATemplate=$CONFIGDIR/subcatemplate.inf
 DATABASE=$ROOTCADIR/root-index.txt
-lastProjectFile=$$PKIHOME/lastproject.inf
-	touch $$PKIHOME/lastproject.inf
+lastProjectFile=$PKIHOME/lastproject.inf
+	touch $PKIHOME/lastproject.inf
 
 PROMPT_1="--> $USER@$HOSTNAME "
 PROMPT_2="@$HOSTNAME[$MenuName] "
