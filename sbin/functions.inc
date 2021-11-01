@@ -146,7 +146,7 @@ function reInitVars() {
 	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
 	echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
-	if [ $PKIHOME == $PKIHOME_START ]; then 
+	if [ "$PKIHOME" == "$PKIHOME_START" ]; then 
 	# echo "Debugging -- $PKIHOME" 
 		if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
 		CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
