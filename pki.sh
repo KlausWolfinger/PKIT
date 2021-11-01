@@ -20,8 +20,8 @@
 
 Version='2.8'
 function init(){
-PKIHOME="$(pwd | sed 's,/[^/]\+$,,')"
-PKIHOME_START="$(pwd | sed 's,/[^/]\+$,,')"
+PKIHOME="$(pwd)"
+PKIHOME_START="$(pwd)"
 #PKIHOME="$(echo $0 | sed 's,/[^/]\+$,,')"
 #PKIHOME_START="$(echo $0 | sed 's,/[^/]\+$,,')"
 
