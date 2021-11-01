@@ -157,7 +157,8 @@ function reInitVars() {
 	PKITprojectName='root'
 	else 
 	# echo "not equal"
-	PKINAME=$(basename $PKIHOME) 
+	# basename -z ends with NUL not newline
+	PKINAME=$(basename  $PKIHOME) 
 	fi
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 	ARCHIVEDIR=$PKIHOME_START/archives 
