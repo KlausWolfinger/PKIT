@@ -18,7 +18,7 @@
 # PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, 
 # REPAIR OR CORRECTION. 
 
-echo "PKIHOME = $PKIHOME aus include"
+#echo "PKIHOME = $PKIHOME aus include"
 
 function disclaimer() {
 
@@ -76,7 +76,7 @@ if [ $jumpToLastProject == "yes" ];then
 			BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 			#echo -e $BANNER; 
 			#echo $CONFIGDIR 
-			echo " PKINAME: $PKINAME" 
+			#echo " PKINAME: $PKINAME" 
 			
 	else
 	echo $PKIHOME_START >$lastProjectFile
@@ -122,7 +122,7 @@ function changePKILevel() {
 		BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 		#echo -e $BANNER; 
 		#echo $CONFIGDIR 
-		echo " PKINAME: $PKINAME" 
+		#echo " PKINAME: $PKINAME" 
 		echo -e "\nChanged PKI to $pkidir \n" 
 		
 			# save the project for next startup
