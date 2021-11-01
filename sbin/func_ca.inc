@@ -489,13 +489,13 @@ function replace_rootcert() {
 	reInitVars
 
 	if [ -e $ROOTCADIR/root.crt ]; then
-		echo " *********** be prepared ******************"
-		echo " * you need the new root pem block        *"
-		echo " *            AND                         *"
-		echo " *   the pem block of your TOP Level CA   *"
-		echo "###########################################"
-		echo "#   vi will now open the existing root.crt"
-		echo "###########################################"
+		echo "*********** be prepared ******************"
+		echo "* you need the new root pem block        *"
+		echo "*            AND                         *"
+		echo "*   the pem block of your TOP Level CA   *"
+		echo "##########################################"
+		echo "# vi will now open the existing root.crt #"
+		echo "##########################################"
 		echo
 		echo "replace the existing pem block with the new one, signed from enterprise PKI"
 		echo "[ENTER] for opening the cert file ...";read
@@ -514,7 +514,7 @@ function replace_rootcert() {
 					rm -f $ROOTCADIR/rootCA.der
 					SkipRootCACheck=1
 					create_rootca
-					echo "############# Certificate Replaced ##########"
+					echo    "########### Certificate Replaced #########"
 					
 					read -p "[ENTER] to cont for final RootCA Check...."
 					

@@ -1,4 +1,5 @@
-function subCA() { 
+function subCA() {
+	## diese funktion ist nicht in benutzung ##
 	base 
 	cat <<-EOF
 	[ v3_ca ] 
@@ -116,15 +117,14 @@ function signsubca(){
 	ca subca "$SALTN" sign | openssl ca \
 		-batch \
 		-days $ROOTDAYS \
-		-out $SUBCADIRNAME/$SUBCANAME.crt \
+		-out $SUBCADIRNAME/$SUBCANAME.pem \
 		-in $SUBCADIRNAME/$SUBCANAME.req \
 		-extensions exts -preserveDN \
 		-config /dev/stdin 
 	 
-	if [ -e $SUBCADIRNAME/$SUBCANAME.crt -a ! -e $SUBCADIRNAME/$SUBCANAME.cer ]; then 
-		openssl x509 -in $SUBCADIRNAME/$SUBCANAME.crt -outform DER -out $SUBCADIRNAME/$SUBCANAME.cer 
-		cp -p $SUBCADIRNAME/$SUBCANAME.crt $SUBCADIRNAME/$SUBCANAME.pem 
-		# cp -p $SUBCADIRNAME/subca_$SUBCANAME.cer $SUBCADIRNAME/subCA_$SUBCANAME.der 
+	if [ -e $SUBCADIRNAME/$SUBCANAME.pem -a ! -e $SUBCADIRNAME/$SUBCANAME.cer ]; then 
+		openssl x509 -in $SUBCADIRNAME/$SUBCANAME.pem -outform DER -out $SUBCADIRNAME/$SUBCANAME.cer 
+		
 		
 	fi
 	echo "printing pem to screen .. ENTER .."

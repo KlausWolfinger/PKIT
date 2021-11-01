@@ -330,7 +330,7 @@ function create_keys_certs() {
 						
 			#################### error check ##############################################
 			echo "------------------------------------- openssl debugging ------------------------" >>$LASTLOG
-			echo "ca $extension $SALTN sign | openssl ca -batch -days %CERTDAYS -out $CERTSDIR/$extension/$CN.crt -in $CERTSDIR/$extensions/$CN.req -extensions exts -preserverDN -passin pass:$_passphrase -config /dev/stdin" >>$LASTLOG
+			echo "ca $extension $SALTN sign | openssl ca -batch -days $CERTDAYS -out $CERTSDIR/$extension/$CN.crt -in $CERTSDIR/$extensions/$CN.req -extensions exts -preserverDN -passin pass:$_passphrase -config /dev/stdin" >>$LASTLOG
 			echo "-------------------------------------------------------------------------------------------"
 			###############################################################################
 			# if [[ -s diff.txt ]]; then echo "file has something"; else echo "file is empty"; fi
