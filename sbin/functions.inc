@@ -1278,9 +1278,12 @@ function clonepki() {
 	echo "PKITprojectName=$NewPkiName" >$PKIHOME/PKIclone-$NewPkiName/pkiconf/projectname.inf
 	mkdir -p $PKIHOME/PKIclone-$NewPkiName/rootca
 	cp -R -p $PKIHOME/rootca $PKIHOME/PKIclone-$NewPkiName
-		if [ ! -e $PKIHOME/log ];then
-			mkdir $PKIHOME/log
+		if [ ! -e $PKIHOME-$NewPkiName/log ];then
+			mkdir $PKIHOME-$NewPkiName/log
 		fi
+		echo "### created new project  $NewPkiName at $(date) " 
+		echo "### directory for this new project is: $PKIHOME/PKIclone-$NewPkiName" 
+		echo "### created this project $NewPkiName at $(date) " 
 		echo "### created new project  $NewPkiName at $(date) " >> $PKIHOME/log/lastlog.log
 		echo "### directory for this new project is: $PKIHOME/PKIclone-$NewPkiName" >> $PKIHOME/log/lastlog.log
 		echo "### created this project $NewPkiName at $(date) " > $PKIHOME/PKIclone-$NewPkiName/log/lastlog.log
