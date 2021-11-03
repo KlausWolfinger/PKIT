@@ -39,7 +39,7 @@ function rootca() {
 	[ req_attributes ]
 	challengePassword 	= $ChallPassWD
 	challengePassword_min = 4
-	challengePassword_max = 20q
+	challengePassword_max = 20
 	
 	# nur dieser Block wird zur CA Erstellung verwendet	
 	
