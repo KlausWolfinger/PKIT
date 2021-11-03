@@ -7,7 +7,7 @@ function base() {
 	EOF
 } 
 function rootca() { 
-	echo "--- initializing x509 config file ...">>$CACMDLOG
+	echo "--- initializing openssl config file ...">>$CACMDLOG
 	reInitVars
 	echo "--- creating rootca -- $(date)" >>$CACMDLOG
 	echo "commonName = $ROOTCN" >>$CACMDLOG
@@ -17,6 +17,7 @@ function rootca() {
 	echo "-------------------------------------------------------">>$CACMDLOG
 	
     cat <<-EOF
+	
 	[ req ]
 	default_md = $ROOTSHA
 	basicConstraints	= CA:TRUE,pathlen:0
@@ -28,7 +29,7 @@ function rootca() {
 	commonName			= $ROOTCN # (e.g. server FQDN or YOUR name)
 	commonName_default	= $ROOTCN
 	commonName_max		= 64
-
+	
 	emailAddress 		= $BASEMAIL
 	emailAddress_default  = $BASEMAIL
 	emailAddress_max 	= 64
