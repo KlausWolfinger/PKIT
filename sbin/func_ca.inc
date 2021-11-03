@@ -462,10 +462,10 @@ function create_rootca(){
 		 
 	fi
 	
-	cat > $THISROOTCALDIR/WebBrowserREADME.txt <<-EOL
+	cat > $ROOTCALDIR/WebBrowserREADME.txt <<-EOL
 	If you want to avoid certificate warnings in your webbrowser, import the root.crt file in your browser's certificate store. 
 	EOL
-	cat > $THISROOTCALDIR/PKCSREADME.txt <<-EOL
+	cat > $ROOTCALDIR/PKCSREADME.txt <<-EOL
 	*.cer is DER format for publishing 
 	
 	EOL
