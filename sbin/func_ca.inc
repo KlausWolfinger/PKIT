@@ -436,7 +436,7 @@ function create_rootca(){
         echo -en "Creating now rootCA\n"
         echo "-- $(date) "
 		
-		echo "command syntax:">>$CACMDLOG
+		echo "command syntax: aus $ROOTCADIR">>$CACMDLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
 		
