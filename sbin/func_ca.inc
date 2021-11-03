@@ -1,5 +1,5 @@
 # production 1
-function base() { 
+function base_x() { 
 	cat <<-EOF
 	[ req ] 
 	distinguished_name = req_distinguished_name
@@ -26,8 +26,7 @@ function rootca() {
 	echo "ROOTCN = $ROOTCN " >>$CACMDLOG
 	echo "-------------------------------------------------------" >>$CACMDLOG
 	
-    cat <<-EOF
-	
+    cat <<-EOF	
 	[ req ]
 	default_md = $ROOTSHA
 	basicConstraints = CA:TRUE,pathlen:0
