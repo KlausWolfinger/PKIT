@@ -453,7 +453,7 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >>$CACMDLOG
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
              # cat /dev/stdin 	>>$LASTLOG			
 		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
 		########
