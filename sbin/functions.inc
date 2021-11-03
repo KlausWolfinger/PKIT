@@ -140,32 +140,39 @@ function getMyIP() {
 }
 
 function reInitVars() { 
+
+# debugging
+	echo "reInitVars debugging"
+	echo "----------------------"
     PKIUSERHOME=$(dirs)
+	echo "PKIUSERHOME=$PKIUSERNAME"
 	
 	jumpToLastProject="yes"
 		
 	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
-	echo "0" >$ROOTCADIR/isSuBCA.cnf
+		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
+	echo "PKIHOME = $PKIHOME"
+	echo "PKIHOME_START = $PKIHOME_START"
 	if [ "$PKIHOME" == "$PKIHOME_START" ]; then 
-	# echo "Debugging -- $PKIHOME" 
+	 
 		if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
 		CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
 		PKINAME="SubCA Level $CAlevel"
-		else
-		PKINAME="RootCA " 
+			else
+			PKINAME="RootCA " 
 		fi
 	PKITprojectName='root'
-	else 
-	# echo "not equal"
-	# basename -z ends with NUL not newline
-	#echo "debug"
-	#echo "PKIHOME = $PKIHOME"
-	basename $PKIHOME
-	#echo "ENTER to cont..."
-	#read
-	
-	PKINAME=$(basename  $PKIHOME) 
+		else 
+		# echo "not equal"
+		# basename -z ends with NUL not newline
+		#echo "debug"
+		echo "PKIHOME = $PKIHOME"
+		basename $PKIHOME
+			
+		PKINAME=$(basename  $PKIHOME) 
+		echo "PKINAME = $PKINAME"
+		
 	fi
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 	ARCHIVEDIR=$PKIHOME_START/archives 
@@ -254,6 +261,9 @@ function reInitVars() {
 	if [ -e $X509file ];then
 	. $X509file
 	fi
+	
+	echo "ENTER to cont..."
+		read
 	
 }
 function SysCheck() {
