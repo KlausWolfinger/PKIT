@@ -7,42 +7,39 @@ function base() {
 	EOF
 } 
 function rootca() { 
-	echo "--- initializing x509 config file ...">>$LASTLOG
+	echo "--- initializing x509 config file ...">>$CACMDLOG
 	reInitVars
-	echo "--- creating rootca -- $(date)" >>$LASTLOG
-	echo "commonName = $ROOTCN" >>$LASTLOG
-	echo "emailAddress = $BASEMAIL" >>$LASTLOG
-	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$LASTLOG
-	echo "ROOTCRLURI = $ROOTCRLURI " >>$LASTLOG
+	echo "--- creating rootca -- $(date)" >>$CACMDLOG
+	echo "commonName = $ROOTCN" >>$CACMDLOG
+	echo "emailAddress = $BASEMAIL" >>$CACMDLOG
+	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$CACMDLOG
+	echo "ROOTCRLURI = $ROOTCRLURI " >>$CACMDLOG
+	echo "-------------------------------------------------------"
 	
     cat <<-EOF
-	# --- new 
 	[ req ]
 	default_md = $ROOTSHA
-	basicConstraints=CA:TRUE,pathlen:0
-	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-	distinguished_name = req_distinguished_name
-	attributes = req_attributes	
+	basicConstraints	= CA:TRUE,pathlen:0
+	keyUsage 			= nonRepudiation, digitalSignature, keyEncipherment
+	distinguished_name 	= req_distinguished_name
+	attributes 			= req_attributes	
 	
 	[ req_distinguished_name ]
-	commonName	= $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName			= $ROOTCN # (e.g. server FQDN or YOUR name)
 	commonName_default	= $ROOTCN
-	commonName_max	= 64
+	commonName_max		= 64
 
-	emailAddress = $BASEMAIL
+	emailAddress 		= $BASEMAIL
 	emailAddress_default  = $BASEMAIL
-	emailAddress_max = 64
+	emailAddress_max 	= 64
 	
 	[ req_attributes ]
-	challengePassword = $ChallPassWD
+	challengePassword 	= $ChallPassWD
 	challengePassword_min = 4
 	challengePassword_max = 20
 	
-	# ---- new end
 	# nur dieser Block wird zur CA Erstellung verwendet	
 	[ v3_ca ]
-	#policy = policy_PKIT
-	#randfile=$ROOTCADIR/root-random
 	subjectKeyIdentifier=hash
 	EOF
 	
@@ -64,12 +61,7 @@ function rootca() {
 	
 	
 	cat <<-EOF
-	#authorityKeyIdentifier=keyid:always,issuer:always
 	authorityKeyIdentifier=keyid:always 
-	# -------------------
-	# hier ein Problem mit OSV ??
-	# cert policy full ??
-	# test OSV default cert: no critical, no length, failed also for full
 	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
 	# -------------------
@@ -80,9 +72,7 @@ function rootca() {
 	[certpol0_sect_notice1_sect]
 	explicitText=Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt.
 	explicitText=$explicitText
-	# Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt. 
-	
-	
+		
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
 
@@ -416,26 +406,17 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 function create_rootca(){ 
 	reInitVars
+	THISROOTCALDIR=$PKIUSERHOME/$ROOTCADIR
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
 	local RootFileName=$PKITprojectName$rootfileext
 	
 	
-	 if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then
-                echo -en "Creating now rootCA\n"
-                # read
-                ### new sign rootca request
-                #rootca $ca_extension "" | openssl  ca -selfsign\
-                #               -days $ROOTDAYS \
-                #               -key $ROOTCADIR/root.key \
-                #               -out $ROOTCADIR/root.crt \
-                #               -in $ROOTCADIR/root_$HOSTNAME.req \
-                #               -extensions v3_ca \
-                #               -config /dev/stdin
-                #               -subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
-				### new end
-		echo "-- $(date) "		
+	 if [ -e $THISROOTCALDIR/root.key -a ! -e $THISROOTCALDIR/root.crt ]; then
+        echo -en "Creating now rootCA\n"
+        echo "-- $(date) "
+		echo "-- $(date) ">>$CACMDLOG
 		echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
 		echo "command syntax:">>$CACMDLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
@@ -443,14 +424,16 @@ function create_rootca(){
 		echo "where STDIN or rootca = ">>$CACMDLOG
 		rootca $ca_extension >>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
+		
+		# replaced $ROOTCADIR with THISROOTCALDIR ###
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
 			-set_serial 0x$(openssl rand -hex 19) \
 			-days $ROOTDAYS \
 			-new \
-			-key $ROOTCADIR/root.key \
-			-out $ROOTCADIR/root.crt \
+			-key $THISROOTCALDIR/root.key \
+			-out $THISROOTCALDIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
@@ -459,19 +442,19 @@ function create_rootca(){
 		########
 		# optional: create_rootCA_Req
 		###
-		touch $ROOTCADIR/isSuBCA.cnf
-		echo "0" >$ROOTCADIR/isSuBCA.cnf
+		touch $THISROOTCALDIR/isSuBCA.cnf
+		echo "0" >$THISROOTCALDIR/isSuBCA.cnf
 	fi
 	
 	
 	
-	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
-		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
-		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
-		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
+	if [ -e $THISROOTCALDIR/root.crt -a ! -e $THISROOTCALDIR/root.cer ]; then 
+		openssl x509 -in $THISROOTCALDIR/root.crt -outform DER -out $THISROOTCALDIR/root.cer
+		cp -p  $THISROOTCALDIR/root.crt $THISROOTCALDIR/rootCA.pem
+		mv  $THISROOTCALDIR/root.cer $THISROOTCALDIR/rootCA.der
 		
 		if [ -d $WWWDIR ]; then 
-		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName
+		cp 	$THISROOTCALDIR/root.crt $WWWDIR/$RootFileName
 		echo "## lastlog ##" >$WWWDIR/lastlog.log
 		echo "## RootFileName=$RootFileName ##" >>$LASTLOG
 		chmod 644 $WWWDIR/$RootFileName
@@ -479,10 +462,10 @@ function create_rootca(){
 		 
 	fi
 	
-	cat > $ROOTCADIR/WebBrowserREADME.txt <<-EOL
+	cat > $THISROOTCALDIR/WebBrowserREADME.txt <<-EOL
 	If you want to avoid certificate warnings in your webbrowser, import the root.crt file in your browser's certificate store. 
 	EOL
-	cat > $ROOTCADIR/PKCSREADME.txt <<-EOL
+	cat > $THISROOTCALDIR/PKCSREADME.txt <<-EOL
 	*.cer is DER format for publishing 
 	
 	EOL
