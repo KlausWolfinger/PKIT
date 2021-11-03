@@ -37,9 +37,10 @@ function rootca() {
 	[ req_attributes ]
 	challengePassword 	= $ChallPassWD
 	challengePassword_min = 4
-	challengePassword_max = 20
+	challengePassword_max = 20q
 	
 	# nur dieser Block wird zur CA Erstellung verwendet	
+	
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
 	
@@ -72,7 +73,6 @@ function rootca() {
 	CPS.0 = $CERTPOL
 	userNotice.1=@certpol0_sect_notice1_sect
 	[certpol0_sect_notice1_sect]
-	explicitText=Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt.
 	explicitText=$explicitText
 		
 	[crlDistributionPoint0_sect]
