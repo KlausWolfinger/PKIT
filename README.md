@@ -1,6 +1,7 @@
+# IMPORTANT
+PKIT Version 2.7h ends here.
 
-
-
+The next version of PKIT is PKIT3, at out PKIT3 repository
 
 ![PKIT](Bild1.png)
 # Installation Steps
