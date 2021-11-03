@@ -26,8 +26,7 @@ function rootca() {
 	echo "ROOTCN = $ROOTCN " >>$CACMDLOG
 	echo "-------------------------------------------------------" >>$CACMDLOG
 	
-	implizitText="This CA is built by PKIT Version $Version"
-	
+		
     cat <<-EOF	
 	[ req ]
 	default_md = $ROOTSHA
@@ -82,14 +81,11 @@ function rootca() {
 	policyIdentifier = $POLICYIDENTIFIER
 	CPS.0 = $CERTPOL
 	userNotice.1=@certpol0_sect_notice1_sect
-	userNotice.2=@certpol0_sect_notice2_sect
 	
 	[certpol0_sect_notice1_sect]
-	explicitText=$explicitText
+	explicitText="CA built by PKIT $Version"
 	
-	[certpol0_sect_notice2_sect]
-	explicitText=$implizitText
-		
+			
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
 
