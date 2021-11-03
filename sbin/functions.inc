@@ -143,10 +143,10 @@ function reInitVars() {
 
 # debugging
 	echo "reInitVars debugging"
-	echo "----------------------"
+	echo "--------EINGANGSWERTE--------------"
     PKIUSERHOME=$(dirs)
 	echo "PKIUSERHOME=$PKIUSERNAME"
-	
+	echo "ROOTCADIR=$ROOTCADIR"
 	jumpToLastProject="yes"
 		
 	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
@@ -261,7 +261,8 @@ function reInitVars() {
 	if [ -e $X509file ];then
 	. $X509file
 	fi
-	
+	echo "Finale Werte:"
+	echo "ROOTCADIR=$ROOTCADIR"
 	echo "ENTER to cont..."
 		read
 	
