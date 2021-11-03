@@ -413,8 +413,8 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 function create_rootca(){ 
 	reInitVars
-	echo "-- $(date) ">>$CACMDLOG
-	echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
+	echo "-- $(date) " >>$CACMDLOG
+	echo "Root-CA creation in $ROOTCADIR ......" >>$CACMDLOG
 	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
 	echo " THIS ROOT CA = $ROOTCADIR"
 	. $CONFIGDIR/projectname.inf
@@ -431,9 +431,11 @@ function create_rootca(){
 		echo "command syntax:">>$CACMDLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
-		echo "where STDIN or rootca = ">>$CACMDLOG
+		
 		rootca $ca_extension >>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
+		
+		echo "where STDIN or rootca = ">>$CACMDLOG
 		
 		# replaced $ROOTCADIR with ROOTCADIR ###
 		rootca $ca_extension "" | openssl req \
@@ -447,11 +449,7 @@ function create_rootca(){
 			-extensions v3_ca \
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
-             # cat /dev/stdin 	>>$LASTLOG			
-		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
-		########
-		# optional: create_rootCA_Req
-		###
+             
 		touch $ROOTCADIR/isSuBCA.cnf
 		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
