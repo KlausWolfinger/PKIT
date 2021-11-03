@@ -270,12 +270,19 @@ fi
 
 function recreate_dh(){
 	reInitVars
+	echo "------------------- DH Creation --------------------"
+	echo "this could be take some minutes   ... be patient ..."
+    echo "creating DH keys with length $ROOTBITS and $CERTBITS"
+	
 	rm -f $DHDIR/*.pem
 	# Diffie-Hellman-Parameter erstellen 
 	for length in $ROOTBITS $CERTBITS; do 
 		if [ ! -e $DHDIR/dh$length.pem ]; then
 			openssl dhparam -out $DHDIR/dh$length.pem $length 
 		fi
+	echo "------------- DH Creation finished -----------------"	
+	echo "ENTER to continue ..."
+	read
 	done 
 } 
 
@@ -415,23 +422,20 @@ function create_rootca(){
 	local RootFileName=$PKITprojectName$rootfileext
 	
 	
-	if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then 
-		echo -en "Creating now rootCA\n" 
-		# read 
-		### new sign rootca request
-		#rootca $ca_extension "" | openssl  ca -selfsign\
-		#		-days $ROOTDAYS \
-		#		-key $ROOTCADIR/root.key \
-		#		-out $ROOTCADIR/root.crt \
-		#		-in $ROOTCADIR/root_$HOSTNAME.req \
-		#		-extensions v3_ca \
-		#		-config /dev/stdin
-		#		-subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
-		### new end
-		
-		###
-		### works without challengePassword
-		
+	 if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then
+                echo -en "Creating now rootCA\n"
+                # read
+                ### new sign rootca request
+                #rootca $ca_extension "" | openssl  ca -selfsign\
+                #               -days $ROOTDAYS \
+                #               -key $ROOTCADIR/root.key \
+                #               -out $ROOTCADIR/root.crt \
+                #               -in $ROOTCADIR/root_$HOSTNAME.req \
+                #               -extensions v3_ca \
+                #               -config /dev/stdin
+                #               -subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
+				### new end
+				
 		
 		rootca $ca_extension "" | openssl req \
 			-batch \
