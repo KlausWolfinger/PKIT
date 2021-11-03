@@ -412,7 +412,7 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 
 function create_rootca(){ 
-	reInitVars
+	#reInitVars
 	cat <<-EOF
 	
 	EOF
