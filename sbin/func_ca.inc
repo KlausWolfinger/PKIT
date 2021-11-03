@@ -417,6 +417,7 @@ function create_rootca(){
 	
 	EOF
 	## degugging vars
+	echo "current working dir = $(pwd)"
 	echo "CACMDLOGFILE = $CACMDLOG"
 	read 
 	echo "-- $(date) " >>$CACMDLOG
