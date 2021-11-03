@@ -44,9 +44,9 @@ function rootca() {
 	# nur dieser Block wird zur CA Erstellung verwendet	
 	
 	[ v3_ca ]
-	subjectKeyIdentifier=hash
-	authorityKeyIdentifier=keyid:always 
-	basicConstraints=CA:TRUE,pathlen:0
+	subjectKeyIdentifier = hash
+	authorityKeyIdentifier = keyid:always 
+	basicConstraints = CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
 		
 	EOF
@@ -55,7 +55,7 @@ function rootca() {
 	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER found ..." >>$LASTLOG 
 	cat <<-EOF
 	
-	certificatePolicies=ia5org,@certpol0_sect
+	certificatePolicies = ia5org,@certpol0_sect
 	
 	EOF
 	fi
@@ -63,7 +63,7 @@ function rootca() {
 	if [ ! -z $ROOTCRLURI ]; then
 	echo "ROOTCRLURI = $ROOTCRLURI found ..." >>$LASTLOG 
 	cat <<-EOF
-	crlDistributionPoints=crlDistributionPoint0_sect
+	crlDistributionPoints = crlDistributionPoint0_sect
 	EOF
 	fi
 	
