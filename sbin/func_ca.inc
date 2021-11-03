@@ -14,7 +14,7 @@ function rootca() {
 	echo "emailAddress = $BASEMAIL" >>$CACMDLOG
 	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$CACMDLOG
 	echo "ROOTCRLURI = $ROOTCRLURI " >>$CACMDLOG
-	echo "-------------------------------------------------------"
+	echo "-------------------------------------------------------">>$CACMDLOG
 	
     cat <<-EOF
 	[ req ]
@@ -22,7 +22,7 @@ function rootca() {
 	basicConstraints	= CA:TRUE,pathlen:0
 	keyUsage 			= nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name 	= req_distinguished_name
-	attributes 			= req_attributes	
+	attributes 			= req_attributes
 	
 	[ req_distinguished_name ]
 	commonName			= $ROOTCN # (e.g. server FQDN or YOUR name)
@@ -41,6 +41,7 @@ function rootca() {
 	# nur dieser Block wird zur CA Erstellung verwendet	
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
+	
 	EOF
 	
 	if [ ! -z $POLICYIDENTIFIER ]; then
@@ -414,6 +415,7 @@ function create_rootca(){
 	create_rootCA_DB
 	local rootfileext='CA.pem'
 	local RootFileName=$PKITprojectName$rootfileext
+	
 	
 	
 	 if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then
