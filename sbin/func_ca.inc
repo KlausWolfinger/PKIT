@@ -76,7 +76,7 @@ function rootca() {
 	userNotice.1=@certpol0_sect_notice1_sect
 	
 	[certpol0_sect_notice1_sect]
-	explicitText=$explicitText
+	#explicitText=$explicitText
 		
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
