@@ -417,10 +417,10 @@ function create_rootca(){
 	
 	EOF
 	## degugging vars
-	echo "current working dir = $(pwd)"
-	echo "CACMDLOGFILE = $CACMDLOG"
-	echo "Writetest" >>$CACMDLOG
-	read 
+	#echo "current working dir = $(pwd)"
+	#echo "CACMDLOGFILE = $CACMDLOG"
+	#echo "Writetest" >>$CACMDLOG
+	#read 
 	echo "-- $(date) " >>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......" >>$CACMDLOG
 	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
@@ -456,7 +456,7 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >>/dev/null 2>>$CACMDLOG
              
 		touch $ROOTCADIR/isSuBCA.cnf
 		echo "0" >$ROOTCADIR/isSuBCA.cnf
