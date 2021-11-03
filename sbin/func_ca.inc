@@ -2,8 +2,10 @@
 function base() { 
 	cat <<-EOF
 	[ req ] 
-	distinguished_name = req_distinguished_name 
+	distinguished_name = req_distinguished_name
+	
 	[ req_distinguished_name ] 
+	
 	EOF
 } 
 function rootca() { 
@@ -46,8 +48,7 @@ function rootca() {
 	authorityKeyIdentifier=keyid:always 
 	basicConstraints=CA:TRUE,pathlen:0
 	keyUsage = critical, cRLSign, keyCertSign
-	# -------------------
-	
+		
 	EOF
 	
 	if [ ! -z $POLICYIDENTIFIER ]; then
@@ -662,7 +663,8 @@ reInitVars
 	base
 	cat <<-EOF
 	[ req ] 
-		default_md = $CERTSHA 
+		default_md = $CERTSHA
+		
 	[ ca ]
 		default_ca = CA_default
 		
@@ -678,6 +680,7 @@ reInitVars
 		RANDFILE = $ROOTCADIR/root-random 
 		#crl_dir = $CRLDIR 
 		crl = $CRLDIR/rootca.crl
+		
 	[ CA_default ] 
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
@@ -690,6 +693,7 @@ reInitVars
 		RANDFILE = $ROOTCADIR/root-random 
 		#crl_dir = $CRLDIR 
 		crl = $CRLDIR/rootca.crl 
+		
 	[ ca4ext ]
 		private_key = $ROOTCADIR/root.key
 		certificate = $ROOTCADIR/root.crt 
