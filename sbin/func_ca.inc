@@ -413,6 +413,9 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 function create_rootca(){ 
 	reInitVars
+	cat <<-EOF
+	
+	EOF
 	echo "-- $(date) " >>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......" >>$CACMDLOG
 	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
