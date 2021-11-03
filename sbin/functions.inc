@@ -69,7 +69,9 @@ if [ $jumpToLastProject == "yes" ];then
 
 	if [ -e $lastProjectFile ] && [ -d $(cat $lastProjectFile) ]; then
 		
-	PKIHOME=$(cat $lastProjectFile)
+	LASTPROJECT=$(cat $lastProjectFile)
+	PKIHOME=$PKIHOME_START/$LASTPROJECT
+	PKINAME=$LASTPROJECT
 	echo "loading last project:  $lastProjectFile"
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---"
 	reInitVars;
@@ -90,7 +92,6 @@ if [ $jumpToLastProject == "yes" ];then
 else
 echo "starting with rootCA at level 0..."
 fi
-
 }
 
 function changePKILevel() { 
@@ -140,32 +141,39 @@ function getMyIP() {
 }
 
 function reInitVars() { 
+
+# debugging
+	#echo "reInitVars debugging"
+	#echo "--------EINGANGSWERTE--------------"
     PKIUSERHOME=$(dirs)
-	
+	#echo "PKIUSERHOME=$PKIUSERNAME"
+	#echo "ROOTCADIR=$ROOTCADIR"
 	jumpToLastProject="yes"
 		
 	if [ ! -e $ROOTCADIR/isSuBCA.cnf ];then
-	echo "0" >$ROOTCADIR/isSuBCA.cnf
+		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
+	#echo "PKIHOME = $PKIHOME"
+	#echo "PKIHOME_START = $PKIHOME_START"
 	if [ "$PKIHOME" == "$PKIHOME_START" ]; then 
-	# echo "Debugging -- $PKIHOME" 
+	 
 		if [ $(cat $ROOTCADIR/isSuBCA.cnf) == 1 ]; then
 		CAlevel=$(cat $ROOTCADIR/isSuBCA.cnf)
 		PKINAME="SubCA Level $CAlevel"
-		else
-		PKINAME="RootCA " 
+			else
+			PKINAME="RootCA " 
 		fi
 	PKITprojectName='root'
-	else 
-	# echo "not equal"
-	# basename -z ends with NUL not newline
-	#echo "debug"
-	#echo "PKIHOME = $PKIHOME"
-	basename $PKIHOME
-	#echo "ENTER to cont..."
-	#read
-	
-	PKINAME=$(basename  $PKIHOME) 
+		else 
+		# echo "not equal"
+		# basename -z ends with NUL not newline
+		#echo "debug"
+		#echo "PKIHOME = $PKIHOME"
+		basename $PKIHOME
+			
+		PKINAME=$(basename  $PKIHOME) 
+		#echo "PKINAME = $PKINAME"
+		
 	fi
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 	ARCHIVEDIR=$PKIHOME_START/archives 
@@ -254,6 +262,10 @@ function reInitVars() {
 	if [ -e $X509file ];then
 	. $X509file
 	fi
+	#echo "Finale Werte:"
+	#echo "ROOTCADIR=$ROOTCADIR"
+	#echo "ENTER to cont..."
+	#	read
 	
 }
 function SysCheck() {

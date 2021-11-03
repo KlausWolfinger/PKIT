@@ -8,7 +8,7 @@
 BASEDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=Certification Authority/OU=PKI Management"
 ROOTCN="PKITOOL Root CA"
 BASEMAIL="mlpki@itconsulting-wolfinger.de"
-explicitText="Diese CA wurde mit PKIT V$Version (www.pkitool.de) erzeugt."
+explicitText="Nur fuer den im Kunden-Netz internen Gebrauch! "
 
 # Recommended DH_LENGTH is 2048
 DH_LENGTH=2048

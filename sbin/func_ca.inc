@@ -1,10 +1,16 @@
 # production 1
-function base() { 
+function base_x() { 
 	cat <<-EOF
 	[ req ] 
 	distinguished_name = req_distinguished_name
 	
 	[ req_distinguished_name ] 
+	commonName = $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default= $ROOTCN
+	commonName_max = 64
+	emailAddress = $BASEMAIL
+	emailAddress_default = $BASEMAIL
+	emailAddress_max = 64
 	
 	EOF
 } 
@@ -20,8 +26,9 @@ function rootca() {
 	echo "ROOTCN = $ROOTCN " >>$CACMDLOG
 	echo "-------------------------------------------------------" >>$CACMDLOG
 	
-    cat <<-EOF
+	implizitText="This CA is built by PKIT Version $Version"
 	
+    cat <<-EOF	
 	[ req ]
 	default_md = $ROOTSHA
 	basicConstraints = CA:TRUE,pathlen:0
@@ -32,8 +39,7 @@ function rootca() {
 	[ req_distinguished_name ]
 	commonName = $ROOTCN # (e.g. server FQDN or YOUR name)
 	commonName_default= $ROOTCN
-	commonName_max = 64
-	
+	commonName_max = 64	
 	emailAddress = $BASEMAIL
 	emailAddress_default = $BASEMAIL
 	emailAddress_max = 64
@@ -76,9 +82,13 @@ function rootca() {
 	policyIdentifier = $POLICYIDENTIFIER
 	CPS.0 = $CERTPOL
 	userNotice.1=@certpol0_sect_notice1_sect
+	userNotice.2=@certpol0_sect_notice2_sect
 	
 	[certpol0_sect_notice1_sect]
 	explicitText=$explicitText
+	
+	[certpol0_sect_notice2_sect]
+	explicitText=$implizitText
 		
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
@@ -412,11 +422,17 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 
 function create_rootca(){ 
-	reInitVars
+	#reInitVars
+	create_rootCA_DB
+	cat <<-EOF
+	
+	EOF
+	## degugging vars
 	echo "-- $(date) " >>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......" >>$CACMDLOG
 	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
-	echo " THIS ROOT CA = $ROOTCADIR"
+	
+	echo " THIS ROOTCADIR = $ROOTCADIR"
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
@@ -428,7 +444,7 @@ function create_rootca(){
         echo -en "Creating now rootCA\n"
         echo "-- $(date) "
 		
-		echo "command syntax:">>$CACMDLOG
+		echo "command syntax: aus $ROOTCADIR">>$CACMDLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
 		
@@ -448,7 +464,7 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >>/dev/null 2>>$CACMDLOG
              
 		touch $ROOTCADIR/isSuBCA.cnf
 		echo "0" >$ROOTCADIR/isSuBCA.cnf
