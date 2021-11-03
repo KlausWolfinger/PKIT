@@ -1,4 +1,0 @@
-confModifyParameter "SSL/CSTAMutualAuth/Server/SupportedDH" "dh2048.pem"
-confModifyParameter "SSL/EndPoint/Server/SupportedDH" "dh2048.pem"
-confModifyParameter "SSL/MutualAuth/Client/SupportedDH" "dh2048.pem"
-confModifyParameter "SSL/MutualAuth/Server/SupportedDH" "dh2048.pem"
