@@ -1,4 +1,0 @@
-# configuration for restore utility
-OldPKIDir=$HOME/oldpki
-RestoreSourceDir="restore"
-RestoreDestDir=""
