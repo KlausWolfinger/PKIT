@@ -43,6 +43,10 @@ function rootca() {
 	
 	[ v3_ca ]
 	subjectKeyIdentifier=hash
+	authorityKeyIdentifier=keyid:always 
+	basicConstraints=CA:TRUE,pathlen:0
+	keyUsage = critical, cRLSign, keyCertSign
+	# -------------------
 	
 	EOF
 	
@@ -64,10 +68,9 @@ function rootca() {
 	
 	
 	cat <<-EOF
-	authorityKeyIdentifier=keyid:always 
-	basicConstraints=CA:TRUE,pathlen:0
-	keyUsage = critical, cRLSign, keyCertSign
-	# -------------------
+	
+	
+	
 	[certpol0_sect]
 	policyIdentifier = $POLICYIDENTIFIER
 	CPS.0 = $CERTPOL
