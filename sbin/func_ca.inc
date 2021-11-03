@@ -408,7 +408,7 @@ function create_rootca(){
 	reInitVars
 	echo "-- $(date) ">>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
-	ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
+	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
 	echo " THIS ROOT CA = $ROOTCADIR"
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
