@@ -1,0 +1,79 @@
+# Config/param file for MULTILEVEL PKI TOOL
+# (C) Klaus Dieter Wolfinger
+# www.itconsulting-wolfinger.de
+# 
+# Usage on own risk,no warranty
+# 
+# BASEDN means the unique description for the CA
+BASEDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=Certification Authority/OU=PKI Management"
+ROOTCN="PKITOOL Root CA"
+BASEMAIL="mlpki@itconsulting-wolfinger.de"
+
+# Recommended DH_LENGTH is 2048
+DH_LENGTH=2048
+#DH_LENGTH=1024
+#DH_LENGTH=512
+#ROOTBITS=2048
+ROOTBITS=4096
+#ROOTBITS=1024
+#ROOTBITS=512
+ROOTSHA="sha256"
+#ROOTSHA="sha512"
+#ROOTSHA="sha1"
+ROOTDAYS=3650
+CERTPOL="http://pkit.itconsulting-wolfinger.de/policy/"
+CERTCEVPOL="http://pkit.itconsulting-wolfinger.de/evpolicy/"
+#ROOTCERTURI="http://pkit.itconsulting-wolfinger.de/rootca.crt"
+ROOTCRLURI="http://pkit.itconsulting-wolfinger.de/rootca.crl"
+#ROOTOCSPURI="http://pkit.itconsulting-wolfinger.de/ocsp"
+
+#####################################################################
+### Policy Identifier for this project
+### iso.org.dod.internet.private.enterprise (1.3.6.1.4.1)
+### Replace your PEN (get it from IANA)
+### https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
+#####################################################################
+
+### 
+### PEN = 32804 for Unify Software and Solutions GmbH & Co.
+### PEN = 6529 for Bundesamt für Sicherheit in der Informationstechnik
+### PEN = 50944 for Deutsche Telekom AG Innovation Laboratories
+### PEN = 2937 for Deutsche Telekom AG
+### PEN = 3746 for Swisscom AG
+### PEN = 52823 for IT CONSULTING WOLFINGER
+# POLICYIDENTIFIER='1.3.6.1.4.1.[PEN].a.b.c.d'
+POLICYIDENTIFIER='1.3.6.1.4.1.52823.1.2.2.1'
+#
+###  START RANDOM VAULE SERIAL NUMBER CA DATABASE ####
+# MIN 6-BYTE RANDOSERM for BSI conformity
+# SERIALSTART=6 means 6 byte random value
+SERIALSTART=6
+### ###########################################
+ChallPassWD=""
+
+
+# --- from here are the parameters for the signing process
+SUBDN="C=DE/ST=Thueringen/L=Main Street 1, 12345 City/O=My Company/OU=Training Department"
+SUBCN="My Company Server VM" 
+CERTBITS=2048
+#CERTBITS=1024
+#CERTBITS=512
+# CERTSDAYS means: how many days are signed certificates valid
+CERTDAYS=1500
+
+
+ca_extension=""
+# for sha1
+# CERTSHA="sha1"
+# for sha2
+CERTSHA="sha256"
+
+# Parameter for Revocation Lists
+CRLSHA="sha256"
+# CRLDAYS: how many days is the revocation list valid after issueing
+CRLDAYS=185
+
+# do never change this parameters !!!
+CALevel=0
+# #########
+

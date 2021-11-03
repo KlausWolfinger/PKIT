@@ -1,0 +1,17 @@
+# Name der Git Branch
+# check if this a GIT Repository
+# GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
+
+Version='2.7h'
+Revision='c' 
+ 
+
+# changelog
+# osv and cmd script included to scp certificates and install key hash
+# osv cmd script for pki provisioning to OSV
+# dev branch
+# lot of improvements
+# serial number min 6 byte long, hash options
+# rootca request BSI conform
+# 2.7h ext certificate with copy of extensions / usage
+

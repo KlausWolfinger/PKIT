@@ -1,0 +1,4 @@
+confModifyParameter "SSL/CSTAMutualAuth/Server/SupportedDH" "dh1024.pem"
+confModifyParameter "SSL/EndPoint/Server/SupportedDH" "dh1024.pem"
+confModifyParameter "SSL/MutualAuth/Client/SupportedDH" "dh1024.pem"
+confModifyParameter "SSL/MutualAuth/Server/SupportedDH" "dh1024.pem"

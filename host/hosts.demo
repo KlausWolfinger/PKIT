@@ -1,0 +1,41 @@
+# Default file for TLS endpoints
+# ! or # are comments
+# Columns:
+# System:alias,DNS:fqdn,IP:firstIP,IP:secondIP
+# IMPORTANT! :: alias have to be unique within this pki project ::
+# Systems are:
+# hg35|xpr|osb|ossbc|ucbackend|ucfrontend|ucfacade|openfire|mediatrix
+# osvserver|osms|dls
+# osvclient
+# ASCEvoIPactive|MediatrixWEB|MediatrixSIP
+# osbgui|sbcui
+# cmp
+# apache
+# tomcat
+# ciscorouter
+
+#ca:ServerCA
+# email:ca@pkitool.de,email:ca@pkitool.de
+hg35:hg3500,DNS:HG3500,IP:1.2.3.4
+xpr:xpressions,DNS:xpr.node1.domain,IP:1.2.3.4
+acmesbc:acmesdsd,DNS:sdsd1.domain.com,IP:172.29.0.11
+ASCEvoIPactive:ASCE1,DNS:asce1.local,IP:3.4.5.6
+osb:osb123,DNS:osb123.local,IP:4.5.6.7
+ossbc:ossbc_node1,DNS:osbsbc_node1.domain.com,IP:2.3.4.5
+osvserver:osvserver,DNS:kn200-sipsm11.unify.com,IP:1.20.21.120,IP:1.20.21.121
+osvclient:osvclient,DNS:kn300-sipsm11.unify.com,IP:1.20.31.120,IP:1.20.31.121
+ucfrontend:uc66,DNS:uc66.local,IP:66.66.66.66
+ucbackend:ucback-7
+ucfacade:facade-7
+osmo:osmo_all
+openfire:openfire
+osms:osms
+dls:dls
+assistant:cmp100.aptg.info,IP:1.20.11.101,DNS:cmp100.aptg.info
+cmp:cmp100,IP:1.20.111.100
+openstage:498970071000.phones.unify.training,IP:1.23.11.203,DNS:498970071000.phones.unify.training
+openstage:*.phones.mycompany.domain
+mediatrix:mediatrix
+osbgui:OSB1
+sbcgui:SBC1
+apache:apache,IP:2.3.4.5

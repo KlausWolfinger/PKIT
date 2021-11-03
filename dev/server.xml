@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server>
+    <!-- listener of management portal - sets up log4j logger repository -->
+    <Listener className="com.siemens.symphonia.tomcat.server.TomcatServerListener"/>
+    <!-- Comment these entries out to disable JMX MBeans support.
+	   Beans support is needed for the administration web application
+       which we do not deploy, but may also be needed for Symphonia V2.0
+       system management -->
+    <Listener className="org.apache.catalina.core.AprLifecycleListener"/>
+    <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener"/>
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+    <!-- Define the Tomcat Stand-Alone Service.
+       All connector definitions are generated during installation.  -->
+    <Service name="Catalina">
+        <!-- Define the top level container in our container hierarchy -->
+        <Engine defaultHost="localhost" name="Catalina">
+            <!-- Define the default virtual host
+           Note: XML Schema validation will not work with Xerces 2.2.
+       -->
+            <!-- Currently, we activate autoDeploy and unpackWars to enable
+	       convenient deployment via the installer and during development.
+		   This may change if we use JMX for administration -->
+            <Host appBase="webapps" autoDeploy="true" name="localhost"
+                unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false"/>
+            <!-- uncomment this, to get additional Apache Style Access logs -->
+            <!--
+      <Valve className="org.apache.catalina.valves.AccessLogValve"
+       directory="/var/siemens/common/log" prefix="tomcat_access_log."
+       suffix=".log" pattern="combined" resolveHosts="false" />
+      -->
+            <Valve className="com.siemens.symphonia.portal.sso.XssFilterValve"/>
+            <Valve
+                className="org.apache.catalina.valves.FastCommonAccessLogValve"
+                directory="/var/siemens/common/log" pattern="combined"
+                prefix="tomcat_security_access." resolveHosts="false"
+                rotatable="false" suffix="log"/>
+            <Valve className="com.siemens.symphonia.portal.sso.LastPathPersistValve"/>
+        </Engine>
+        <Connector SSLEnabled="true" SSLHonorCipherOrder="true"
+            URIEncoding="UTF-8" acceptCount="100" algorithm="IbmX509"
+            ciphers="SSL_ECDHE_RSA_WITH_AES_128_GCM_SHA256,SSL_ECDHE_RSA_WITH_AES_128_CBC_SHA256,SSL_ECDHE_RSA_WITH_AES_256_GCM_SHA384,SSL_ECDHE_RSA_WITH_AES_256_CBC_SHA384,SSL_RSA_WITH_AES_128_GCM_SHA256,SSL_RSA_WITH_AES_256_GCM_SHA384,SSL_RSA_WITH_AES_128_CBC_SHA,SSL_RSA_WITH_AES_256_CBC_SHA"
+            clientAuth="false" cmpPassphraseProtect="true"
+            compression="on" connectionTimeout="20000"
+            disableUploadTimeout="true" enableLookups="false"
+            keystoreFile="/opt/siemens/common/conf/tomcat-keystore.p12"
+            keystorePass="rO0ABXNyADJjb20uc2llbWVucy5zeW1waG9uaWEuc2VjdXJpdHliYXNlLlByb3RlY3RlZE9iamVjdAAAAAAAAAArAwAAeHB1cgACW0Ks8xf4BghU4AIAAHhwAAADa6ztAAVzcgAOamF2YS5sYW5nLkxvbmc7i+SQzI8j3wIAAUoABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKGrJUdC5TgiwIAAHhwAAAAAAAAACtzcgBIY29tLnNpZW1lbnMuc3ltcGhvbmlhLnNlY3VyaXR5YmFzZS5Qcm90ZWN0ZWRPYmplY3QkUHJvdGVjdGVkT2JqZWN0SGVhZGVyAAAAAAAAAAECAAZMABFjaGVja3N1bUFsZ29yaXRobXQAEkxqYXZhL2xhbmcvU3RyaW5nO0wAD2NoZWNrc3VtS2V5SW5mb3QAPExjb20vc2llbWVucy9zeW1waG9uaWEvc2VjdXJpdHliYXNlL1Byb3RlY3RlZE9iamVjdCRLZXlJbmZvO1sAE2VuY3J5cHRpb25BbGdQYXJhbXN0AAJbQkwAE2VuY3J5cHRpb25BbGdvcml0aG1xAH4ABEwAEWVuY3J5cHRpb25LZXlJbmZvcQB+AAVMAA5lbmNyeXB0aW9uTW9kZXEAfgAEeHB0AAhIbWFjU0hBMXNyAEtjb20uc2llbWVucy5zeW1waG9uaWEuc2VjdXJpdHliYXNlLlByb3RlY3RlZE9iamVjdCRQYXNzcGhyYXNlRGVyaXZlZEtleUluZm8AAAAAAAAAAQIAA0wACUtleUxlbmd0aHQAE0xqYXZhL2xhbmcvSW50ZWdlcjtMAA5pdGVyYXRpb25Db3VudHEAfgAKWwAEc2FsdHEAfgAGeHIAOmNvbS5zaWVtZW5zLnN5bXBob25pYS5zZWN1cml0eWJhc2UuUHJvdGVjdGVkT2JqZWN0JEtleUluZm8AAAAAAAAAAQIAAUwABWtleUlkcQB+AAR4cHQAFFBhc3NwaHJhc2VEZXJpdmVkS2V5c3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhxAH4AAQAAABBzcQB+AA4AAAC+dXIAAltCrPMX+AYIVOACAAB4cAAAAAq2wgv6jYUwhHL5dXEAfgARAAAAEgQQKDS5pi51/MAlay4hIV5eTXQAA0FFU3NxAH4ACXEAfgANc3EAfgAOAAAAEHNxAH4ADgAAAL51cQB+ABEAAAAKY3i4XQTlrs9dFXQAFEFFUy9DQkMvUEtDUzVQYWRkaW5ndXEAfgACAAAAUMjF9RDE/D2umXbLN012E0L1ZupfitUd60zJf7WP5v8xBCgbHw/41CEg8HJ9ynSBXlxS3Gm5R48iaWQ3lbXNmEa72HTuSeVav9iZ57bxvhlCeA=="
+            keystoreType="PKCS12" maxHttpHeaderSize="8192"
+            maxSpareThreads="15" maxThreads="30" minSpareThreads="5"
+            name="CMP_https" port="443" redirectPort="-1" scheme="https"
+            secure="true" server="classified"
+            sslEnabledProtocols="TLSv1.2,TLSv1.1,TLSv1" sslProtocol="TLS"/>
+    </Service>
+    <!-- Define an additional service listening with a non-secure connector
+       on port 8080 that provides a redirect to the portal via SSL connector -->
+    <Listener className="com.siemens.symphonia.portal.server.KeyPassHandlerListener"/>
+    <Service name="spmlresponder">
+        <Engine defaultHost="localhost" name="symphonia-spmlresponder">
+            <Host appBase="spmlresponder" autoDeploy="true"
+                name="localhost" unpackWARs="true" xmlNamespaceAware="false"/>
+        </Engine>
+        <Connector URIEncoding="UTF-8" acceptCount="100"
+            clientAuth="false" connectionTimeout="20000"
+            disableUploadTimeout="true" enableLookups="false"
+            maxHttpHeaderSize="8192" maxSpareThreads="75"
+            maxThreads="150" minSpareThreads="25"
+            name="spmlresponder_http_connector" port="8099"
+            redirectPort="-1" scheme="http" secure="false"/>
+        <Connector SSLEnabled="true" SSLHonorCipherOrder="true"
+            URIEncoding="UTF-8" acceptCount="100" algorithm="IbmX509"
+            ciphers="SSL_RSA_WITH_AES_128_CBC_SHA,SSL_RSA_WITH_AES_256_CBC_SHA,SSL_RSA_WITH_3DES_EDE_CBC_SHA,SSL_DHE_RSA_WITH_AES_128_CBC_SHA,SSL_DHE_RSA_WITH_AES_256_CBC_SHA,SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA"
+            clientAuth="false" cmpPassphraseProtect="true"
+            compression="on" connectionTimeout="20000"
+            disableUploadTimeout="true" enableLookups="false"
+            keystoreFile="/opt/siemens/common/conf/spmlresponder-keystore.p12"
+            keystorePass="rO0ABXNyADJjb20uc2llbWVucy5zeW1waG9uaWEuc2VjdXJpdHliYXNlLlByb3RlY3RlZE9iamVjdAAAAAAAAAArAwAAeHB1cgACW0Ks8xf4BghU4AIAAHhwAAADa6ztAAVzcgAOamF2YS5sYW5nLkxvbmc7i+SQzI8j3wIAAUoABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKGrJUdC5TgiwIAAHhwAAAAAAAAACtzcgBIY29tLnNpZW1lbnMuc3ltcGhvbmlhLnNlY3VyaXR5YmFzZS5Qcm90ZWN0ZWRPYmplY3QkUHJvdGVjdGVkT2JqZWN0SGVhZGVyAAAAAAAAAAECAAZMABFjaGVja3N1bUFsZ29yaXRobXQAEkxqYXZhL2xhbmcvU3RyaW5nO0wAD2NoZWNrc3VtS2V5SW5mb3QAPExjb20vc2llbWVucy9zeW1waG9uaWEvc2VjdXJpdHliYXNlL1Byb3RlY3RlZE9iamVjdCRLZXlJbmZvO1sAE2VuY3J5cHRpb25BbGdQYXJhbXN0AAJbQkwAE2VuY3J5cHRpb25BbGdvcml0aG1xAH4ABEwAEWVuY3J5cHRpb25LZXlJbmZvcQB+AAVMAA5lbmNyeXB0aW9uTW9kZXEAfgAEeHB0AAhIbWFjU0hBMXNyAEtjb20uc2llbWVucy5zeW1waG9uaWEuc2VjdXJpdHliYXNlLlByb3RlY3RlZE9iamVjdCRQYXNzcGhyYXNlRGVyaXZlZEtleUluZm8AAAAAAAAAAQIAA0wACUtleUxlbmd0aHQAE0xqYXZhL2xhbmcvSW50ZWdlcjtMAA5pdGVyYXRpb25Db3VudHEAfgAKWwAEc2FsdHEAfgAGeHIAOmNvbS5zaWVtZW5zLnN5bXBob25pYS5zZWN1cml0eWJhc2UuUHJvdGVjdGVkT2JqZWN0JEtleUluZm8AAAAAAAAAAQIAAUwABWtleUlkcQB+AAR4cHQAFFBhc3NwaHJhc2VEZXJpdmVkS2V5c3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhxAH4AAQAAABBzcQB+AA4AAAC+dXIAAltCrPMX+AYIVOACAAB4cAAAAAoDp28uxpoGJEfudXEAfgARAAAAEgQQDudQiM/8b1Tqmqwf/PqfJnQAA0FFU3NxAH4ACXEAfgANc3EAfgAOAAAAEHNxAH4ADgAAAL51cQB+ABEAAAAK9zWJ9KXSFeN81XQAFEFFUy9DQkMvUEtDUzVQYWRkaW5ndXEAfgACAAAAUDTkW08S0ZpVduDhiAyAjxKn8+a0AP/A4o7risORlLr89AOPZAENInlwUCxTQe7Flp9/E9EKVCYYwjDEfN8dUX+cdfCWBS6U1LG5ScHoZyoAeA=="
+            keystoreType="PKCS12" maxHttpHeaderSize="8192"
+            maxSpareThreads="75" maxThreads="150" minSpareThreads="25"
+            name="spmlresponder_https_connector" port="9943"
+            redirectPort="-1" scheme="https" secure="true"
+            server="classified" sslProtocol="TLS"/>
+    </Service>
+</Server>
