@@ -71,6 +71,7 @@ if [ $jumpToLastProject == "yes" ];then
 		
 	LASTPROJECT=$(cat $lastProjectFile)
 	PKIHOME=$PKIHOME_START/$LASTPROJECT
+	PKINAME=$LASTPROJECT
 	echo "loading last project:  $lastProjectFile"
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---"
 	reInitVars;
@@ -91,7 +92,6 @@ if [ $jumpToLastProject == "yes" ];then
 else
 echo "starting with rootCA at level 0..."
 fi
-
 }
 
 function changePKILevel() { 
