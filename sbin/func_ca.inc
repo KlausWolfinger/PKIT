@@ -408,15 +408,15 @@ function create_rootca(){
 	reInitVars
 	echo "-- $(date) ">>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
-	THISROOTCALDIR=$PKIUSERHOME/$ROOTCADIR
-	echo " THIS ROOT CA = $THISROOTCALDIR"
+	ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
+	echo " THIS ROOT CA = $ROOTCADIR"
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
 	local RootFileName=$PKITprojectName$rootfileext
 	
 	
-	 if [ -e $THISROOTCALDIR/root.key -a ! -e $THISROOTCALDIR/root.crt ]; then
+	 if [ -e $ROOTCADIR/root.key -a ! -e $ROOTCADIR/root.crt ]; then
         echo -en "Creating now rootCA\n"
         echo "-- $(date) "
 		
@@ -427,15 +427,15 @@ function create_rootca(){
 		rootca $ca_extension >>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
 		
-		# replaced $ROOTCADIR with THISROOTCALDIR ###
+		# replaced $ROOTCADIR with ROOTCADIR ###
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
 			-set_serial 0x$(openssl rand -hex 19) \
 			-days $ROOTDAYS \
 			-new \
-			-key $THISROOTCALDIR/root.key \
-			-out $THISROOTCALDIR/root.crt \
+			-key $ROOTCADIR/root.key \
+			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
 			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>>$CACMDLOG
@@ -444,19 +444,19 @@ function create_rootca(){
 		########
 		# optional: create_rootCA_Req
 		###
-		touch $THISROOTCALDIR/isSuBCA.cnf
-		echo "0" >$THISROOTCALDIR/isSuBCA.cnf
+		touch $ROOTCADIR/isSuBCA.cnf
+		echo "0" >$ROOTCADIR/isSuBCA.cnf
 	fi
 	
 	
 	
-	if [ -e $THISROOTCALDIR/root.crt -a ! -e $THISROOTCALDIR/root.cer ]; then 
-		openssl x509 -in $THISROOTCALDIR/root.crt -outform DER -out $THISROOTCALDIR/root.cer
-		cp -p  $THISROOTCALDIR/root.crt $THISROOTCALDIR/rootCA.pem
-		mv  $THISROOTCALDIR/root.cer $THISROOTCALDIR/rootCA.der
+	if [ -e $ROOTCADIR/root.crt -a ! -e $ROOTCADIR/root.cer ]; then 
+		openssl x509 -in $ROOTCADIR/root.crt -outform DER -out $ROOTCADIR/root.cer
+		cp -p  $ROOTCADIR/root.crt $ROOTCADIR/rootCA.pem
+		mv  $ROOTCADIR/root.cer $ROOTCADIR/rootCA.der
 		
 		if [ -d $WWWDIR ]; then 
-		cp 	$THISROOTCALDIR/root.crt $WWWDIR/$RootFileName
+		cp 	$ROOTCADIR/root.crt $WWWDIR/$RootFileName
 		echo "## lastlog ##" >$WWWDIR/lastlog.log
 		echo "## RootFileName=$RootFileName ##" >>$LASTLOG
 		chmod 644 $WWWDIR/$RootFileName
