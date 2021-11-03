@@ -406,7 +406,10 @@ rm -f $ROOTCADIR/root_$HOSTNAME.req
 
 function create_rootca(){ 
 	reInitVars
+	echo "-- $(date) ">>$CACMDLOG
+	echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
 	THISROOTCALDIR=$PKIUSERHOME/$ROOTCADIR
+	echo " THIS ROOT CA = $THISROOTCALDIR"
 	. $CONFIGDIR/projectname.inf
 	create_rootCA_DB
 	local rootfileext='CA.pem'
@@ -416,8 +419,7 @@ function create_rootca(){
 	 if [ -e $THISROOTCALDIR/root.key -a ! -e $THISROOTCALDIR/root.crt ]; then
         echo -en "Creating now rootCA\n"
         echo "-- $(date) "
-		echo "-- $(date) ">>$CACMDLOG
-		echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
+		
 		echo "command syntax:">>$CACMDLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
 		echo "-----------------------------------">>$CACMDLOG
@@ -462,10 +464,10 @@ function create_rootca(){
 		 
 	fi
 	
-	cat > $ROOTCALDIR/WebBrowserREADME.txt <<-EOL
+	cat > $ROOTCADIR/WebBrowserREADME.txt <<-EOL
 	If you want to avoid certificate warnings in your webbrowser, import the root.crt file in your browser's certificate store. 
 	EOL
-	cat > $ROOTCALDIR/PKCSREADME.txt <<-EOL
+	cat > $ROOTCADIR/PKCSREADME.txt <<-EOL
 	*.cer is DER format for publishing 
 	
 	EOL
