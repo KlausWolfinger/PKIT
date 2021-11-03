@@ -23,7 +23,7 @@ function rootca() {
     cat <<-EOF
 	
 	[ req ]
-	default_md = $ROOTSHA
+	default_md = sha256
 	basicConstraints = CA:TRUE,pathlen:0
 	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
