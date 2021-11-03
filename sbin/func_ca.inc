@@ -440,7 +440,7 @@ function create_rootca(){
 		echo "command syntax:">>$LASTLOG
 		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$LASTLOG
 		echo "where STDIN = ">>$LASTLOG
-		cat /dev/stdin 	>>$LASTLOG
+		
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
@@ -451,7 +451,8 @@ function create_rootca(){
 			-out $ROOTCADIR/root.crt \
 			-extensions v3_ca \
 			-config /dev/stdin \
-			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>&1 
+			-subj '/'"$BASEDN"'/CN='"$ROOTCN"'/emailAddress='"$BASEMAIL" >/dev/null 2>&1
+             cat /dev/stdin 	>>$LASTLOG			
 		#ln -s root.crt $ROOTCADIR/$(openssl x509 -noout -hash -in #$ROOTCADIR/root.crt).0 
 		########
 		# optional: create_rootCA_Req
