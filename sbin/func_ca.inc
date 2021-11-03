@@ -69,13 +69,12 @@ function rootca() {
 	
 	
 	cat <<-EOF
-	
-	
-	
+		
 	[certpol0_sect]
 	policyIdentifier = $POLICYIDENTIFIER
 	CPS.0 = $CERTPOL
 	userNotice.1=@certpol0_sect_notice1_sect
+	
 	[certpol0_sect_notice1_sect]
 	explicitText=$explicitText
 		
