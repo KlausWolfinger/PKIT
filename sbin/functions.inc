@@ -170,7 +170,8 @@ function reInitVars() {
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---" 
 	ARCHIVEDIR=$PKIHOME_START/archives 
 	EXPORTDIR=$PKIHOME_START/exports
-	LOGDIR=$PKIHOME/log 
+	LOGDIR=$PKIHOME/log
+	CACMDLOG=$PKIHOME/rootca/cmdlog.log	
 	if [ ! -d $LOGDIR ] 
 	then 
 	mkdir -p $LOGDIR

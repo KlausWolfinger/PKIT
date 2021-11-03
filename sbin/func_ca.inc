@@ -435,13 +435,13 @@ function create_rootca(){
                 #               -config /dev/stdin
                 #               -subj '/'"$BASEDN"'/CN='"$ROOTCN" >/dev/null 2>&1
 				### new end
-				
-		echo "Root-CA creation in $ROOTCADIR ......">>$LASTLOG
-		echo "command syntax:">>$LASTLOG
-		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$LASTLOG
-		echo "where STDIN = ">>$LASTLOG
-		rootca $ca_extension >>$LASTLOG
-		echo "-----------------------------------"
+		echo "-- $(date) "		
+		echo "Root-CA creation in $ROOTCADIR ......">>$CACMDLOG
+		echo "command syntax:">>$CACMDLOG
+		echo "rootca $ca_extension '' | openssl req -batch -x509 -set_serial 0x$(openssl rand -hex 19) -days $ROOTDAYS -new -key $ROOTCADIR/root.key -out $ROOTCADIR/root.key -out $ROOTCADIR/root.crt -extensions v3_ca -config /dev/stdin -subj /$BASEDN /CN=$ROOTCN/emailAddress=$BASEMAIL">>$CACMDLOG
+		echo "where STDIN = ">>$CACMDLOG
+		rootca $ca_extension >>$CACMDLOG
+		echo "-----------------------------------">>$CACMDLOG
 		rootca $ca_extension "" | openssl req \
 			-batch \
 			-x509 \
