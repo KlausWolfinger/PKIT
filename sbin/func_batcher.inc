@@ -136,6 +136,11 @@ echo "-----------------------------------------"
 			showlastlog
 			# less $LASTLOG
 			;;
+		[:]calog )
+			# print calog
+			showcalog
+			# less $CACMDLOG
+			;;	
 		[:]clearlastlog )
 			# clear lastlog.log file
 			echo "file cleared" >$LASTLOG
@@ -201,6 +206,7 @@ echo "-----------------------------------------"
 			echo "------------"
 			echo -e ":tree - shows directory tree"
 			echo -e ":listvars - List PKIT variables"
+			echo -e ":calog - Show RootCA cmd log"
 			echo -e ":ls [directory]  - List [directory]"
 			echo -e ":syscheck - Check dependencies and settings"
 			echo -e ":showrootca - Shows Root Certificate"

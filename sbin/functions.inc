@@ -1399,6 +1399,22 @@ function showlastlog() {
     fi
 }
 
+function showcalog() {
+if [ -e $CACMDLOG ];then 
+		if [[ $COLOR -eq "1" ]];then
+		less -R $CACMDLOG
+			else	
+			less $CACMDLOG
+		fi	
+	else 
+		echo "!there is no calogfile at the moment ..."
+		echo "ENTER to continue ..."
+		read
+    fi
+
+}
+
+
 function SUBCAwizard() {
 echo
 }
