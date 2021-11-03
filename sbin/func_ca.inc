@@ -416,6 +416,9 @@ function create_rootca(){
 	cat <<-EOF
 	
 	EOF
+	## degugging vars
+	echo "CACMDLOGFILE = $CACMDLOG"
+	read 
 	echo "-- $(date) " >>$CACMDLOG
 	echo "Root-CA creation in $ROOTCADIR ......" >>$CACMDLOG
 	# ROOTCADIR=$PKIUSERHOME/$ROOTCADIR
