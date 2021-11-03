@@ -1,3 +1,9 @@
+# IMPORTANT
+### PKI CLone
+We found a bug, in projects it is not possible to sign.
+This will be fixed within the next dayx.
+
+
 ![PKIT](Bild1.png)
 # Installation Steps
 
