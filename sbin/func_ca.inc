@@ -5,6 +5,12 @@ function base() {
 	distinguished_name = req_distinguished_name
 	
 	[ req_distinguished_name ] 
+	commonName = $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default= $ROOTCN
+	commonName_max = 64
+	emailAddress = $BASEMAIL
+	emailAddress_default = $BASEMAIL
+	emailAddress_max = 64
 	
 	EOF
 } 
@@ -23,7 +29,7 @@ function rootca() {
     cat <<-EOF
 	
 	[ req ]
-	default_md = sha256
+	default_md = $ROOTSHA
 	basicConstraints = CA:TRUE,pathlen:0
 	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
@@ -32,8 +38,7 @@ function rootca() {
 	[ req_distinguished_name ]
 	commonName = $ROOTCN # (e.g. server FQDN or YOUR name)
 	commonName_default= $ROOTCN
-	commonName_max = 64
-	
+	commonName_max = 64	
 	emailAddress = $BASEMAIL
 	emailAddress_default = $BASEMAIL
 	emailAddress_max = 64
