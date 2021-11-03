@@ -69,7 +69,8 @@ if [ $jumpToLastProject == "yes" ];then
 
 	if [ -e $lastProjectFile ] && [ -d $(cat $lastProjectFile) ]; then
 		
-	PKIHOME=$(cat $lastProjectFile)
+	LASTPROJECT=$(cat $lastProjectFile)
+	PKIHOME=$PKIHOME_START/$LASTPROJECT
 	echo "loading last project:  $lastProjectFile"
 	BANNER="--- Project: $PKINAME $Version Level $PKITlevel---"
 	reInitVars;
