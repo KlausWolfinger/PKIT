@@ -9,32 +9,34 @@ function base() {
 	EOF
 } 
 function rootca() { 
-	echo "--- initializing openssl config file ...">>$CACMDLOG
 	reInitVars
+	echo "--- initializing openssl config file ...">>$CACMDLOG
 	echo "--- creating rootca -- $(date)" >>$CACMDLOG
 	echo "commonName = $ROOTCN" >>$CACMDLOG
 	echo "emailAddress = $BASEMAIL" >>$CACMDLOG
 	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$CACMDLOG
 	echo "ROOTCRLURI = $ROOTCRLURI " >>$CACMDLOG
-	echo "-------------------------------------------------------">>$CACMDLOG
+	echo "ROOTSHA = $ROOTSHA " >>$CACMDLOG
+	echo "ROOTCN = $ROOTCN " >>$CACMDLOG
+	echo "-------------------------------------------------------" >>$CACMDLOG
 	
     cat <<-EOF
 	
 	[ req ]
 	default_md = $ROOTSHA
-	basicConstraints	= CA:TRUE,pathlen:0
-	keyUsage 			= nonRepudiation, digitalSignature, keyEncipherment
-	distinguished_name 	= req_distinguished_name
-	attributes 			= req_attributes
+	basicConstraints = CA:TRUE,pathlen:0
+	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+	distinguished_name = req_distinguished_name
+	attributes = req_attributes
 	
 	[ req_distinguished_name ]
-	commonName			= $ROOTCN # (e.g. server FQDN or YOUR name)
-	commonName_default	= $ROOTCN
-	commonName_max		= 64
+	commonName = $ROOTCN # (e.g. server FQDN or YOUR name)
+	commonName_default= $ROOTCN
+	commonName_max = 64
 	
-	emailAddress 		= $BASEMAIL
-	emailAddress_default  = $BASEMAIL
-	emailAddress_max 	= 64
+	emailAddress = $BASEMAIL
+	emailAddress_default = $BASEMAIL
+	emailAddress_max = 64
 	
 	[ req_attributes ]
 	challengePassword 	= $ChallPassWD
@@ -76,7 +78,7 @@ function rootca() {
 	userNotice.1=@certpol0_sect_notice1_sect
 	
 	[certpol0_sect_notice1_sect]
-	#explicitText=$explicitText
+	explicitText=$explicitText
 		
 	[crlDistributionPoint0_sect]
 	fullname = URI:$ROOTCRLURI
