@@ -10,10 +10,10 @@ function rootca() {
 	echo "--- initializing x509 config file ...">>$LASTLOG
 	reInitVars
 	echo "--- creating rootca -- $(date)" >>$LASTLOG
-	echo " commonName = $ROOTCN" >>$LASTLOG
-	echo " emailAddress = $BASEMAIL" >>$LASTLOG
-	echo " POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$LASTLOG
-	echo " ROOTCRLURI = $ROOTCRLURI " >>$LASTLOG
+	echo "commonName = $ROOTCN" >>$LASTLOG
+	echo "emailAddress = $BASEMAIL" >>$LASTLOG
+	echo "POLICYIDENTIFIER = $POLICYIDENTIFIER" >>$LASTLOG
+	echo "ROOTCRLURI = $ROOTCRLURI " >>$LASTLOG
 	
     cat <<-EOF
 	# --- new 
@@ -78,7 +78,9 @@ function rootca() {
 	CPS.0 = $CERTPOL
 	userNotice.1=@certpol0_sect_notice1_sect
 	[certpol0_sect_notice1_sect]
-	explicitText=Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt. 
+	explicitText=Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt.
+	explicitText=$explicitText
+	# Diese CA wurde mit dem PKITOOL V$Version (www.pkitool.de) erzeugt. 
 	
 	
 	[crlDistributionPoint0_sect]
