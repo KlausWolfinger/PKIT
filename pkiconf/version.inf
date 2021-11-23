@@ -3,7 +3,7 @@
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
 Version='2.7h'
-Revision='c' 
+Revision='d' 
  
 
 # changelog
@@ -14,4 +14,5 @@ Revision='c'
 # serial number min 6 byte long, hash options
 # rootca request BSI conform
 # 2.7h ext certificate with copy of extensions / usage
+# Path Length = 0 by default
 
