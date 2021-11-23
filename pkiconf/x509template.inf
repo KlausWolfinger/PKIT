@@ -26,8 +26,14 @@ CERTCEVPOL="http://pkit.itconsulting-wolfinger.de/evpolicy/"
 #ROOTCERTURI="http://pkit.itconsulting-wolfinger.de/rootca.crt"
 ROOTCRLURI="http://pkit.itconsulting-wolfinger.de/rootca.crl"
 #ROOTOCSPURI="http://pkit.itconsulting-wolfinger.de/ocsp"
-#PATHLENGTH=1
-PATHLENGTH=""
+# ------------ IMPORTANT --------------------
+#
+PATHLENGTH=2
+# This parameter PATHLENGTH my not be EMPTY #
+# min value = 1, max value = 6              #
+# Default PATHLENGHT if not set = 2         #
+# --------------------------------------------
+
 
 #####################################################################
 ### Policy Identifier for this project

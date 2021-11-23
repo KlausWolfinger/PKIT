@@ -326,6 +326,7 @@ THISSCRIPT \
 database \
 SERIALSTART \
 COLOR \
+PATHLENGTH \
 DATABASE )
 
 rm -f $PKIHOME_START/log/vars.log
@@ -653,6 +654,7 @@ function read_x509config(){
 		ROOTCERTURI="http://ca.mycompany.de/rootca.crt"
 		ROOTCRLURI="http://ca.mycompany.de/rootca.crl"
 		ROOTOCSPURI="http://ca.mycompany.de/rootca.ocsp" 
+		PATHLENGTH=2
 		CERTBITS=2048
 		CERTDAYS=1500 
 		ca_extension="" 
