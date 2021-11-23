@@ -21,7 +21,9 @@ function rootca() {
 	# --- new 
 	[ req ]
 	default_md = $ROOTSHA
-	basicConstraints=CA:TRUE,pathlen:PATHLENGTH
+	#basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
+	# pathlen in this version removed, because problems in trusting
+	basicConstraints=CA:TRUE
 	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
 	attributes = req_attributes	
@@ -72,7 +74,9 @@ function rootca() {
 	# hier ein Problem mit OSV ??
 	# cert policy full ??
 	# test OSV default cert: no critical, no length, failed also for full
-	basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
+	#basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
+	# pathlen in this version removed, because problems in trusting
+	basicConstraints=CA:TRUE
 	keyUsage = critical, cRLSign, keyCertSign
 	# -------------------
 	[certpol0_sect]
@@ -118,7 +122,9 @@ distinguished_name	= req_distinguished_name
 [ req_distinguished_name ]
 [ v3_req ]
 # Extensions to add to a certificate request
-basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
+#basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
+# pathlen in this version removed, because problems in trusting
+basicConstraints=CA:TRUE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
 
