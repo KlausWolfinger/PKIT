@@ -26,6 +26,8 @@ CERTCEVPOL="http://pkit.itconsulting-wolfinger.de/evpolicy/"
 #ROOTCERTURI="http://pkit.itconsulting-wolfinger.de/rootca.crt"
 ROOTCRLURI="http://pkit.itconsulting-wolfinger.de/rootca.crl"
 #ROOTOCSPURI="http://pkit.itconsulting-wolfinger.de/ocsp"
+#PATHLENGTH=1
+PATHLENGTH=""
 
 #####################################################################
 ### Policy Identifier for this project

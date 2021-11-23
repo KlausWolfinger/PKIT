@@ -1,5 +1,6 @@
 # IMPORTANT
-PKIT Version 2.7h ends here.
+PKIT Version 2.X ends here.
+Some smaller improvemets may follow here.
 
 The next version of PKIT is PKIT3, at out PKIT3 repository
 

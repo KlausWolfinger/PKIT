@@ -1,4 +1,6 @@
 # production 1
+# change# pathlen:PATHLENGTH (parameter from X509 config)
+
 function base() { 
 	cat <<-EOF
 	[ req ] 
@@ -19,7 +21,7 @@ function rootca() {
 	# --- new 
 	[ req ]
 	default_md = $ROOTSHA
-	basicConstraints=CA:TRUE,pathlen:0
+	basicConstraints=CA:TRUE,pathlen:PATHLENGTH
 	keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 	distinguished_name = req_distinguished_name
 	attributes = req_attributes	
@@ -70,7 +72,7 @@ function rootca() {
 	# hier ein Problem mit OSV ??
 	# cert policy full ??
 	# test OSV default cert: no critical, no length, failed also for full
-	basicConstraints=CA:TRUE,pathlen:0
+	basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
 	keyUsage = critical, cRLSign, keyCertSign
 	# -------------------
 	[certpol0_sect]
@@ -116,7 +118,7 @@ distinguished_name	= req_distinguished_name
 [ req_distinguished_name ]
 [ v3_req ]
 # Extensions to add to a certificate request
-basicConstraints=CA:TRUE,pathlen:0
+basicConstraints=CA:TRUE,pathlen:$PATHLENGTH
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
 
