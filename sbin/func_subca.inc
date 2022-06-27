@@ -1,3 +1,7 @@
+# issue 2.7i
+# 27-6-2022 
+# in signsubca: CERTDAYS instead of ROOTDAYS
+#
 function subCA() { 
 	base 
 	cat <<-EOF
@@ -115,7 +119,7 @@ function signsubca(){
 	
 	ca subca "$SALTN" sign | openssl ca \
 		-batch \
-		-days $ROOTDAYS \
+		-days $CERTDAYS \
 		-out $SUBCADIRNAME/$SUBCANAME.crt \
 		-in $SUBCADIRNAME/$SUBCANAME.req \
 		-extensions exts -preserveDN \
