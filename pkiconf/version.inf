@@ -2,8 +2,8 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.7h'
-Revision='d' 
+Version='2.7_ps1'
+Revision='e' 
  
 
 # changelog
@@ -15,4 +15,5 @@ Revision='d'
 # rootca request BSI conform
 # 2.7h ext certificate with copy of extensions / usage
 # Path Length = 0 by default
+# SUBA SIGNING with CERTDAYS from Rootca-Config
 

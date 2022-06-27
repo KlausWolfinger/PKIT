@@ -1,4 +1,4 @@
-# issue 2.7i
+# issue 2.7_ps1
 # 27-6-2022 
 # in signsubca: CERTDAYS instead of ROOTDAYS
 #
