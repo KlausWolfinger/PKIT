@@ -2,7 +2,7 @@
 # check if this a GIT Repository
 # GitBranch=$(git branch | grep \* | cut -d ' ' -f2)
 
-Version='2.7_ps1'
+Version='2.7_ps2'
 Revision='e' 
  
 
@@ -16,4 +16,5 @@ Revision='e'
 # 2.7h ext certificate with copy of extensions / usage
 # Path Length = 0 by default
 # SUBA SIGNING with CERTDAYS from Rootca-Config
+# CERT CHAIN in correct order
 
