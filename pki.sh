@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 # multilevelpki tool
 # use with care, no warranty
 # written for Training

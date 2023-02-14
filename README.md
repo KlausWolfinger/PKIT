@@ -1,8 +1,10 @@
 # IMPORTANT
-PKIT Version 2.X ends here.
+PKIT Version 2.7 ends here.
 Some smaller improvemets may follow here.
 
-The next version of PKIT is PKIT3, at out PKIT3 repository
+The next version of PKIT is PKIT2 and PKITNEXT
+
+PKIT2 and PKITNEXT are not public available here.
 
 ![PKIT](Bild1.png)
 # Installation Steps
@@ -17,10 +19,10 @@ Dependencies:
 
 ### Clone the PKIT master branch
 2. clone the master
-```shell
+
 git clone https://github.com/KlausWolfinger/PKIT.git
 cd PKIT
-```
+
 ### Set x flag
 5. chmod u+x pki.sh
 
