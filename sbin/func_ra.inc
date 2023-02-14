@@ -317,6 +317,7 @@ function create_keys_certs() {
 			# first optional check if request is ok
 			# openssl req -text -noout -verify -in $CERTSDIR/$extension/"$CN".req 
 			# check $? if 0 ?
+	# ------------------------ PEM Format .crt -----------------------		
 			ca $extension "$SALTN" sign | openssl ca \
 				-batch \
 				-days $CERTDAYS \
@@ -338,16 +339,16 @@ function create_keys_certs() {
 			echo -en "\t--->$CN crt exists, nothing todo\n" >>$LASTLOG 
 		fi 
 		
-	# --------------------------------------------------------- 
-		if [ -e $CERTSDIR/$extension/"$CN".crt -a ! -e $CERTSDIR/$extension/"$CN".cer ]; then 
+	# ----------------------DER Format .cer ----------------------------------- 
+		if [ -e $CERTSDIR/$extension/"$CN".crt -a ! -e $CERTSDIR/$extension/"$CN".der ]; then 
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
 				-outform DER \
-				-out $CERTSDIR/$extension/"$CN".cer 
+				-out $CERTSDIR/$extension/"$CN".der 
 			echo "--- cer files for $CN created ..." >>$LASTLOG 
 			else echo -en "\t---> $CN cer exists, nothing todo\n" >>$LASTLOG  
 		fi 
-		#--------------------------------------------------------- 
+		#--------------------P7B Format ------------------------------------- 
 		if [ -e $CERTSDIR/$extension/"$CN".crt -a ! -e $CERTSDIR/$extension/"$CN".p7b ]; then 
 			openssl crl2pkcs7 \
 				-nocrl \
@@ -357,7 +358,7 @@ function create_keys_certs() {
 			else 
 				echo -en "\t---> $CN p7b exists, nothing todo\n" 
 		fi 
-			#--------------------------------------------------------- 
+			#-----------------PEM Format ---------------------------------------- 
 		if [ -e $CERTSDIR/$extension/"$CN".crt -a -e $KEYSDIR/$extension/"$CN".key -a ! -e $CERTSDIR/$extension/"$CN".pem ]; then 
 			openssl x509 \
 				-in $CERTSDIR/$extension/"$CN".crt \
