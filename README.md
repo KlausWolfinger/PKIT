@@ -2,9 +2,9 @@
 PKIT Version 2.7 ends here.
 Some smaller improvemets may follow here.
 
-The next version of PKIT is PKIT2 and PKITNEXT
+The next version of PKIT is PKIT4 and PKITNEXT
 
-PKIT2 and PKITNEXT are not public available here.
+PKIT4 and PKITNEXT are not public available here.
 
 ![PKIT](Bild1.png)
 # Installation Steps
@@ -45,5 +45,7 @@ cd PKIT
 ```                
 # Professional PKIT Training available
 Please send your request via: www.itconsulting-wolfinger.de
+
+Also see www.pkitnext.de
 
 
