@@ -45,7 +45,8 @@ cd PKIT
 ```                
 # Professional PKIT Training available
 Please send your request via: www.itconsulting-wolfinger.de
+More Information about PKITNEXT: www.pkitnext.de
 
-Also see www.pkitnext.de
+
 
 
