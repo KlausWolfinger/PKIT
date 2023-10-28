@@ -2,6 +2,10 @@
 PKIT Version 2.7 ends here.
 Some smaller improvemets may follow here.
 
+# LEGAL MATTERS
+PKIT is being developed by PKITNEXT LABS (www.pkitnext.de). 
+PKITNEXT LABS is the owner of all rights to PKIT.
+
 The next version of PKIT is PKIT4 and PKITNEXT
 
 PKIT4 and PKITNEXT are not public available here.
