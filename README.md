@@ -10,7 +10,7 @@ The next version of PKIT is PKIT4 and PKITNEXT
 
 PKIT4 and PKITNEXT are not public available here.
 
-![PKIT](Bild1.png)
+![PKIT](PKITNEXT_LOGO_1.png)
 # Installation Steps
 
 ### Install git client
